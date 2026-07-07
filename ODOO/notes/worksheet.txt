@@ -1,0 +1,93 @@
+odoo version and editions
+------------------------
+odoo is business management software like -> sales, CRM, accounting, 
+purchase, Ecommerce, etc.
+
+CRM -> customer relationship management 
+
+
+two version 
+1. odoo community(open-source)
+     -> free of cost
+     -> limited functionality 
+2. odoo enterprise(licensed)
+     -> paid
+     -> some other additional functionality
+
+setup odoo development environment:
+----------------------------------
+pgadmin
+
+
+
+
+installation process and how to run the odoo:
+--------------------------------------------
+1.system update:(one time only)
+   sudo apt update
+   sudo apt-get upgrade 
+
+2. add python repository:(one time only)
+   sudo add-apt-repository ppa:deadsnakes/ppa
+   sudo apt update
+3. install python 3.12(one time only)
+   sudo apt install python3.12-venv
+ (cd odoo/venv/)--->check the path
+
+ 4.install required python packages(one time only)
+   python3.12 -m venv venv
+   python3.12 -m venv odoo_19
+(cd odoo/venv/)----->check the path
+
+5.create virtual enviroment(very imp)
+   python3.12 -m venv odoo_19
+
+6.activate enviroment:
+   cd odoo_19/
+   cd bin/
+   source activate
+
+7.check python version
+   python3 -V
+
+8.development
+cd odoo/workspace/odoo_19/
+sudo apt install python3.12-venv python3.12-dev
+
+9.fix pip(imp)
+python3.12 -m ensurepip –upgrade
+
+10.
+sudo apt-get install python3.12-distutils
+
+11.install odoo dependencies:
+
+pip install -r requirements.txt 
+python3 odoo-bin -c odoo_community.conf
+
+12.run odoo server:
+python3 odoo-bin -c odoo_community.conf
+
+13. databse (backend process)
+python3 odoo-bin -c odoo_community.conf -d demo_db
+
+14.create base (front end porcess)
+python3 odoo-bin -c odoo_community.conf -d test_ex_ds -i base
+ 
+python3 odoo-bin -c odoo_community.conf -d test_ex_ds 
+
+15.upgrade:
+-u ---> upgrade it's not necessary to upgrade button for everytime. just 
+refresh the page only
+python3 odoo-bin -c odoo_community.conf -u school_management_system -d test_ex_ds
+
+
+
+
+
+
+
+
+
+
+
