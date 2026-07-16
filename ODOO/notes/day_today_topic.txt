@@ -16,16 +16,43 @@ notebook,related field, one to many, onchange,
 10/6/2026
 task, ORM basic teach 
 11/6/2026
-ORM -create,write,unlink, copy, search, serach_count, brower, filter, sort, mapped
+ORM -create,write,unlink, copy,read    search, serach_count, brower,     filter, sort, mapped
 
 
 15/6/2026
-default_get, diaplay_name, sequenece, search 
+default_get, display_name, sequenece, search 
 16/6/2026
-
+----
 17/6/2026
-wizard
+wizard, action button
 18/6/2026
-context,
+context,domain,smart button
+
+29/6/2026
+30/6/2026
+1/7/2026
+2/7/2026
+bus booking task
+3/7/2026
+bus booking task
+
+6/7/2026
+report pdf
+7/7/2026
+xlsx,how to added the field in sales
+8/7/2026
+leave
+9/7/2026
+inherit(self learn)
+10/7/2026
+website(self learn)
+
+13/7/2026
+website 
+14/7/2026
+inherit task
+15/7/2026
+inherit again task
+
 
 
