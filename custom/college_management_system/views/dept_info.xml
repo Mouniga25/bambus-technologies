@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dept_info_kanban" model="ir.ui.view">
+        <field name="name">department.info.kanban</field>
+        <field name="model">department.info</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+
+
+                    <t t-name="card">
+                        <strong>
+                            <field name="name" />
+                            
+                        </strong>
+                        <div class="rows"></div>
+                        
+                        <field name="department_id" />
+                    </t>
+
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <data>
+        <record id="view_dept_info_form" model="ir.ui.view">
+            <field name="name">department.info.form</field>
+            <field name="model">department.info</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="title" />
+                        <h1>
+                            <field name="name" placeholder="First Name" />
+                            <field name="department_id" placeholder="dept_id" />
+                        </h1>
+                        <group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_dept_info_list" model="ir.ui.view">
+            <field name="name">department.info.list</field>
+            <field name="model">department.info</field>
+            <field name="arch" type="xml">
+                <list>
+
+                    <field name="name" />
+                    <field name="department_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_department_info" model="ir.actions.act_window">
+            <field name="name">Department Info</field>
+            <field name="res_model">department.info</field>
+            <field name="view_mode">kanban,form,list</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a department Info
+                </p>
+            </field>
+        </record>
+
+       
+        <menuitem 
+        id="dept_info"
+        name="department Info" 
+        parent="staff_info"
+        action="action_department_info" />
+
+
+    </data>
+</odoo>

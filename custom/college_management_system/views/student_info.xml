@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- kanban -->
+        <record id="view_student_info_kanban" model="ir.ui.view">
+            <field name="name">student.info.kanban</field>
+            <field name="model">student.info</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="card">
+                            <strong>
+                                <field name="name" />
+                            </strong>
+                            <div class="rows"></div>
+                            <div> Age:<field name="age" />
+                            </div>
+                            <field name="student_department" />
+                            <field name="dob" />
+                            <field name="gender" />
+                            <field name="percentage" />
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- form -->
+        <record id="view_student_info_form" model="ir.ui.view">
+            <field name="name">student.info.form</field>
+            <field name="model">student.info</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="title" />
+                        <h1>
+                            <field name="name" placeholder="First Name" />
+                            <field name="last_name" placeholder="Last Name" />
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="age" readonly='True' />
+                                <field name="student_department" />
+                                <field name="dob" />
+                            </group>
+                            <group>
+                                <field name="gender" />
+                                <field name="percentage" />
+                                <field name="department_ids"
+                                    widget="many2many_tags"
+                                    placeholder="Select department" />
+                                <!-- <field name="department_ids"
+                                    placeholder="Select department" /> -->
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- list -->
+        <record id="view_student_info_list" model="ir.ui.view">
+            <field name="name">student.info.list</field>
+            <field name="model">student.info</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name" />
+                    <field name="age" />
+                    <field name="student_department" />
+                    <field name="dob" />
+                    <field name="gender" />
+                    <field name="percentage" />
+                    <field name="department_ids" />
+                </list>
+            </field>
+        </record>
+        <!-- search -->
+        <record id="view_student_info_search" model="ir.ui.view">
+            <field name="name">student.info.search</field>
+            <field name="model">student.info</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" />
+                    <!-- <field name="student_department" /> -->
+                    <!-- filter -->
+                    <filter name="filter_by_male" string="Male"
+                        domain="[('gender', '=', 'male')]" />
+                    <!-- group_by -->
+                    <filter name="gender" string="Department"
+                        context="{'group_by':'student_department'}" />
+                </search>
+            </field>
+        </record>
+        <record id="action_student_info" model="ir.actions.act_window">
+            <field name="name">student Info</field>
+            <field name="res_model">student.info</field>
+            <field name="view_mode">kanban,list,form,search</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a student Info
+                </p>
+            </field>
+        </record>
+        <menuitem id="main_menu" name="College Management System" />
+        <menuitem
+            id="student_info"
+            name="Student Info"
+            parent="main_menu"
+            action="action_student_info" />
+    </data>
+</odoo>
