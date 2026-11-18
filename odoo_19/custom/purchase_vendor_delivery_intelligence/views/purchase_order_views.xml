@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_form_vdi" model="ir.ui.view">
+        <field name="name">purchase.order.form.vdi</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_vdi_refresh"
+                    type="object"
+                    string="Recalculate Intelligence"
+                    invisible="state not in ('purchase', 'done')"
+                    groups="purchase.group_purchase_manager" />
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list" position="inside">
+                <field name="vdi_original_promise" optional="show" />
+                <field name="vdi_eta_shift_days" optional="show" />
+                <field name="vdi_original_qty" optional="show" />
+                <field name="vdi_sample_eligible" optional="show" />
+                <field name="vdi_original_uom_id" optional="show" />
+                <field name="vdi_net_received_qty" optional="show" />
+                <field name="vdi_on_time_net_qty" optional="show" />
+                <field name="vdi_on_time_pct" optional="show" />
+                <field name="vdi_fill_pct" optional="show" />
+                <field name="vdi_line_risk_level" optional="show" />
+                <field name="vdi_recommendation" />
+                <field name="vdi_mean_delay_days" optional="hide" />
+                <field name="vdi_is_critical_supply" optional="show" />
+                <field name="vdi_data_issue" optional="hide" />
+
+            </xpath>
+            <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
+
+                <button
+                    name="action_vdi_risk_lines"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-warning"
+                >
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Risk Lines</span>
+                    </div>
+                </button>
+
+
+                <button
+                    name="action_vdi_related_receipts"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-truck"
+                >
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Related Receipts</span>
+                    </div>
+                </button>
+
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Delivery Risk">
+                    <group>
+                        <group string="Current Risk">
+                            <field name="vdi_risk_level" />
+                            <field name="vdi_risk_reason" />
+                            <field name="vdi_vendor_score_at_confirmation" />
+                            <field name="vdi_critical_line_count" />
+                            <field name="vdi_at_risk_line_count" />
+                            <field name="vdi_due_soon_count" />
+                            <field name="vdi_open_line_count" />
+                        </group>
+
+                        <group string="Risk Monitoring">
+                            <field name="vdi_earliest_risk_deadline" />
+                            <field name="vdi_last_evaluated_at" />
+                            <field name="vdi_supplier_high_risk" />
+                            <field name="vdi_last_notified_level" />
+                            <field name="vdi_previous_risk_level" />
+                            <field name="vdi_risk_trend" />
+                            <field name="vdi_risk_level_since" />
+                            <field name="vdi_risk_change_at" />
+                            <field name="vdi_recovery_status" />
+                        </group>
+                    </group>
+
+                    <group string="Risk Change Details">
+                        <field name="vdi_risk_change_reason" nolabel="1" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="purchase_order_list_vdi" model="ir.ui.view">
+        <field name="name">purchase.order.list.vdi</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//list" position="inside">
+
+                <field
+                    name="vdi_risk_level"
+                    optional="show"
+                    decoration-danger="vdi_risk_level == 'critical'"
+                    decoration-warning="vdi_risk_level == 'at_risk'"
+                    decoration-muted="vdi_risk_level == 'due_soon'"
+                    decoration-success="vdi_risk_level == 'on_track'"
+                />
+
+            </xpath>
+
+        </field>
+    </record>
+    <record id="purchase_order_kanban_vdi" model="ir.ui.view">
+        <field name="name">purchase.order.kanban.vdi</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_kanban_without_dashboard" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//kanban" position="inside">
+                <field name="vdi_risk_level" />
+            </xpath>
+
+            <xpath expr="//kanban/templates/t/div" position="inside">
+                <div
+                    class="mt-1"
+                    t-if="record.vdi_risk_level"
+                >
+                    <span
+                        t-att-class="
+                        record.vdi_risk_level.raw_value == 'critical'
+                        ? 'badge text-bg-danger'
+                        : record.vdi_risk_level.raw_value == 'at_risk'
+                        ? 'badge text-bg-warning'
+                        : record.vdi_risk_level.raw_value == 'due_soon'
+                        ? 'badge text-bg-secondary'
+                        : record.vdi_risk_level.raw_value == 'on_track'
+                        ? 'badge text-bg-success'
+                        : 'badge text-bg-light'
+                    "
+                    >
+                        <t t-esc="record.vdi_risk_level.value" />
+                    </span>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+    <record id="purchase_order_search_vdi" model="ir.ui.view">
+        <field name="name">purchase.order.search.vdi</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_search" />
+        <field name="arch" type="xml">
+
+            <!-- VDI FILTERS -->
+            <xpath expr="//search" position="inside">
+
+                <separator />
+
+                <filter
+                    name="vdi_critical"
+                    string="Critical POs"
+                    domain="[('vdi_risk_level', '=', 'critical')]"
+                />
+
+                <filter
+                    name="vdi_at_risk"
+                    string="At Risk"
+                    domain="[('vdi_risk_level', '=', 'at_risk')]"
+                />
+
+                <filter
+                    name="vdi_due_soon"
+                    string="Due Soon"
+                    domain="[('vdi_risk_level', '=', 'due_soon')]"
+                />
+
+                <filter
+                    name="vdi_data_gap"
+                    string="Data Gap"
+                    domain="[('vdi_risk_level', '=', 'data_gap')]"
+                />
+
+                <filter
+                    name="vdi_on_track"
+                    string="On Track"
+                    domain="[('vdi_risk_level', '=', 'on_track')]"
+                />
+
+                <filter
+                    name="vdi_complete"
+                    string="Fully Complete"
+                    domain="[('vdi_risk_level', '=', 'complete')]"
+                />
+
+                <filter
+                    name="vdi_critical_supply_open"
+                    string="Critical Supply with Open Qty"
+                    domain="[
+                    ('vdi_open_line_count', '>', 0),
+                    ('order_line.vdi_is_critical_supply', '=', True)
+                ]"
+                />
+                <filter
+                    name="vdi_eta_extended"
+                    string="ETA Extended"
+                    domain="[('vdi_eta_extended', '=', True)]"
+                />
+                <filter
+                    name="vdi_supplier_high_risk"
+                    string="Supplier High Risk"
+                    domain="[('vdi_supplier_high_risk', '=', True)]"
+                />
+                <filter
+                    name="vdi_critical_over_7_days"
+                    string="Critical for more than 7 days"
+                    domain="[('vdi_critical_over_7_days', '=', True)]"
+                />
+            </xpath>
+
+            <!-- GROUP BY -->
+            <xpath expr="//search/group" position="inside">
+
+                <filter
+                    name="group_vdi_risk"
+                    string="Risk Level"
+                    context="{'group_by': 'vdi_risk_level'}"
+                />
+
+                <filter
+                    name="group_vdi_company"
+                    string="Company"
+                    context="{'group_by': 'company_id'}"
+                />
+                <filter
+                    name="group_vdi_expected_arrival"
+                    string="Expected Arrival Month"
+                    context="{'group_by': 'date_planned:month'}"
+                />
+                <filter
+                    name="group_vdi_original_deadline"
+                    string="Original Deadline Month"
+                    context="{'group_by': 'vdi_earliest_risk_deadline:month'}"
+                />
+
+            </xpath>
+
+
+        </field>
+    </record>
+    <record id="action_vdi_delivery_risk_review" model="ir.actions.act_window">
+        <field name="name">Delivery Risk Review</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+
+    <menuitem
+        id="menu_vdi_delivery_risk_review"
+        name="Delivery Risk Review"
+        parent="purchase.menu_procurement_management"
+        action="action_vdi_delivery_risk_review"
+        sequence="30" />
+
+    <record id="action_vdi_supplier_reliability" model="ir.actions.act_window">
+        <field name="name">Supplier Reliability</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_vdi_supplier_reliability"
+        name="Supplier Reliability"
+        parent="purchase.purchase_report_main"
+        action="action_vdi_supplier_reliability"
+        sequence="30" />
+</odoo>

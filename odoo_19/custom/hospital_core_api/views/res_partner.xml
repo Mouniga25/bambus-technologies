@@ -1,0 +1,145 @@
+<odoo>
+
+    <record id="hospital_patient_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+
+
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+
+                <button
+                    name="action_click"
+                    type="object"
+                    string="Schedule Followup"
+                    class="btn-primary"
+                />
+
+            </xpath>
+            <xpath expr="//sheet" position="after">
+                <chatter />
+            </xpath>
+
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+
+                <button name="action_view_visits"
+                    type="object"
+                    class="oe_stat_button">
+                    <field name="visits_count"
+                        widget="statinfo"
+                        string="Visits" />
+                </button>
+
+                <button name="action_view_lab_result"
+                    type="object"
+                    class="oe_stat_button">
+
+                    <field name="lab_result_count"
+                        widget="statinfo"
+                        string="Lab Results" />
+                </button>
+                <button name="action_view_prescription"
+                    type="object"
+                    class="oe_stat_button">
+
+                    <field name="prescription_count"
+                        widget="statinfo"
+                        string="Prescription" />
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='category_id']" position="after">
+
+                <field name="is_patient" />
+                <field name="patient_number" />
+                <field name="date_of_birth" />
+                <field name="age" />
+                <field name="gender" />
+                <field name="height" />
+                <field name="weight" />
+                <field name="bmi" />
+
+                <field name="emergency_contact" />
+                <field name="insurance_provider" />
+                <field name="insurance_number" />
+                <field name="primary_doctor_id" />
+                <field name="last_visit_date" />
+                <field name="total_visits" />
+                <field name="total_lab_tests" />
+
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Medical History" invisible="not is_patient">
+                    <group>
+                        <field name="allergies" />
+                        <field name="chronic_diseases" />
+                        <field name="blood_group" />
+                        <field name="medical_notes" />
+                    </group>
+                </page>
+                <page string="Visits" invisible="not is_patient">
+                    <field name="visits_count_lines">
+                        <list>
+                            <field name="visit_date" />
+                            <field name="doctor_id" />
+                            <field name="department_id" />
+                            <field name="symptoms" />
+                            <field name="diagnosis_id" />
+                            <field name="state" />
+                        </list>
+                    </field>
+                </page>
+                <page string="Lab Results" invisible="not is_patient">
+                    <field name="lab_result_count_lines">
+
+                        <list>
+                            <field name="lab_test_id" />
+                            <field name="doctor_id" />
+                            <field name="test_date" />
+                            <field name="result" />
+                            <field name="unit" />
+                            <field name="reference_range" />
+                            <field name="patient_status" />
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_res_partner_search_inherit_blood" model="ir.ui.view">
+
+        <field name="name">res.partner.search.blood.group</field>
+
+        <field name="model">res.partner</field>
+
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//search" position="inside">
+
+                <field name="blood_group" />
+                <field name="patient_number" />
+                <field
+                    name="primary_doctor_id" />
+
+                <filter
+                    name="group_by_blood_group"
+                    string="Blood Group"
+                    context="{'group_by': 'blood_group'}"
+                />
+                <filter
+                    name="jack_patients"
+                    string="Assign To Me"
+                    domain="[('primary_doctor_id.doctor_name', '=', 'jack')]" />
+            </xpath>
+
+        </field>
+
+    </record>
+</odoo>

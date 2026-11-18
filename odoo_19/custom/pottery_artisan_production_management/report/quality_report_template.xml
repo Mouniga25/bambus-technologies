@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- =========================================================
+         QUALITY PDF REPORT TEMPLATE
+    ========================================================== -->
+
+    <template id="quality_report_template">
+
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="quality">
+
+                <t t-call="web.external_layout">
+
+                    <div class="page">
+
+                        <!-- =========================
+                             TITLE
+                        ========================== -->
+
+                        <div
+                            style="
+                            text-align:center;
+                            margin-bottom:25px;
+                            padding-bottom:12px;
+                            border-bottom:2px solid #1F4E5F;
+                        ">
+
+                            <h2
+                                style="
+                                margin:0;
+                                font-size:24px;
+                                color:#1F4E5F;
+                                font-weight:700;
+                            ">
+                                QUALITY INSPECTION REPORT
+                            </h2>
+
+                            <p
+                                style="
+                                margin:6px 0 0 0;
+                                color:#607D8B;
+                                font-size:12px;
+                            ">
+                                Quality Check Details
+                            </p>
+
+                        </div>
+
+
+                        <!-- =========================
+                             BASIC INFORMATION
+                        ========================== -->
+
+                        <table
+                            style="
+                            width:100%;
+                            border-collapse:collapse;
+                            margin-bottom:20px;
+                        ">
+
+                            <tr>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:10px;
+                                    background:#F1F5F7;
+                                    border:1px solid #D5DEE2;
+                                    font-weight:bold;
+                                ">
+                                    Quality Reference
+                                </td>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:10px;
+                                    border:1px solid #D5DEE2;
+                                ">
+                                    <span t-field="quality.name" />
+                                </td>
+                            </tr>
+
+
+                            <tr>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:10px;
+                                    background:#F1F5F7;
+                                    border:1px solid #D5DEE2;
+                                    font-weight:bold;
+                                ">
+                                    Check Date
+                                </td>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:10px;
+                                    border:1px solid #D5DEE2;
+                                ">
+                                    <span t-field="quality.check_date" />
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td
+                                    style="
+                                    padding:10px;
+                                    background:#F1F5F7;
+                                    border:1px solid #D5DEE2;
+                                    font-weight:bold;
+                                ">
+                                    Production
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:10px;
+                                    border:1px solid #D5DEE2;
+                                ">
+                                    <span t-field="quality.production_id" />
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td
+                                    style="
+                                    padding:10px;
+                                    background:#F1F5F7;
+                                    border:1px solid #D5DEE2;
+                                    font-weight:bold;
+                                ">
+                                    Product
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:10px;
+                                    border:1px solid #D5DEE2;
+                                ">
+                                    <span t-field="quality.product_id" />
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td
+                                    style="
+                                    padding:10px;
+                                    background:#F1F5F7;
+                                    border:1px solid #D5DEE2;
+                                    font-weight:bold;
+                                ">
+                                    Inspector
+                                </td>
+
+                                <td colspan="3"
+                                    style="
+                                    padding:10px;
+                                    border:1px solid #D5DEE2;
+                                ">
+                                    <span t-field="quality.inspector.name" />
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+
+                        <!-- =========================
+                             QUANTITY DETAILS
+                        ========================== -->
+
+                        <h4
+                            style="
+                            color:#1F4E5F;
+                            margin-bottom:10px;
+                        ">
+                            Quality Quantities
+                        </h4>
+
+
+                        <table
+                            style="
+                            width:100%;
+                            border-collapse:collapse;
+                            margin-bottom:20px;
+                        ">
+
+                            <thead>
+
+                                <tr
+                                    style="
+                                    background:#1F4E5F;
+                                    color:white;
+                                ">
+
+                                    <th
+                                        style="
+                                        padding:10px;
+                                        border:1px solid #D5DEE2;
+                                        text-align:left;
+                                    ">
+                                        Produced Quantity
+                                    </th>
+
+                                    <th
+                                        style="
+                                        padding:10px;
+                                        border:1px solid #D5DEE2;
+                                        text-align:left;
+                                    ">
+                                        Passed Quantity
+                                    </th>
+
+                                    <th
+                                        style="
+                                        padding:10px;
+                                        border:1px solid #D5DEE2;
+                                        text-align:left;
+                                    ">
+                                        Rejected Quantity
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td
+                                        style="
+                                        padding:12px;
+                                        border:1px solid #D5DEE2;
+                                        text-align:center;
+                                    ">
+                                        <span t-field="quality.produced_qty" />
+                                    </td>
+
+                                    <td
+                                        style="
+                                        padding:12px;
+                                        border:1px solid #D5DEE2;
+                                        text-align:center;
+                                    ">
+                                        <span t-field="quality.passed_qty" />
+                                    </td>
+
+                                    <td
+                                        style="
+                                        padding:12px;
+                                        border:1px solid #D5DEE2;
+                                        text-align:center;
+                                    ">
+                                        <span t-field="quality.rejected_qty" />
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+
+                        <!-- =========================
+                             STATUS
+                        ========================== -->
+
+                        <div
+                            style="
+                            margin-bottom:20px;
+                            padding:12px;
+                            border:1px solid #D5DEE2;
+                            background:#F8FAFB;
+                        ">
+
+                            <strong
+                                style="
+                                color:#1F4E5F;
+                                margin-right:15px;
+                            ">
+                                Status:
+                            </strong>
+
+                            <span t-if="quality.status == 'pending'">
+                                Pending
+                            </span>
+
+                            <span t-if="quality.status == 'approved'">
+                                Approved
+                            </span>
+
+                            <span t-if="quality.status == 'rejected'">
+                                Rejected
+                            </span>
+
+                        </div>
+
+
+                        <!-- =========================
+                             REMARKS
+                        ========================== -->
+
+                        <h4
+                            style="
+                            color:#1F4E5F;
+                            margin-bottom:10px;
+                        ">
+                            Inspection Remarks
+                        </h4>
+
+                        <div
+                            style="
+                            min-height:80px;
+                            padding:12px;
+                            border:1px solid #D5DEE2;
+                            background:#FFFFFF;
+                        ">
+
+                            <span t-if="quality.remarks">
+                                <span t-field="quality.remarks" />
+                            </span>
+
+                            <span
+                                t-if="not quality.remarks"
+                                style="color:#9E9E9E;"
+                            >
+                                No remarks provided.
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </t>
+
+            </t>
+
+        </t>
+
+    </template>
+
+</odoo>

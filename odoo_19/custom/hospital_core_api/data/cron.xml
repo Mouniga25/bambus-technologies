@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cron_send_appointment_reminder" model="ir.cron">
+        <field name="name">Send Appointment Reminder</field>
+        <field name="model_id" ref="model_hospital_patient_visit"/>
+        <field name="state">code</field>
+        <field name="code">
+            model.send_appointment_reminder()
+        </field>
+        <field name="user_id" ref="base.user_root"/>
+        <!-- Testing: Every 1 Minute -->
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+
+    </record>
+
+</odoo>

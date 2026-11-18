@@ -1,0 +1,71 @@
+from datetime import timedelta
+
+from odoo import fields
+from odoo.tests.common import TransactionCase, tagged
+
+
+@tagged("post_install", "-at_install")
+class TestMetrics(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.vendor = cls.env["res.partner"].create({"name": "Vendor M"})
+        cls.product = cls.env["product.product"].create(
+            {"name": "Widget M", "is_storable": True}
+        )
+
+    def _po(self, qty=100, days_ago=10):
+        po = self.env["purchase.order"].create(
+            {
+                "partner_id": self.vendor.id,
+                "order_line": [
+                    (0, 0, {
+                        "product_id": self.product.id,
+                        "product_qty": qty,
+                        "price_unit": 1.0,
+                        "date_planned": fields.Datetime.now() - timedelta(days=days_ago),
+                    })
+                ],
+            }
+        )
+        po.button_confirm()
+        return po
+
+    def _receive(self, po, qty, backorder=True):
+        picking = po.picking_ids.filtered(lambda p: p.state != "done")[:1]
+        picking.move_ids.quantity = qty
+        picking.with_context(skip_backorder=True).button_validate()
+        return picking
+
+    def _set_done_date(self, picking, days_ago):
+        picking.date_done = fields.Datetime.now() - timedelta(days=days_ago)
+
+    def test_split_receipt_60_on_time_40_late(self):  # T03
+        po = self._po(100, days_ago=10)  # deadline = 10 days ago + 2 grace
+        p1 = self._receive(po, 60)
+        self._set_done_date(p1, 9)  # within grace
+        p2 = self._receive(po, 40)
+        self._set_done_date(p2, 1)  # late
+        line = po.order_line
+        line._vdi_refresh_metrics()
+        self.assertAlmostEqual(line.vdi_on_time_pct, 60.0, places=1)
+        self.assertAlmostEqual(line.vdi_fill_pct, 100.0, places=1)
+        self.assertGreater(line.vdi_mean_delay_days, 0)
+
+    def test_short_delivery_85_of_100(self):  # T04
+        po = self._po(100, days_ago=10)
+        p1 = self._receive(po, 85)
+        self._set_done_date(p1, 9)
+        line = po.order_line
+        line._vdi_refresh_metrics()
+        self.assertAlmostEqual(line.vdi_fill_pct, 85.0, places=1)
+
+    def test_no_baseline_is_data_gap(self):  # T23
+        po = self._po(10)
+        line = po.order_line
+        line.with_context(vdi_baseline_write=True).write(
+            {"vdi_original_promise": False}
+        )
+        line._vdi_refresh_metrics()
+        self.assertTrue(line.vdi_data_issue)
+        self.assertEqual(line.vdi_fill_pct, 0.0)

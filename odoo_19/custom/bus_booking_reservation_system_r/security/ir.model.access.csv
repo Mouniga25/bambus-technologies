@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_booking_info,access_booking_info,model_booking_info,,1,1,1,1
+access_service_info,access_service_info,model_service_info,,1,1,1,1
+access_place_info,access_place_info,model_place_info,,1,1,1,1
+access_passenger_info_line,access_passenger_info_line,model_passenger_info_line,,1,1,1,1
+access_boarding_info,access_boarding_info,model_boarding_info,,1,1,1,1
+access_popup_information,access_popup_information,model_popup_information,,1,1,1,1

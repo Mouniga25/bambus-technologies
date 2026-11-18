@@ -1,0 +1,21 @@
+{
+    'name': 'Purchase Vendor Delivery Intelligence',
+    'version': '19.0.1.0.0',
+    'summary': """Frozen supplier promises, reliability scoring and risk alerts""",
+    'description': """Supplier Delivery Reliability & Recovery Intelligence.Provides frozen supplier commitments, delivery performance metrics, supplier reliability scoring, purchase order risk analysis, recovery recommendations, activities and reporting.""",
+    'category': 'Purchases',
+    'author': 'Mouniga',
+    'depends': ["purchase_stock", "mail"],
+    'data': [
+        "security/ir.model.access.csv",
+        "data/ir_cron.xml",
+        "views/res_config_settings_views.xml",
+        "views/purchase_order_views.xml",
+        "views/res_partner_views.xml",
+        "report/purchase_risk_review_report.xml",
+    ],
+    'license': 'AGPL-3',
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+}

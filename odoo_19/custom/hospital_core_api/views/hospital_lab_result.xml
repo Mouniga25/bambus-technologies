@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- form -->
+        <record id="view_hospital_lab_result_form" model="ir.ui.view">
+            <field name="name">hospital.lab.result.form</field>
+            <field name="model">hospital.lab.result</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_pending" string="Pending"
+                            type="object" />
+                        <button name="action_completed"
+                            string="Completed" type="object" />
+                    </header>
+                    <sheet>
+                        <div class="title" />
+                        <group>
+                            <group>
+                                <field name="reference" readonly="1" />
+                                <field name="patient_id" />
+                                <field name="doctor_id" />
+                                <!-- <field name="visit_id" /> -->
+                                <field name="test_id" />
+                                <field name="patient_status" />
+                                <field name="high_risk_patient" />
+                                <field name="description" />
+
+                            </group>
+                            <group>
+                                <field name="test_name" />
+                                <field name="test_date" />
+                                <field name="price" />
+                                <field name="doctor_remark" />
+                                <field name="result" />
+                                <field name="unit" />
+                                <field name="reference_range" />
+                                <field name="amount_status" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- list -->
+        <record id="view_hospital_lab_result_list" model="ir.ui.view">
+            <field name="name">hospital.lab.result.list</field>
+            <field name="model">hospital.lab.result</field>
+            <field name="arch" type="xml">
+                <list>
+
+                    <field name="patient_id" />
+                    <field name="doctor_id" />
+                    <!-- <field name="visit_id" /> -->
+                    <field name="test_id" />
+                    <field name="patient_status" />
+                    <field name="test_date" />
+                    <field name="price" />
+                    <field name="description" />
+                    <field name="doctor_remark" />
+                    <field name="result" />
+                    <field name="unit" />
+                    <field name="reference_range" />
+                    <field name="amount_status" />
+                    <field name="high_risk_patient" />
+                    <field name="test_name" />
+                </list>
+            </field>
+        </record>
+        <!-- search -->
+        <record id="view_hospital_lab_result_search" model="ir.ui.view">
+            <field name="name">hospital.lab.result.search</field>
+            <field name="model">hospital.lab.result</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="patient_id" />
+                    <field name="doctor_id" />
+                    <field name="lab_test_id" />
+                    <field name="test_name" />
+
+                    <filter name="filter_by_critical" string="Critical"
+                        domain="[('patient_status', '=', 'critical')]" />
+                    <filter name="filter_by_pending" string="Pending"
+                        domain="[('amount_status', '=', 'pending')]" />
+                    <filter name="filter_by_completed" string="Completed"
+                        domain="[('amount_status', '=', 'completed')]" />
+
+                    <filter name="high_riskpatient" string="High Risk Patient"
+                        context="{'group_by':'high_risk_patient'}" />
+
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_hospital_lab_result" model="ir.actions.act_window">
+            <field name="name">Hospital Lab Result</field>
+            <field name="res_model">hospital.lab.result</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a Hospital Lab Result
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="hospital_Laboratory" name="Laboratory"
+            parent="hospital_information"/>
+            <!-- groups="hospital_core_api.group_manager,hospital_core_api.group_lab_technician"/> -->
+
+        <menuitem id="hospital_lab_result" name="Lab Result"
+            parent="hospital_Laboratory"
+            action="action_hospital_lab_result"/>
+            <!-- groups="hospital_core_api.group_manager,hospital_core_api.group_lab_technician"/> -->
+
+    </data>
+</odoo>

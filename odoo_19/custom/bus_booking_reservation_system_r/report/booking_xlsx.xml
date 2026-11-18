@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_booking_xlsx" model="ir.actions.report">
+        <field name="name">Booking XLSX</field>
+        <field name="model">booking.info</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">bus_booking_reservation_system_r.booking_list_xlsx</field>
+        <field name="report_file">bus_booking_reservation_system_r.booking_list_xlsx</field>
+        <field name="binding_model_id" ref="model_booking_info"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_bus_ticket">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div style="text-align:center; margin-bottom:15px;">
+                        <h1
+                            style=" font-size:34px; font-weight:bold; margin:0; color:#0D47A1;
+                        font-family:'Trebuchet MS', sans-serif;">
+                            Prime<span style="color:black;">Transport</span>
+                        </h1>
+                        <p style="margin-top:2px; color:#666; font-size:12px; letter-spacing:2px;">
+                            YOUR JOURNEY, OUR PRIORITY
+                        </p>
+                    </div>
+                    <div
+                        class="page"
+                        style="font-size:10px; padding:10px; line-height:1.2; font-family:Arial,sans-serif;">
+
+                        <!-- HEADER -->
+                        <div
+                            style=" background:#1E88E5; color:white; padding:2px 4px; border-radius:4px; margin-bottom:4px;">
+                            <table style="color:#1E88E5; width:100%;">
+                                <tr>
+                                    <div style="width:40%;">
+
+                                        <h3 style="margin:0;">
+                                            <i class="fa fa-bus" /> Prime Transport </h3>
+                                        <strong><strong>
+                                            <span style="font-size:150%;">Bus Booking Ticket</span>
+                                        </strong></strong>
+                                    </div>
+                                    <td
+                                        style="font-size:13px; color:white; width:40%; text-align:right;">
+                                        <strong>Booking ID :</strong>
+                                        <strong>
+                                            <span t-field="o.name" />
+                                        </strong>
+                                        
+                                        <br />
+
+                                        <strong>Date :</strong>
+                                        <strong>
+                                            <span t-field="o.today" />
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div
+                            style=" background:#1E88E5; color:white; padding:5px; border-radius:8px; text-align:center; font-size:18px; font-weight:bold; margin-bottom:10px;">
+                            <span t-field="o.from_place_id" /> ➜ <span t-field="o.to_place_id" />
+                        </div>
+                        <!-- PASSENGER + TRAVEL -->
+                        <table style="color:white; width:100%;">
+                            <tr>
+                                <!-- Passenger -->
+                                <td
+                                    style=" width:50%; vertical-align:top;">
+                                    <div
+                                        style="font-size:15px; background:#1E88E5; color:white; padding:5px; border-radius:5px;">
+                                        <strong>
+                                            <i class="fa fa-users" /> Customer Details </strong>
+                                    </div>
+                                    <div
+                                        style="font-size:15px; color:black; border:1px solid #ddd; padding:6px;">
+                                        <p>
+                                            <i class="fa fa-user" /> <strong>Name :</strong>
+                                            <span t-field="o.passenger_name" />
+                                        </p>
+                                        <p>
+                                            <i class="fa fa-phone" />
+                                            <strong>Phone :</strong>
+                                            <span t-field="o.phone_number" />
+                                        </p>
+                                        <p>
+                                            <i class="fa fa-envelope" />
+                                            <strong>Email :</strong>
+                                            <span t-field="o.email" />
+                                        </p>
+                                        <p>
+                                            <i class="fa fa-users" />
+                                            <strong>Total Passenger :</strong>
+                                            <span t-field="o.total_passenger" />
+                                        </p>
+                                    </div>
+                                </td>
+                                <td style="width:4%;"></td>
+                                <!-- Travel -->
+                                <td
+                                    style=" width:48%; vertical-align:top;">
+                                    <div
+                                        style="font-size:15px; background:#1E88E5; color:white; padding:5px; border-radius:5px;">
+                                        <strong>
+                                            <i class="fa fa-bus" /> Travel Details </strong>
+                                    </div>
+                                    <div
+                                        style="font-size:15px; color:black; border:1px solid #ddd; padding:6px;">
+                                        <p>
+                                            <strong>Departure :</strong>
+                                            <span t-field="o.departure" />
+                                        </p>
+                                        <p>
+                                            <strong>Arrival :</strong>
+                                            <span t-field="o.arrival" />
+                                        </p>
+                                        <p>
+                                            <strong>From :</strong>
+                                            <span t-field="o.from_place_id" />
+                                        </p>
+                                        <p>
+                                            <strong>To :</strong>
+                                            <span t-field="o.to_place_id" />
+                                        </p>
+                                        <p>
+                                            <strong>Class :</strong>
+                                            <span t-field="o.class_of_service_id" />
+                                        </p>
+                                        <p>
+                                            <strong>Total price :</strong> 
+                                            ₹ <span t-field="o.price_per_passenger" />
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div
+                            style="font-size:15px; font-weight:bold; margin-top:9px; background:#1E88E5; color:white; padding:6px; border-radius:5px;">
+                            <strong>
+                                <i class="fa fa-list" /> Passenger List </strong>
+                        </div>
+                        <table class="table table-bordered" style="width:100%; color:white; font-size:15px; margin-bottom:1px; table-layout:fixed;">
+                            <thead>
+                                <tr style="background:#E3F2FD;">
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Gender</th>
+                                    <th>Type</th>
+                                    <th>Seat Preference</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.passenger_info_ids" t-as="line">
+                                    <td>
+                                        <span t-field="line.passenger_name" />
+                                    </td>
+                                    <td>
+                                        <span t-field="line.age" />
+                                    </td>
+                                    <td>
+                                        <span t-field="line.gender" />
+                                    </td>
+                                    <td>
+                                        <span t-field="line.passenger_type" />
+                                    </td>
+                                    <td>
+                                        <span t-field="line.seat_preference" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table
+                            style="color:white; width:100%; margin-top:5px;">
+                            <tr>
+                                <td
+                                    style="font-size:15px; color:black; width:50%;">
+                                    <div style="font-size:15px; color:black; border:1px solid #ddd; padding:6px;">
+                                        <strong>Pickup :</strong>
+                                        <br />
+                                        <span t-field="o.from_place_id" />
+                                        <span t-field="o.pickup_address" />
+                                    </div>
+                                </td>
+                                <td
+                                    style="font-size:15px; color:black width:48%; vertical-align:top;">
+                                    <div
+                                        style="font-size:15px; color:black; border:1px solid #ddd; padding:6px;">
+                                        <strong>Destination :</strong>
+                                        <br />
+                                        <span t-field="o.to_place_id" />
+                                        <span t-field="o.destination_address" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div
+                            style=" text-align:right; margin-top:10px;">
+                            <span
+                                style="font-size:15px; font-weight:bold; background:#1E88E5; color:white; padding:8px 12px; border-radius:10px;">
+                                <strong>Total Amount : ₹ <span t-field="o.total_amount" /></strong>
+                            </span>
+                        </div>
+                        <!-- # Terms and Condition -->
+                        <div
+                            style="font-size:15px; font-weight:bold; width:50%; margin-top:8px; border:1px solid #1E88E5; padding:6px; border-radius:5px;">
+                            <strong style=" color:#1E88E5;">
+                                <i class="fa fa-exclamation-circle" /> Terms &amp; Conditions </strong>
+                            <ul
+                                style=" margin:3px 0; padding-left:15px; font-size:12px;">
+                                <li>Must carry on valid id proof.</li>
+                                <li>Please arrived at before departure time.</li>
+                                <li>Ticket is non-transferable to others.</li>
+                                <li>We can't refunt full amount, we provided 70% of amount.</li>
+                                <li>No responsibility for personal belongings.</li>
+                                <li>Please be responsible take our Terms and condition.Thank you</li>
+                            </ul>
+                        </div>
+                        <div
+                            style=" text-align:center; margin-top:5px; font-size:13px;">
+                            <strong>
+                                Thank You For Booking Prime Transport, Happy Journey
+                            </strong>
+                        </div>
+                        <div
+                            style=" text-align:center; margin-top:5px; font-size:13px;">
+                            Prime Tansport  is a reliable transportation company dedicated to
+                            providing safe, comfortable, and affordable travel services. We focus on
+                            customer satisfaction, punctuality, and seamless travel experiences for
+                            every passenger.
+                        </div>
+                        <div
+                            style=" text-align:center; margin-top:5px; font-size:12px;">
+                            <i class="fa fa-phone" /> - 86086-05423 , 86086-05678
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

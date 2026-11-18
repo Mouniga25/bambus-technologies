@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <template id="appointment_approval" name="Appointment Approval">
+
+        <t t-call="website.layout">
+
+            <div class="container my-5">
+
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-8">
+
+                        <div class="card shadow">
+
+                            <div class="card-body p-5">
+
+                                <h2 class="text-center mb-4">
+                                    New Appointment Request
+                                </h2>
+
+                                <p class="text-center text-muted mb-4">
+                                    Please review the appointment request
+                                    and choose an action.
+                                </p>
+
+                                <hr/>
+
+                                <div class="mb-3">
+                                    <strong>Visit Number:</strong>
+                                    <span t-out="visit.visit_number"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <strong>Patient:</strong>
+                                    <span t-out="visit.patient_id.name"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <strong>Email:</strong>
+                                    <span t-out="visit.patient_id.email"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <strong>Phone:</strong>
+                                    <span t-out="visit.patient_id.phone"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <strong>Doctor:</strong>
+                                    <span t-out="visit.doctor_id.doctor_name"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <strong>Department:</strong>
+                                    <span t-out="visit.department_id.department_name"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <strong>Appointment Date:</strong>
+                                    <span t-out="visit.visit_date"/>
+                                </div>
+
+                                <div class="mb-4">
+                                    <strong>Symptoms:</strong>
+
+                                    <p class="mt-2">
+                                        <span t-out="visit.symptoms"/>
+                                    </p>
+                                </div>
+
+                                <hr/>
+
+                                <div class="text-center mt-4">
+
+                                    <!-- CONFIRM -->
+
+                                    <form
+                                        t-att-action="'/hospital/appointment/confirm/' + token"
+                                        method="post"
+                                        style="display:inline-block; margin:5px;"
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="csrf_token"
+                                            t-att-value="request.csrf_token()"
+                                        />
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-success btn-lg px-4"
+                                        >
+                                            Confirm
+                                        </button>
+
+                                    </form>
+
+
+                                    <!-- RESCHEDULE -->
+
+                                    <a
+                                        t-att-href="'/hospital/appointment/reschedule/' + token"
+                                        class="btn btn-warning btn-lg px-4"
+                                        style="margin:5px;"
+                                    >
+                                        Reschedule
+                                    </a>
+
+
+                                    <!-- REJECT -->
+
+                                    <form
+                                        t-att-action="'/hospital/appointment/reject/' + token"
+                                        method="post"
+                                        style="display:inline-block; margin:5px;"
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="csrf_token"
+                                            t-att-value="request.csrf_token()"
+                                        />
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-danger btn-lg px-4"
+                                        >
+                                            Reject
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </t>
+
+    </template>
+
+</odoo>

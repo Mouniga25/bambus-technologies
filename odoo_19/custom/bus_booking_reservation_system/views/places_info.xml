@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_places_info_kanban" model="ir.ui.view">
+            <field name="name">places.info.kanban</field>
+            <field name="model">places.info</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="card">
+                            <div
+                                class="rows"></div>
+                            <div>Place Name: <field name="place_name" />
+                            </div>
+                           
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- from -->
+        <record id="view_places_info_form" model="ir.ui.view">
+            <field name="name">places.info.form</field>
+            <field name="model">places.info</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="title" />
+                        <group>
+                            <group>
+                                <field name="place_name"/>
+                        
+                             
+                                
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Boarding Point">
+                                <field name="address_lines">
+                                    <list editable="bottom">
+                                        <field name="boarding_point" />
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                        <!-- <notebook>
+                            <page string="Boarding Point">
+                                <field name="boarding_points_id">
+                                    <list editable="bottom">
+                                        <field name="boarding_point" />
+                                        
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook> -->
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_places_info_list" model="ir.ui.view">
+            <field name="name">places.info.list</field>
+            <field name="model">places.info</field>
+            <field name="arch" type="xml">
+                <list>
+
+                    <field name="place_name" />
+                    
+
+                </list>
+            </field>
+        </record>
+
+        <record id="action_places_info" model="ir.actions.act_window">
+            <field name="name">Places Information</field>
+            <field name="res_model">places.info</field>
+            <field name="view_mode">kanban,form,list</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create Places Information
+                </p>
+            </field>
+        </record>
+        <menuitem
+            id="Configurations_information"
+            name="Configurations"
+            parent="bus_booking" />
+      
+        <menuitem
+            id="places_info"
+            name="Places Info"
+            parent="Configurations_information"
+            action="action_places_info" />
+    </data>
+</odoo>

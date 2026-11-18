@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+```
+<!-- =====================================================
+     CUSTOMER ORDER PDF REPORT
+====================================================== -->
+
+<template id="report_customer_order_document">
+
+    <t t-call="web.html_container">
+
+        <t t-foreach="docs" t-as="doc">
+
+            <t t-call="web.external_layout">
+
+                <div class="page">
+
+                    <!-- HEADER -->
+
+                    <div style="
+                        text-align:center;
+                        margin-bottom:30px;
+                    ">
+
+                        <h2 style="
+                            color:#803C56;
+                            font-weight:bold;
+                        ">
+                            CUSTOMER ORDER SUMMARY
+                        </h2>
+
+                        <p>
+                            Order Reference:
+                            <strong>
+                                <span t-field="doc.name"/>
+                            </strong>
+                        </p>
+
+                    </div>
+
+
+                    <!-- CUSTOMER INFORMATION -->
+
+                    <h3 style="color:#803C56;">
+                        Customer Information
+                    </h3>
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <td><strong>Customer</strong></td>
+
+                            <td>
+                                <span t-field="doc.customer_id"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Email</strong></td>
+
+                            <td>
+                                <span t-field="doc.customer_id.email"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Phone</strong></td>
+
+                            <td>
+                                <span t-field="doc.customer_id.phone"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Order Date</strong></td>
+
+                            <td>
+                                <span t-field="doc.order_date"/>
+                            </td>
+                        </tr>
+
+                    </table>
+
+
+                    <!-- ORDER DETAILS -->
+
+                    <h3 style="
+                        color:#803C56;
+                        margin-top:25px;
+                    ">
+                        Order Details
+                    </h3>
+
+
+                    <table class="table table-bordered">
+
+                        <thead>
+
+                            <tr style="
+                                background:#803C56;
+                                color:white;
+                            ">
+
+                                <th>Product</th>
+
+                                <th class="text-center">
+                                    Quantity
+                                </th>
+
+                                <th class="text-end">
+                                    Unit Price
+                                </th>
+
+                                <th class="text-end">
+                                    Subtotal
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <t
+                                t-foreach="doc.order_line_lines"
+                                t-as="line"
+                            >
+
+                                <tr>
+
+                                    <td>
+                                        <span
+                                            t-field="line.product_id"
+                                        />
+                                    </td>
+
+                                    <td class="text-center">
+                                        <span
+                                            t-field="line.quantity"
+                                        />
+                                    </td>
+
+                                    <td class="text-end">
+                                        ₹
+                                        <span
+                                            t-field="line.unit_price"
+                                        />
+                                    </td>
+
+                                    <td class="text-end">
+                                        ₹
+                                        <span
+                                            t-field="line.subtotal"
+                                        />
+                                    </td>
+
+                                </tr>
+
+                            </t>
+
+                        </tbody>
+
+                    </table>
+
+
+                    <!-- SUMMARY -->
+
+                    <div style="
+                        margin-top:25px;
+                        padding:20px;
+                        background:#FDF2E9;
+                        border:2px solid #D9B8B5;
+                        border-radius:10px;
+                    ">
+
+                        <p>
+
+                            <strong>
+                                Total Amount:
+                            </strong>
+
+                            ₹
+                            <span
+                                t-field="doc.total_amount"
+                            />
+
+                        </p>
+
+
+                        <p>
+
+                            <strong>
+                                Payment Status:
+                            </strong>
+
+                            <t t-if="doc.payment_status == 'paid'">
+                                Paid
+                            </t>
+
+                            <t t-elif="doc.payment_status == 'partial'">
+                                Partially Paid
+                            </t>
+
+                            <t t-else="">
+                                Unpaid
+                            </t>
+
+                        </p>
+
+
+                        <p>
+
+                            <strong>
+                                Order Status:
+                            </strong>
+
+                            <t t-if="doc.status == 'confirmed'">
+                                Confirmed
+                            </t>
+
+                            <t t-elif="doc.status == 'delivered'">
+                                Delivered
+                            </t>
+
+                            <t t-elif="doc.status == 'cancelled'">
+                                Cancelled
+                            </t>
+
+                            <t t-else="">
+                                Draft
+                            </t>
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- FOOTER -->
+
+                    <div style="
+                        text-align:center;
+                        margin-top:40px;
+                        color:#803C56;
+                    ">
+
+                        <p>
+                            Thank you for choosing our pottery products!
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </t>
+
+        </t>
+
+    </t>
+
+</template>
+
+
+<!-- =====================================================
+     REPORT ACTION
+====================================================== -->
+
+<record id="action_report_customer_order" model="ir.actions.report">
+    <field name="name">Customer Order Summary</field>
+    <field name="model">customer.order.information</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">pottery_artisan_production_management.report_customer_order_document</field>
+    <field name="report_file">pottery_artisan_production_management.report_customer_order_document</field>
+    <field name="binding_model_id" ref="model_customer_order_information"/>
+    <field name="binding_type">report</field>
+</record>
+</odoo>

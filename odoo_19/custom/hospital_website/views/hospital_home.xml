@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <template
+        id="hospital_home"
+        name="Hospital Home"
+    >
+
+        <t t-call="website.layout">
+
+            <div class="container text-center py-5">
+
+                <h1>
+                    Welcome to Our Hospital
+                </h1>
+
+                <h3>
+                    Quality Healthcare for Everyone
+                </h3>
+
+                <p class="mt-3">
+                    Your health is our priority.
+                </p>
+
+                <div class="mt-4">
+
+                    <a
+                        href="/hospital/appointment"
+                        class="btn btn-primary me-2"
+                    >
+                        Book an Appointment
+                    </a>
+
+                    <a
+                        href="/my/appointments"
+                        class="btn btn-outline-primary"
+                    >
+                        My Appointments
+                    </a>
+
+                </div>
+
+            </div>
+
+        </t>
+
+    </template>
+
+
+    <template
+        id="hospital_appointment_success"
+        name="Hospital Appointment Success"
+    >
+
+        <t t-call="website.layout">
+
+            <div class="container text-center py-5">
+
+                <h1 class="text-success">
+                    Appointment Booked Successfully!
+                </h1>
+
+                <p class="mt-3">
+                    Thank you for booking your appointment.
+                </p>
+
+                <p>
+                    Your Visit Number is:
+
+                    <strong>
+                        <t t-esc="visit.visit_number"/>
+                    </strong>
+                </p>
+
+                <p>
+                    Appointment Date:
+
+                    <strong>
+                        <span t-field="visit.visit_date"/>
+                    </strong>
+                </p>
+
+                <a
+                    href="/hospital"
+                    class="btn btn-primary mt-3"
+                >
+                    Back to Home
+                </a>
+
+            </div>
+
+        </t>
+
+    </template>
+
+</odoo>

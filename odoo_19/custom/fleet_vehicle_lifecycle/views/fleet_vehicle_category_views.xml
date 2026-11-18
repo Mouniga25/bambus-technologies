@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Categories List View -->
+    <record id="fleet_vehicle_model_category_form_inherit" model="ir.ui.view">
+    <field name="name">fleet.vehicle.model.category.form.inherit</field>
+    <field name="model">fleet.vehicle.model.category</field>
+    <field name="inherit_id" ref="fleet.fleet_vehicle_model_category_view_form"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//group" position="inside">
+            <group string="Lifecycle Configuration">
+                <field name="max_recommended_age"/>
+                <field name="max_recommended_odometer"/>
+                <field name="annual_maintenance_budget"/>
+                <field name="max_cost_per_km"/>
+                <field name="major_repair_warning_count"/>
+            </group>
+        </xpath>
+
+    </field>
+</record>
+
+</odoo>

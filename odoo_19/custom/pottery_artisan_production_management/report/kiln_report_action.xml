@@ -1,0 +1,11 @@
+<odoo>
+    <record id="action_kiln_information_report" model="ir.actions.report">
+        <field name="name">Kiln Management Report</field>
+        <field name="model">kiln.information</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pottery_artisan_production_management.kiln_information_report</field>
+        <field name="report_file">pottery_artisan_production_management.kiln_information_report</field>
+        <field name="binding_model_id" ref="model_kiln_information"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

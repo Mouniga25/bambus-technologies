@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_employee_information">
+
+        <t t-call="web.internal_layout">
+
+            <t t-foreach="docs" t-as="doc">
+
+                <main class="page">
+
+                    <!-- header -->
+                    <div style="background:#875CD1;color:white;padding:4px;border-radius:2px;margin-bottom:10px;">
+
+                        <table style="width:100%;border:none;">
+
+                            <tr>
+                                <td>
+
+                                    <h2 style="margin:0;">
+                                        employee profile report
+                                    </h2>
+
+                                    <p>
+                                        employee id :
+                                        <strong>
+                                            #<span t-esc="doc.id"/>
+                                        </strong>
+                                    </p>
+
+                                    <p>
+                                        company :
+                                        <strong>
+                                            <span t-esc="doc.company_id.name"/>
+                                        </strong>
+                                    </p>
+
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- summary -->
+                    <div style="background:#875CD1;color:white;padding:4px;margin-bottom:10px;border-radius:5px;">
+
+                        <table style="width:100%;">
+
+                            <tr>
+
+                                <td>
+                                    <strong>employee</strong>
+                                    <br/>
+                                    <span t-esc="doc.name"/>
+                                    <span t-esc="doc.last_name"/>
+                                </td>
+
+                                <td>
+                                    <strong>branch</strong>
+                                    <br/>
+                                    <span t-esc="doc.branch_id.branch_name"/>
+                                </td>
+
+                                <td>
+                                    <strong>job position</strong>
+                                    <br/>
+                                    <span t-esc="doc.job_position"/>
+                                </td>
+
+                                <td>
+                                    <strong>total accounts</strong>
+                                    <br/>
+                                    <span t-esc="doc.total_accounts_handled"/>
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- personal information -->
+                    <div style="border:1px solid #875CD1;border-radius:6px;margin-bottom:10px;">
+
+                        <div style="background:#875CD1;color:white;padding:2px;">
+                            <strong>personal information</strong>
+                        </div>
+
+                        <table style="width:100%;border-collapse:collapse;">
+
+                            <tr>
+                                <th style="width:35%;border:1px solid #ddd;padding:2px;">
+                                    first name
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <span t-esc="doc.name"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th style="border:1px solid #ddd;padding:2px;">
+                                    last name
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <span t-esc="doc.last_name"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th style="border:1px solid #ddd;padding:2px;">
+                                    gender
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <span t-esc="doc.gender"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th style="border:1px solid #ddd;padding:2px;">
+                                    date of birth
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <span t-esc="doc.date_of_birth"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th style="border:1px solid #ddd;padding:2px;">
+                                    age
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <strong>
+                                        <span t-esc="doc.age"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- job information -->
+                    <div style="border:1px solid #875CD1;border-radius:6px;margin-bottom:10px;">
+
+                        <div style="background:#875CD1;color:white;padding:2px;">
+                            <strong>job information</strong>
+                        </div>
+
+                        <table style="width:100%;border-collapse:collapse;">
+
+                            <tr>
+                                <th style="width:35%;border:1px solid #ddd;padding:2px;">
+                                    job position
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <span t-esc="doc.job_position"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th style="border:1px solid #ddd;padding:2px;">
+                                    branch
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <span t-esc="doc.branch_id.branch_name"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th style="border:1px solid #ddd;padding:2px;">
+                                    company
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <span t-esc="doc.company_id.name"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th style="border:1px solid #ddd;padding:2px;">
+                                    total accounts handled
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <strong>
+                                        <span t-esc="doc.total_accounts_handled"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- qualifications -->
+                    <div style="border:1px solid #875CD1;border-radius:6px;margin-bottom:10px;">
+
+                        <div style="background:#875CD1;color:white;padding:2px;">
+                            <strong>qualifications</strong>
+                        </div>
+
+                        <div style="padding:10px;">
+
+                            <ul>
+
+                                <li t-foreach="doc.qualifications_ids" t-as="q">
+
+                                    <span t-esc="q.qualifications_name"/>
+
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- contact information -->
+                    <div style="border:1px solid #875CD1;border-radius:6px;margin-bottom:10px;">
+
+                        <div style="background:#875CD1;color:white;padding:2px;">
+
+                            <strong>contact information</strong>
+
+                        </div>
+
+                        <table style="width:100%;border-collapse:collapse;">
+
+                            <tr>
+
+                                <th style="width:35%;border:1px solid #ddd;padding:2px;">
+                                    email
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <span t-esc="doc.email"/>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th style="width:35%;border:1px solid #ddd;padding:2px;">
+                                    phone
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <span t-esc="doc.phone"/>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th style="width:35%;border:1px solid #ddd;padding:2px;">
+                                    address
+                                </th>
+
+                                <td style="border:1px solid #ddd;padding:2px;">
+                                    <span t-esc="doc.address"/>
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- dependents -->
+                    <t t-if="doc.dependent_ids">
+
+                        <div style="border:1px solid #875CD1;border-radius:6px;margin-bottom:10px;">
+
+                            <div style="background:#875CD1;color:white;padding:2px;">
+
+                                <strong>dependent information</strong>
+
+                            </div>
+
+                            <table style="width:100%;border-collapse:collapse;" border="1">
+
+                                <thead>
+
+                                    <tr style="background:#875CD1;color:white;">
+
+                                        <th style="padding:2px;">
+                                            name
+                                        </th>
+
+                                        <th style="padding:2px;">
+                                            relationship
+                                        </th>
+
+                                        <th style="padding:2px;">
+                                            date of birth
+                                        </th>
+
+                                        <th style="padding:2px;">
+                                            age
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    <tr t-foreach="doc.dependent_ids" t-as="line">
+
+                                        <td style="padding:2px;">
+                                            <span t-esc="line.dependent_name"/>
+                                        </td>
+
+                                        <td style="padding:2px;">
+                                            <span t-esc="line.relationship"/>
+                                        </td>
+
+                                        <td style="padding:2px;">
+                                            <span t-esc="line.date_of_birth"/>
+                                        </td>
+
+                                        <td style="padding:2px;">
+                                            <span t-esc="line.age"/>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </t>
+
+
+                    <!-- footer -->
+                    <div style="text-align:center;margin-top:30px;border-top:1px solid #ddd;padding-top:12px;color:#875CD1;font-size:11px;">
+
+                        <strong>bank management system</strong>
+                        <br/>
+
+                        employee profile report
+                        <br/>
+
+                        this is a computer-generated report and does not require a signature.
+
+                    </div>
+
+                </main>
+
+            </t>
+
+        </t>
+
+    </template>
+
+</odoo>

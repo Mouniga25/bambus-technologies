@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_classof_service_kanban" model="ir.ui.view">
+            <field name="name">classof.service.kanban</field>
+            <field name="model">classof.service</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="card">
+                            <strong>
+                                 Service Name: <field name="service_name" />
+                            </strong>
+                            <div
+                                class="rows"></div>
+                            <div>Price Of Service: <field name="price_of_service" />
+                            </div>
+                            <div> Number Of Seats: <field name="number_of_seats" /></div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <!-- from -->
+        <record id="view_classof_service_form" model="ir.ui.view">
+            <field name="name">classof.service.form</field>
+            <field name="model">classof.service</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="title" />
+                        <group>
+                            <group>
+                                 <field name="service_name" />
+                                <field name="price_of_service"/>
+                                <field name="number_of_seats" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_classof_service_list" model="ir.ui.view">
+            <field name="name">classof.service.list</field>
+            <field name="model">classof.service</field>
+            <field name="arch" type="xml">
+                <list>
+
+                    <field name="service_name" />
+                    <field name="price_of_service" />
+                    <field name="number_of_seats" />
+
+                </list>
+            </field>
+        </record>
+        <record id="action_classof_service" model="ir.actions.act_window">
+            <field name="name">Class Of Service</field>
+            <field name="res_model">classof.service</field>
+            <field name="view_mode">kanban,form,list</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create Account Type
+                </p>
+            </field>
+        </record>
+      
+        <menuitem
+            id="classof_service"
+            name="Class of Service"
+            parent="Configurations_information"
+            action="action_classof_service" />
+    </data>
+</odoo>

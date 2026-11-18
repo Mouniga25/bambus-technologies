@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- List View -->
+    <record id="view_pottery_product_information_list" model="ir.ui.view">
+        <field name="name">pottery.product.information.list</field>
+        <field name="model">pottery.product.information</field>
+        <field name="arch" type="xml">
+
+            <list>
+                <field name="product_code" readonly="1" />
+                <field name="name" />
+                <field name="product_type" />
+                <field name="clay_required_per_unit" />
+                <field name="cost_price" />
+                <field name="selling_price" />
+                <field name="profit_amount" readonly="1" />
+                <field name="active" />
+            </list>
+
+        </field>
+    </record>
+
+
+    <!-- Form View -->
+    <record id="view_pottery_product_information_form" model="ir.ui.view">
+        <field name="name">pottery.product.information.form</field>
+        <field name="model">pottery.product.information</field>
+        <field name="arch" type="xml">
+
+            <form>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                        <button
+                            name="action_view_products"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-cubes">
+
+                            <field
+                                name="product_count"
+                                widget="statinfo"
+                                string="Products" />
+
+                        </button>
+
+                    </div>
+                    <field name="image"
+                        widget="image"
+                        class="oe_avatar" />
+                    <group>
+                        <group>
+                            <field name="product_code" readonly="1" />
+                            <field name="name" />
+                            <field name="product_type" />
+                            <field name="clay_required_per_unit" />
+                        </group>
+
+                        <group>
+                            <field name="cost_price" />
+                            <field name="selling_price" />
+                            <field name="profit_amount" readonly="1" />
+                            <field name="active" />
+                        </group>
+                    </group>
+
+                    <group>
+                        <field name="description" />
+                    </group>
+                    <notebook>
+                        <page string="Raw Materials">
+
+                            <field name="raw_material_lines">
+
+                                <list editable="bottom">
+
+                                    <field name="raw_material_id" />
+                                    <field name="quantity_per_unit" />
+                                    <field name="unit" readonly="1" />
+                                    <field name="unit_cost" readonly="1" />
+                                    <field name="material_cost_per_unit" readonly="1" />
+
+                                </list>
+
+                            </field>
+
+                        </page>
+                        <page string="Productions">
+                            <field name="production_lines">
+                                <list>
+                                    <field name="name" />
+                                    <field name="artisan_id" />
+                                    <field name="quantity" />
+                                    <field name="production_date" />
+                                    <field name="status" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Action -->
+    <record id="action_pottery_product_information"
+        model="ir.actions.act_window">
+
+        <field name="name">Pottery Products</field>
+        <field name="res_model">pottery.product.information</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Pottery Production Information
+            </p>
+        </field>
+
+    </record>
+    <record id="view_pottery_product_search" model="ir.ui.view">
+        <field name="name">pottery.product.information.search</field>
+        <field name="model">pottery.product.information</field>
+        <field name="arch" type="xml">
+
+            <search>
+
+                <field name="name" />
+                <field name="product_code" />
+                <field name="product_type" />
+
+                <filter
+                    name="active_products"
+                    string="Active Products"
+                    domain="[('active', '=', True)]" />
+
+                <filter
+                    name="product_type"
+                    string="Product Type"
+                    context="{'group_by': 'product_type'}" />
+
+            </search>
+
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem
+        id="menu_production_information_root"
+        name="Production Information"
+        parent="menu_village_pottery_root" />
+
+    <menuitem
+        id="menu_pottery_product_information"
+        name="Pottery Products"
+        parent="menu_production_information_root"
+        action="action_pottery_product_information" />
+</odoo>

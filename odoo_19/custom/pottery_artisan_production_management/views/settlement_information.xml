@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- List View -->
+
+    <record id="view_settlement_information_list" model="ir.ui.view">
+        <field name="name">settlement.information.list</field>
+        <field name="model">settlement.information</field>
+        <field name="arch" type="xml">
+
+            <list>
+                <field name="name"/>
+                <field name="artisan_id"/>
+                <field name="production_id"/>
+                <field name="quantity"/>
+                <field name="labour_rate"/>
+                <field name="total_amount"/>
+                <field name="payment_date"/>
+                <field name="status"/>
+            </list>
+
+        </field>
+    </record>
+
+
+    <!-- Form View -->
+
+    <record id="view_settlement_information_form" model="ir.ui.view">
+        <field name="name">settlement.information.form</field>
+        <field name="model">settlement.information</field>
+        <field name="arch" type="xml">
+
+            <form>
+
+                <header>
+
+                    <button
+                        name="action_submit"
+                        string="Submit"
+                        type="object"
+                        class="btn-primary"
+                        invisible="status != 'draft'"/>
+
+                    <button
+                        name="action_mark_paid"
+                        string="Mark Paid"
+                        type="object"
+                        class="btn-primary"
+                        invisible="status != 'pending'"/>
+
+                    <button
+                        name="action_cancel"
+                        string="Cancel"
+                        type="object"
+                        invisible="status in ('cancelled', 'paid')"/>
+
+                    <button
+                        name="action_reset_to_draft"
+                        string="Reset to Draft"
+                        type="object"
+                        invisible="status != 'cancelled'"/>
+
+                    <field
+                        name="status"
+                        widget="statusbar"
+                        statusbar_visible="draft,pending,paid"/>
+
+                </header>
+
+                <sheet>
+
+                    <group>
+
+                        <group>
+                            <field name="name"/>
+                            <field name="artisan_id"/>
+                            <field name="production_id"/>
+                            <field name="quantity"/>
+                        </group>
+
+                        <group>
+                            <field name="labour_rate"/>
+                            <field name="total_amount"
+                                   readonly="1"/>
+                            <field name="payment_date"/>
+                        </group>
+
+                    </group>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+
+    <!-- Action -->
+
+    <record id="action_settlement_information"
+            model="ir.actions.act_window">
+
+        <field name="name">Settlements</field>
+        <field name="res_model">settlement.information</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a Artisans Settlement Informations
+                </p>
+            </field>
+    </record>
+    <!-- Menu -->
+
+    <menuitem
+        id="menu_settlement_information"
+        name="Settlements"
+        parent="menu_village_pottery_root"
+        action="action_settlement_information"
+        sequence="90"/>
+
+</odoo>

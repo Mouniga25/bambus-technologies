@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_production_kiln_wizard_form" model="ir.ui.view">
+        <field name="name">production.kiln.wizard.form</field>
+        <field name="model">production.kiln.wizard</field>
+        <field name="arch" type="xml">
+
+            <form string="Assign Kiln">
+                <group>
+
+                    <field name="kiln_id" />
+
+                </group>
+                <footer>
+                    <button
+                        name="action_assign_kiln"
+                        string="Assign Kiln"
+                        type="object"
+                        class="btn-primary" />
+
+                    <button
+                        string="Cancel"
+                        special="cancel" />
+
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

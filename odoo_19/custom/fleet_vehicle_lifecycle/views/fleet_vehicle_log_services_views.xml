@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Fleet Vehicle Log Services Form View -->
+    <record id="fleet_vehicle_log_services_form_inherit_lifecycle" model="ir.ui.view">
+        <field name="name">fleet.vehicle.log.services.form.lifecycle</field>
+        <field name="model">fleet.vehicle.log.services</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_form"/>
+
+        <field name="arch" type="xml">
+
+            <!-- Existing form view inherit -->
+            <xpath expr="//sheet" position="inside">
+                <!-- Future lifecycle fields add panna idam -->
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

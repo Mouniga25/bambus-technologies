@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <template
+        id="my_appointments"
+        name="My Appointments"
+    >
+
+        <t t-call="website.layout">
+
+            <div class="container py-5">
+
+                <h1 class="mb-4">
+                    My Appointments
+                </h1>
+
+                <!-- =================================================
+                     PATIENT FOUND
+                     ================================================= -->
+
+                <t t-if="patient">
+
+                    <div class="alert alert-info">
+
+                        <strong>
+                            Patient:
+                        </strong>
+
+                        <t t-esc="patient.name"/>
+
+                        <br/>
+
+                        <strong>
+                            Email:
+                        </strong>
+
+                        <t t-esc="patient.email"/>
+
+                    </div>
+
+
+                    <!-- =============================================
+                         APPOINTMENTS AVAILABLE
+                         ============================================= -->
+
+                    <t t-if="visits">
+
+                        <div class="table-responsive">
+
+                            <table
+                                class="table table-bordered table-hover"
+                            >
+
+                                <thead class="table-dark">
+
+                                    <tr>
+
+                                        <th>
+                                            Visit Number
+                                        </th>
+
+                                        <th>
+                                            Doctor
+                                        </th>
+
+                                        <th>
+                                            Department
+                                        </th>
+
+                                        <th>
+                                            Appointment Date
+                                        </th>
+
+                                        <th>
+                                            Symptoms
+                                        </th>
+
+                                        <th>
+                                            Status
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    <t
+                                        t-foreach="visits"
+                                        t-as="visit"
+                                    >
+
+                                        <tr>
+
+                                            <!-- Visit Number -->
+
+                                            <td>
+
+                                                <strong>
+                                                    <t
+                                                        t-esc="visit.visit_number"
+                                                    />
+                                                </strong>
+
+                                            </td>
+
+
+                                            <!-- Doctor -->
+
+                                            <td>
+
+                                                <t
+                                                    t-if="visit.doctor_id"
+                                                >
+
+                                                    <t
+                                                        t-esc="visit.doctor_id.doctor_name"
+                                                    />
+
+                                                </t>
+
+                                                <t
+                                                    t-else=""
+                                                >
+                                                    -
+                                                </t>
+
+                                            </td>
+
+
+                                            <!-- Department -->
+
+                                            <td>
+
+                                                <t
+                                                    t-if="visit.departments_id"
+                                                >
+
+                                                    <t
+                                                        t-esc="visit.departments_id.department_name"
+                                                    />
+
+                                                </t>
+
+                                                <t
+                                                    t-else=""
+                                                >
+                                                    -
+                                                </t>
+
+                                            </td>
+
+
+                                            <!-- Appointment Date -->
+
+                                            <td>
+
+                                                <span
+                                                    t-field="visit.visit_date"
+                                                    t-options='{"widget": "datetime"}'
+                                                />
+
+                                            </td>
+
+
+                                            <!-- Symptoms -->
+
+                                            <td>
+
+                                                <t
+                                                    t-if="visit.symptoms"
+                                                >
+
+                                                    <t
+                                                        t-esc="visit.symptoms"
+                                                    />
+
+                                                </t>
+
+                                                <t
+                                                    t-else=""
+                                                >
+                                                    -
+                                                </t>
+
+                                            </td>
+
+
+                                            <!-- Status -->
+
+                                            <td>
+
+                                                <!-- Draft -->
+
+                                                <t
+                                                    t-if="visit.state == 'draft'"
+                                                >
+
+                                                    <span
+                                                        class="badge bg-secondary"
+                                                    >
+                                                        Draft
+                                                    </span>
+
+                                                </t>
+
+
+                                                <!-- Waiting -->
+
+                                                <t
+                                                    t-elif="visit.state == 'waiting'"
+                                                >
+
+                                                    <span
+                                                        class="badge bg-warning text-dark"
+                                                    >
+                                                        Waiting
+                                                    </span>
+
+                                                </t>
+
+
+                                                <!-- Consultation -->
+
+                                                <t
+                                                    t-elif="visit.state == 'consultation'"
+                                                >
+
+                                                    <span
+                                                        class="badge bg-primary"
+                                                    >
+                                                        Consultation
+                                                    </span>
+
+                                                </t>
+
+
+                                                <!-- Lab Requested -->
+
+                                                <t
+                                                    t-elif="visit.state == 'lab_requested'"
+                                                >
+
+                                                    <span
+                                                        class="badge bg-info"
+                                                    >
+                                                        Lab Requested
+                                                    </span>
+
+                                                </t>
+
+
+                                                <!-- Completed -->
+
+                                                <t
+                                                    t-elif="visit.state == 'completed'"
+                                                >
+
+                                                    <span
+                                                        class="badge bg-success"
+                                                    >
+                                                        Completed
+                                                    </span>
+
+                                                </t>
+
+
+                                                <!-- Cancelled -->
+
+                                                <t
+                                                    t-elif="visit.state == 'cancelled'"
+                                                >
+
+                                                    <span
+                                                        class="badge bg-danger"
+                                                    >
+                                                        Cancelled
+                                                    </span>
+
+                                                </t>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </t>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </t>
+
+
+                    <!-- =============================================
+                         NO APPOINTMENTS
+                         ============================================= -->
+
+                    <t t-else="">
+
+                        <div class="alert alert-warning">
+
+                            You don't have any appointments.
+
+                        </div>
+
+                    </t>
+
+                </t>
+
+
+                <!-- =================================================
+                     PATIENT NOT FOUND
+                     ================================================= -->
+
+                <t t-else="">
+
+                    <div class="alert alert-warning">
+
+                        No patient account was found for your email.
+
+                    </div>
+
+                    <p>
+
+                        Please use the same email address that you
+                        used while booking your appointment.
+
+                    </p>
+
+                </t>
+
+            </div>
+
+        </t>
+
+    </template>
+
+</odoo>

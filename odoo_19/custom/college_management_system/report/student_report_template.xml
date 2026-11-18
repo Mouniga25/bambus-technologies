@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="report_student_information">
+
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="text-align:center;">
+                            Student Information Report
+</h2>
+                        <br />
+                        <table class="table table-bordered">
+                            <tr>
+                                <td width="30%">
+                                    <strong>Name</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.name" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Last Name</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.last_name" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Date of Birth</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.date_of_birth" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Age</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.age" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Semester</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.semester" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Department</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.department_id" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Department Date</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.department_date" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Address</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.address" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>Email</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.email" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>Phone</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.phone" />
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <strong>Status</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.state" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>Active</strong>
+                                </td>
+                                <td>
+                                    <span t-if="o.active">Yes</span>
+                                    <span t-else="">No</span>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <br />
+                        <br />
+
+                        <div style="margin-top:50px;">
+
+                            <table width="100%">
+
+                                <tr>
+
+                                    <td style="text-align:left;"> ____________________ <br />
+                                        Student Signature </td>
+
+                                    <td style="text-align:right;"> ____________________ <br />
+                                        Principal Signature </td>
+
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </t>
+
+            </t>
+
+        </t>
+
+    </template>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id="seq_delivery_information" model="ir.sequence">
+        <field name="name">Delivery Reference</field>
+        <field name="code">delivery.information</field>
+        <field name="prefix">DEL/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False" />
+    </record>
+</odoo>

@@ -1,0 +1,455 @@
+<odoo>
+
+    <template id="kiln_information_report">
+
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="kiln">
+
+                <t t-call="web.external_layout">
+
+                    <div class="page"
+                        style="
+                            font-family: Arial, sans-serif;
+                            color: #263238;
+                            font-size: 13px;
+                         ">
+
+                        <!-- ================= HEADER ================= -->
+
+                        <div
+                            style="
+                            background-color: #1F4E5F;
+                            color: white;
+                            padding: 22px 25px;
+                            margin-bottom: 22px;
+                        ">
+
+                            <div class="row">
+
+                                <div class="col-8">
+
+                                    <div
+                                        style="
+                                        font-size: 25px;
+                                        font-weight: bold;
+                                        letter-spacing: 0.5px;
+                                    ">
+                                        KILN MANAGEMENT REPORT
+                                    </div>
+
+                                    <div
+                                        style="
+                                        margin-top: 6px;
+                                        font-size: 12px;
+                                        color: #DCE8EC;
+                                    ">
+                                        Pottery Artisan Production Management
+                                    </div>
+
+                                </div>
+
+                                <div class="col-4 text-end">
+
+                                    <div
+                                        style="
+                                        border: 1px solid #C8A45D;
+                                        padding: 9px 12px;
+                                        display: inline-block;
+                                        min-width: 120px;
+                                    ">
+
+                                        <div
+                                            style="
+                                            font-size: 9px;
+                                            color: #DCE8EC;
+                                            letter-spacing: 1px;
+                                        ">
+                                            KILN CODE
+                                        </div>
+
+                                        <div
+                                            style="
+                                            margin-top: 3px;
+                                            font-size: 16px;
+                                            font-weight: bold;
+                                            color: #FFFFFF;
+                                        ">
+
+                                            <span t-field="kiln.kiln_code" />
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= KILN INFORMATION ================= -->
+
+                        <div
+                            style="
+                            background-color: #F4F7F8;
+                            border-left: 5px solid #C8A45D;
+                            padding: 10px 14px;
+                            margin-bottom: 12px;
+                        ">
+
+                            <span
+                                style="
+                                color: #1F4E5F;
+                                font-size: 14px;
+                                font-weight: bold;
+                                letter-spacing: 0.5px;
+                            ">
+                                KILN INFORMATION
+                            </span>
+
+                        </div>
+
+
+                        <table
+                            style="
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 22px;
+                        ">
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td
+                                        style="
+                                        width: 25%;
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                        font-weight: bold;
+                                        color: #1F4E5F;
+                                    ">
+                                        Kiln Name
+                                    </td>
+
+                                    <td
+                                        style="
+                                        width: 25%;
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                    ">
+                                        <span t-field="kiln.name" />
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+
+
+                                    <td
+                                        style="
+                                        width: 25%;
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                        font-weight: bold;
+                                        color: #1F4E5F;
+                                    ">
+                                        Capacity
+                                    </td>
+
+                                    <td
+                                        style="
+                                        width: 25%;
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                    ">
+                                        <span t-field="kiln.capacity" /> Pieces </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td
+                                        style="
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                        font-weight: bold;
+                                        color: #1F4E5F;
+                                    ">
+                                        Kiln Type
+                                    </td>
+
+                                    <td
+                                        style="
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                    ">
+                                        <span t-field="kiln.kiln_type" />
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+
+
+                                    <td
+                                        style="
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                        font-weight: bold;
+                                        color: #1F4E5F;
+                                    ">
+                                        Current Status
+                                    </td>
+
+                                    <td
+                                        style="
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                    ">
+                                        <span t-field="kiln.status" />
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+
+                        <!-- ================= MAINTENANCE INFORMATION ================= -->
+
+                        <div
+                            style="
+                            background-color: #F4F7F8;
+                            border-left: 5px solid #C8A45D;
+                            padding: 10px 14px;
+                            margin-bottom: 12px;
+                        ">
+
+                            <span
+                                style="
+                                color: #1F4E5F;
+                                font-size: 14px;
+                                font-weight: bold;
+                                letter-spacing: 0.5px;
+                            ">
+                                MAINTENANCE INFORMATION
+                            </span>
+
+                        </div>
+
+
+                        <table
+                            style="
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 22px;
+                        ">
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td
+                                        style="
+                                        width: 25%;
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                        font-weight: bold;
+                                        color: #1F4E5F;
+                                    ">
+                                        Last Maintenance
+                                    </td>
+
+                                    <td
+                                        style="
+                                        width: 25%;
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                    ">
+
+                                        <span
+                                            t-if="kiln.last_maintenance"
+                                            t-field="kiln.last_maintenance"
+                                        />
+
+                                        <span t-else="">
+                                            Not Available
+                                        </span>
+
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+
+
+                                    <td
+                                        style="
+                                        width: 25%;
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                        font-weight: bold;
+                                        color: #1F4E5F;
+                                    ">
+                                        Maintenance Interval
+                                    </td>
+
+                                    <td
+                                        style="
+                                        width: 25%;
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                    ">
+
+                                        <span t-field="kiln.maintenance_interval" /> Days </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td
+                                        style="
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                        font-weight: bold;
+                                        color: #1F4E5F;
+                                    ">
+                                        Maintenance Due
+                                    </td>
+
+                                    <td
+                                        style="
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                    ">
+
+                                        <span
+                                            t-if="kiln.maintenance_due"
+                                            style="
+                                                color: #A94442;
+                                                font-weight: bold;
+                                            ">
+                                            Yes
+                                        </span>
+
+                                        <span
+                                            t-else=""
+                                            style="
+                                                color: #4F7D5A;
+                                                font-weight: bold;
+                                            ">
+                                            No
+                                        </span>
+
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+
+
+                                    <td
+                                        style="
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                        font-weight: bold;
+                                        color: #1F4E5F;
+                                    ">
+                                        Production Count
+                                    </td>
+
+
+                                    <td
+                                        style="
+                                        padding: 10px;
+                                        border-bottom: 1px solid #D5DEE2;
+                                    ">
+
+                                        <span t-field="kiln.production_count" />
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+
+                        <!-- ================= PRODUCTION SUMMARY ================= -->
+
+                        <div
+                            style="
+                            margin-top: 25px;
+                            background-color: #1F4E5F;
+                            color: white;
+                            padding: 18px;
+                            text-align: center;
+                        ">
+
+                            <div
+                                style="
+                                font-size: 10px;
+                                letter-spacing: 1.5px;
+                                color: #DCE8EC;
+                            ">
+                                PRODUCTIONS PROCESSED
+                            </div>
+
+                            <div
+                                style="
+                                margin-top: 5px;
+                                font-size: 30px;
+                                font-weight: bold;
+                                color: #C8A45D;
+                            ">
+
+                                <span t-field="kiln.production_count" />
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= FOOTER ================= -->
+
+                        <div
+                            style="
+                            margin-top: 35px;
+                            padding-top: 10px;
+                            border-top: 1px solid #D5DEE2;
+                            font-size: 10px;
+                            color: #6B777C;
+                        ">
+
+                            <div class="row">
+
+                                <div class="col-6">
+                                    Pottery Artisan Production Management
+                                </div>
+
+                                <div class="col-6 text-end">
+                                    Kiln Management Report
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </t>
+
+            </t>
+
+        </t>
+
+    </template>
+
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_quality_pdf_report" model="ir.actions.report">
+        <field name="name">Quality Inspection Report</field>
+        <field name="model">quality.information</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pottery_artisan_production_management.quality_report_template</field>
+        <field name="report_file">pottery_artisan_production_management.quality_report_template</field>
+        <field name="binding_model_id" ref="model_quality_information" />
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Quality Report - %s' % (object.name)
+        </field>
+    </record>
+
+</odoo>

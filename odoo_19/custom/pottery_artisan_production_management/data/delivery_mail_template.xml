@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- =========================================================
+         DELIVERY READY MAIL
+    ========================================================== -->
+
+    <record id="mail_template_delivery_ready" model="mail.template">
+
+        <field name="name">Delivery Ready Notification</field>
+
+        <field name="model_id" ref="model_delivery_information"/>
+
+        <field name="subject">Delivery Ready Notification</field>
+
+        <field name="email_from"></field>
+        <field name="email_to"></field>
+        <field name="reply_to"></field>
+
+        <field name="body_html" type="html">
+            <div>
+
+                <h3>Delivery Ready</h3>
+
+                <p>
+                    Dear <t t-out="object.customer_id.name"/>,
+                </p>
+
+                <p>
+                    Your order has been confirmed and is now
+                    <strong>ready for delivery</strong>.
+                </p>
+
+                <p>
+                    <strong>Order Reference:</strong>
+                    <t t-out="object.order_id.name"/>
+                </p>
+
+                <p>
+                    <strong>Delivery Reference:</strong>
+                    <t t-out="object.name"/>
+                </p>
+
+                <p>
+                    <strong>Quantity:</strong>
+                    <t t-out="object.quantity"/>
+                </p>
+
+                <p>
+                    Our team will shortly proceed with the delivery.
+                </p>
+
+                <p>
+                    Thank you for choosing Village Pottery.
+                </p>
+
+                <p>
+                    Regards,<br/>
+                    Village Pottery Team
+                </p>
+
+            </div>
+        </field>
+
+    </record>
+
+
+    <!-- =========================================================
+         DELIVERY IN TRANSIT MAIL
+    ========================================================== -->
+
+    <record id="mail_template_delivery_in_transit" model="mail.template">
+
+        <field name="name">Delivery In Transit Notification</field>
+
+        <field name="model_id" ref="model_delivery_information"/>
+
+        <field name="subject">Delivery In Transit Notification</field>
+
+        <field name="email_from"></field>
+        <field name="email_to"></field>
+        <field name="reply_to"></field>
+
+        <field name="body_html" type="html">
+            <div>
+
+                <h3>Delivery In Transit</h3>
+
+                <p>
+                    Dear <t t-out="object.customer_id.name"/>,
+                </p>
+
+                <p>
+                    Your order is now
+                    <strong>in transit</strong>.
+                </p>
+
+                <p>
+                    <strong>Order Reference:</strong>
+                    <t t-out="object.order_id.name"/>
+                </p>
+
+                <p>
+                    <strong>Delivery Reference:</strong>
+                    <t t-out="object.name"/>
+                </p>
+
+                <p>
+                    <strong>Vehicle Number:</strong>
+                    <t t-out="object.vehicle_number"/>
+                </p>
+
+                <p>
+                    <strong>Quantity:</strong>
+                    <t t-out="object.quantity"/>
+                </p>
+
+                <p>
+                    Your order is currently on the way.
+                </p>
+
+                <p>
+                    Thank you for choosing Village Pottery.
+                </p>
+
+                <p>
+                    Regards,<br/>
+                    Village Pottery Team
+                </p>
+
+            </div>
+        </field>
+
+    </record>
+
+
+    <!-- =========================================================
+         DELIVERY COMPLETED MAIL
+    ========================================================== -->
+
+    <record id="mail_template_delivery_delivered" model="mail.template">
+
+        <field name="name">Delivery Completed Notification</field>
+
+        <field name="model_id" ref="model_delivery_information"/>
+
+        <field name="subject">Delivery Completed Notification</field>
+
+        <field name="email_from"></field>
+        <field name="email_to"></field>
+        <field name="reply_to"></field>
+
+        <field name="body_html" type="html">
+            <div>
+
+                <h3>Delivery Completed</h3>
+
+                <p>
+                    Dear <t t-out="object.customer_id.name"/>,
+                </p>
+
+                <p>
+                    Your order has been
+                    <strong>successfully delivered</strong>.
+                </p>
+
+                <p>
+                    <strong>Order Reference:</strong>
+                    <t t-out="object.order_id.name"/>
+                </p>
+
+                <p>
+                    <strong>Delivery Reference:</strong>
+                    <t t-out="object.name"/>
+                </p>
+
+                <p>
+                    <strong>Delivered Quantity:</strong>
+                    <t t-out="object.quantity"/>
+                </p>
+
+                <p>
+                    Thank you for choosing Village Pottery.
+                </p>
+
+                <p>
+                    We hope you enjoy your products.
+                </p>
+
+                <p>
+                    Regards,<br/>
+                    Village Pottery Team
+                </p>
+
+            </div>
+        </field>
+
+    </record>
+
+</odoo>

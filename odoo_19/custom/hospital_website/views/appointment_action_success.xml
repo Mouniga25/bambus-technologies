@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <template
+        id="appointment_action_success"
+        name="Appointment Action Success"
+    >
+
+        <t t-call="website.layout">
+
+            <div class="container my-5">
+
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-7">
+
+                        <div class="card shadow">
+
+                            <div class="card-body text-center p-5">
+
+                                <t t-if="action == 'confirmed'">
+
+                                    <h2 class="text-success mb-4">
+                                        Appointment Confirmed
+                                    </h2>
+
+                                    <p class="lead">
+                                        The appointment has been confirmed successfully.
+                                    </p>
+
+                                    <p>
+                                        <strong>Visit Number:</strong>
+                                        <span t-out="visit.visit_number"/>
+                                    </p>
+
+                                    <p>
+                                        The patient has been notified by email.
+                                    </p>
+
+                                </t>
+
+
+                                <t t-elif="action == 'rejected'">
+
+                                    <h2 class="text-danger mb-4">
+                                        Appointment Rejected
+                                    </h2>
+
+                                    <p class="lead">
+                                        The appointment has been rejected successfully.
+                                    </p>
+
+                                    <p>
+                                        <strong>Visit Number:</strong>
+                                        <span t-out="visit.visit_number"/>
+                                    </p>
+
+                                    <p>
+                                        The patient has been notified by email.
+                                    </p>
+
+                                </t>
+
+
+                                <t t-elif="action == 'rescheduled'">
+
+                                    <h2 class="text-warning mb-4">
+                                        Next Follow-up Scheduled
+                                    </h2>
+
+                                    <p class="lead">
+                                        The next follow-up appointment
+                                        has been scheduled successfully.
+                                    </p>
+
+                                    <p>
+                                        <strong>New Visit Number:</strong>
+                                        <span t-out="visit.visit_number"/>
+                                    </p>
+
+                                    <p>
+                                        <strong>Next Appointment:</strong>
+                                        <span t-out="visit.visit_date"/>
+                                    </p>
+
+                                    <p>
+                                        The patient has been notified by email.
+                                    </p>
+
+                                </t>
+
+
+                                <t t-else="">
+
+                                    <h2 class="mb-4">
+                                        Appointment Updated
+                                    </h2>
+
+                                    <p>
+                                        The appointment has been updated successfully.
+                                    </p>
+
+                                </t>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </t>
+
+    </template>
+
+</odoo>

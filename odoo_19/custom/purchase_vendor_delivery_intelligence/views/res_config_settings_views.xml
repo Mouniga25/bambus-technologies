@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_vdi" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.vdi</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//app[@name='purchase']" position="inside">
+                <block title="Delivery Intelligence">
+
+                    <setting string="History Period">
+                        <field name="vdi_history_days"/>
+                        <div class="text-muted">
+                            Number of days used to calculate supplier history.
+                        </div>
+                    </setting>
+
+                    <setting string="Minimum Sample Lines">
+                        <field name="vdi_min_sample_lines"/>
+                    </setting>
+
+                    <setting string="Grace Days">
+                        <field name="vdi_grace_days"/>
+                    </setting>
+
+                    <setting string="Due Soon Days">
+                        <field name="vdi_due_soon_days"/>
+                    </setting>
+
+                    <setting string="Reliable Score">
+                        <field name="vdi_reliable_score"/>
+                    </setting>
+
+                    <setting string="Watch Score">
+                        <field name="vdi_watch_score"/>
+                    </setting>
+
+                    <setting string="Enable Activities">
+                        <field name="vdi_enable_activities"/>
+                    </setting>
+
+                    <setting string="Fallback Buyer">
+                        <field name="vdi_fallback_buyer_id"/>
+                    </setting>
+
+                </block>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

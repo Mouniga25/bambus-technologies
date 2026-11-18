@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_vdi" model="ir.ui.view">
+        <field name="name">res.partner.form.vdi</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
+
+                <button
+                    name="action_vdi_evaluated_lines"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-line-chart"
+                >
+                    <field
+                        name="vdi_eligible_line_count"
+                        widget="statinfo"
+                        string="Evaluated Lines"
+                    />
+                </button>
+
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Delivery Intelligence">
+
+                    <!-- Vendor Score -->
+                    <group string="Vendor Performance">
+
+                        <group>
+                            <label for="vdi_vendor_score" string="Vendor Score" />
+                            <field name="vdi_vendor_score"
+                                nolabel="1"
+                                class="oe_inline" />
+
+                            <label for="vdi_vendor_grade" string="Vendor Grade" />
+                            <field name="vdi_vendor_grade"
+                                nolabel="1"
+                                class="oe_inline" />
+                        </group>
+
+                        <group>
+                            <label for="vdi_eligible_line_count" string="Evaluated Lines" />
+                            <field name="vdi_eligible_line_count"
+                                nolabel="1" />
+
+                            <label for="vdi_last_analysis_at" string="Last Analysis" />
+                            <field name="vdi_last_analysis_at"
+                                nolabel="1" />
+                        </group>
+
+                    </group>
+
+                    <!-- Performance Metrics -->
+                    <group string="Delivery Performance">
+
+                        <group>
+                            <label for="vdi_on_time_mean" string="On-Time Delivery" />
+                            <field name="vdi_on_time_mean"
+                                nolabel="1" />
+
+                            <label for="vdi_fill_mean" string="Fill Rate" />
+                            <field name="vdi_fill_mean"
+                                nolabel="1" />
+                        </group>
+
+                        <group>
+                            <label for="vdi_delay_mean" string="Mean Delay" />
+                            <field name="vdi_delay_mean"
+                                nolabel="1" />
+
+                            <label for="vdi_insufficient_reason"
+                                string="Data Quality" />
+                            <field name="vdi_insufficient_reason"
+                                nolabel="1"
+                                placeholder="No data quality issue" />
+                        </group>
+
+                    </group>
+
+                    <!-- Analysis Period -->
+                    <group string="Analysis Period">
+
+                        <group>
+                            <label for="vdi_analysis_start" string="Analysis Start" />
+                            <field name="vdi_analysis_start"
+                                nolabel="1" />
+                        </group>
+
+                        <group>
+                            <label for="vdi_analysis_end" string="Analysis End" />
+                            <field name="vdi_analysis_end"
+                                nolabel="1" />
+                        </group>
+
+                    </group>
+
+                </page>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

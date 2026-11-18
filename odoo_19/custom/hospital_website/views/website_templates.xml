@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+  <template id="hospital_appointment"
+    name="Hospital Appointment">
+
+    <t t-call="website.layout">
+
+      <div class="container py-5">
+
+        <h1 class="text-center mb-4">
+          Book an Appointment
+        </h1>
+
+        <form action="/hospital/appointment/submit"
+          method="post">
+
+          <input type="hidden"
+            name="csrf_token"
+            t-att-value="request.csrf_token()" />
+
+          <!-- Patient Name -->
+          <div class="mb-3">
+            <label class="form-label">
+              Patient Name
+            </label>
+
+            <input type="text"
+              name="patient_name"
+              class="form-control"
+              required="required" />
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label class="form-label">
+              Email
+            </label>
+
+            <input type="email"
+              name="email"
+              class="form-control"
+              required="required" />
+          </div>
+
+          <!-- Phone -->
+          <div class="mb-3">
+            <label class="form-label">
+              Phone
+            </label>
+
+            <input type="text"
+              name="phone"
+              class="form-control" />
+          </div>
+
+          <!-- Doctor -->
+          <div class="mb-3">
+            <label class="form-label">
+              Doctor
+            </label>
+
+            <select name="doctor_id"
+              class="form-select"
+              required="required">
+
+              <option value="">
+                Select Doctor
+              </option>
+
+              <t t-foreach="doctors" t-as="doctor">
+                <option t-att-value="doctor.id">
+                  <t t-esc="doctor.doctor_name" />
+                </option>
+              </t>
+
+            </select>
+          </div>
+
+          <!-- Department -->
+          <div class="mb-3">
+            <label class="form-label">
+              Department
+            </label>
+
+            <select name="department_id"
+              class="form-select"
+              required="required">
+
+              <option value="">
+                Select Department
+              </option>
+
+              <t t-foreach="departments" t-as="department">
+                <option t-att-value="department.id">
+                  <t t-esc="department.department_name" />
+                </option>
+              </t>
+
+            </select>
+          </div>
+
+          <!-- Appointment Date -->
+          <div class="mb-3">
+            <label class="form-label">
+              Appointment Date
+            </label>
+
+            <input type="datetime-local"
+              name="visit_date"
+              class="form-control"
+              required="required" />
+          </div>
+
+          <!-- Symptoms -->
+          <div class="mb-3">
+            <label class="form-label">
+              Symptoms
+            </label>
+
+            <textarea name="symptoms"
+              class="form-control"
+              rows="4"></textarea>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit"
+            class="btn btn-primary">
+            Submit Appointment
+          </button>
+
+        </form>
+
+      </div>
+
+    </t>
+
+  </template>
+
+</odoo>

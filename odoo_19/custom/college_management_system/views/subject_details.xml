@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Kanban View -->
+        <record id="view_subject_details_kanban" model="ir.ui.view">
+            <field name="name">subject.details.kanban</field>
+            <field name="model">subject.details</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="card">
+                            <div>
+                                <strong>Subject Name: </strong>
+                                <field name="subject_name" />
+                            </div>
+
+                            <div>
+                                <strong>Subject Code: </strong>
+                                <field name="subject_code" />
+                            </div>
+
+                            <div>
+                                <strong>Semester: </strong>
+                                <field name="semester" />
+                            </div>
+
+                            <div>
+                                <strong>Faculty: </strong>
+                                <field name="faculty_id" />
+                            </div>
+
+                            <div>
+                                <strong>Department: </strong>
+                                <field name="department_id" />
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <!-- Form View -->
+        <record id="view_subject_details_form" model="ir.ui.view">
+            <field name="name">subject.details.form</field>
+            <field name="model">subject.details</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+
+                        <h1>
+                            <field name="subject_name"
+                                placeholder="Subject Name" />
+                        </h1>
+
+                        <group>
+                            <group>
+                                <field name="subject_code"
+                                    placeholder="Subject Code" />
+                                <field name="semester" />
+                            </group>
+
+                            <group>
+                                <field name="faculty_id" />
+                                <field name="department_id" />
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- List View -->
+        <record id="view_subject_details_list" model="ir.ui.view">
+            <field name="name">subject.details.list</field>
+            <field name="model">subject.details</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="subject_code" />
+                    <field name="subject_name" />
+                    <field name="semester" />
+                    <field name="faculty_id" />
+                    <field name="department_id" />
+                </list>
+            </field>
+        </record>
+
+
+        <!-- Search View -->
+        <record id="view_subject_details_search" model="ir.ui.view">
+            <field name="name">subject.details.search</field>
+            <field name="model">subject.details</field>
+            <field name="arch" type="xml">
+                <search>
+
+                        <!-- Search -->
+                        <field name="subject_code" />
+                        <field name="subject_name" />
+                        <field name="faculty_id" />
+                        <field name="department_id" />
+
+                        <!-- Filters -->
+                        <filter name="semester_1"
+                            string="Semester 1"
+                            domain="[('semester', '=', '1')]" />
+
+                        <filter name="semester_2"
+                            string="Semester 2"
+                            domain="[('semester', '=', '2')]" />
+
+                        <filter name="semester_3"
+                            string="Semester 3"
+                            domain="[('semester', '=', '3')]" />
+
+                        <filter name="semester_4"
+                            string="Semester 4"
+                            domain="[('semester', '=', '4')]" />
+
+                        <filter name="semester_5"
+                            string="Semester 5"
+                            domain="[('semester', '=', '5')]" />
+
+                        <filter name="semester_6"
+                            string="Semester 6"
+                            domain="[('semester', '=', '6')]" />
+
+                        <filter name="semester_7"
+                            string="Semester 7"
+                            domain="[('semester', '=', '7')]" />
+
+                        <filter name="semester_8"
+                            string="Semester 8"
+                            domain="[('semester', '=', '8')]" />
+
+                        <filter name="group_by_semester"
+                            string="Semester"
+                            context="{'group_by': 'semester'}" />
+
+                        <filter name="group_by_faculty"
+                            string="Faculty"
+                            context="{'group_by': 'faculty_id'}" />
+
+                        <filter name="group_by_department"
+                            string="Department"
+                            context="{'group_by': 'department_id'}" />
+                </search>
+            </field>
+        </record>
+
+
+        <!-- Action -->
+        <record id="action_subject_details" model="ir.actions.act_window">
+            <field name="name">Subject Details</field>
+            <field name="res_model">subject.details</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="search_view_id"
+                ref="view_subject_details_search" />
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a Subject
+                </p>
+            </field>
+        </record>
+
+
+        <!-- Menu -->
+        <menuitem
+            id="subject_details"
+            name="Subject Details"
+            parent="Configurations_information"
+            action="action_subject_details" />
+
+    </data>
+</odoo>

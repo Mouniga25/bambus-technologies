@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- lab result pdf report  -->
+    <record id="action_report_patient_summary" model="ir.actions.report">
+        <field name="name">Lab Result</field>
+        <field name="model">hospital.lab.result</field>
+        <field name="report_type">qweb-pdf</field>
+
+        <field name="report_name">hospital_core_api.report_lab_result</field>
+        <field name="report_file">hospital_core_api.report_lab_result</field>
+       <field name="binding_model_id" ref="model_hospital_lab_result"/>
+        <field name="binding_type">report</field>
+
+    </record>
+</odoo>

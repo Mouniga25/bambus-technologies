@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bill_counter,access_bill_counter,model_bill_counter,dmart_management_system.group_admin,1,1,1,1
+,,,,,,,
+access_bill_counter_manager,access_bill_counter_manager,model_bill_counter,dmart_management_system.group_manager,1,1,0,0
+,,,,,,,
+access_bill_counter_employee,access_bill_counter_employee,model_bill_counter,dmart_management_system.group_employee,1,1,1,0

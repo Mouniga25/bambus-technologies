@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- QWeb Report Template -->
+    <template id="vehicle_lifecycle_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="object">
+                <t t-call="web.external_layout">
+
+                    <div class="page">
+
+                        <!-- Report Title -->
+                        <h3 style="text-align:center;color:#2C3E50;margin-bottom:10px;">Fleet
+                            Lifecycle Analysis Report</h3>
+
+                        <!-- Requirement 26 : Management Summary -->
+                        <t t-set="Fleet" t-value="docs.env['fleet.vehicle']" />
+                        <t t-set="vehicles" t-value="Fleet.search([])" />
+
+                        <t t-set="total_vehicles" t-value="len(vehicles)" />
+                        <t t-set="healthy_count"
+                            t-value="len(vehicles.filtered(lambda v: v.lifecycle_status == 'healthy'))" />
+                        <t t-set="monitor_count"
+                            t-value="len(vehicles.filtered(lambda v: v.lifecycle_status == 'monitor'))" />
+                        <t t-set="review_count"
+                            t-value="len(vehicles.filtered(lambda v: v.lifecycle_status == 'review'))" />
+                        <t t-set="replace_count"
+                            t-value="len(vehicles.filtered(lambda v: v.lifecycle_status == 'replace'))" />
+                        <t t-set="current_year_cost"
+                            t-value="sum(vehicles.mapped('current_year_service_cost'))" />
+
+                        <div
+                            style="border:1px solid #D5DBDB;border-radius:6px;margin:8px 0;font-size:9px;">
+                            <div
+                                style="background:#2C3E50;color:white;padding:4px;font-weight:bold;">
+                                Management Summary
+                            </div>
+
+                            <table style="width:100%;border-collapse:collapse;">
+                                <tr>
+                                    <td style="padding:4px;">
+                                        <b>Total</b>
+                                        <br />
+                                        <span t-esc="total_vehicles" />
+                                    </td>
+                                    <td style="padding:4px;">
+                                        <b>Healthy</b>
+                                        <br />
+                                        <span t-esc="healthy_count" />
+                                    </td>
+                                    <td style="padding:4px;">
+                                        <b>Monitor</b>
+                                        <br />
+                                        <span t-esc="monitor_count" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:4px;">
+                                        <b>Review</b>
+                                        <br />
+                                        <span t-esc="review_count" />
+                                    </td>
+                                    <td style="padding:4px;">
+                                        <b>Replace</b>
+                                        <br />
+                                        <span t-esc="replace_count" />
+                                    </td>
+                                    <td style="padding:4px;">
+                                        <b>Year Cost</b>
+                                        <br />
+                                        <span t-esc="current_year_cost" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Vehicle Details -->
+                        <table
+                            style="width:100%;border-collapse:collapse;font-size:10px;border:1px solid #D5DBDB;">
+                            <tr style="background:#ECF0F1;">
+                                <th colspan="2" style="padding:6px;text-align:left;color:#2C3E50;">
+                                    Vehicle Details
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>License Plate</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.license_plate" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Model</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.model_id" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Category</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.category_id" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Driver</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.driver_id" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Acquisition Date</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.acquisition_date" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Vehicle Age</b>
+                                </td>
+                                <td style="padding:5px;"><span t-field="object.vehicle_age" /> Years</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Current Odometer</b>
+                                </td>
+                                <td style="padding:5px;"><span t-field="object.odometer" /> KM</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Max Recommended Age</b>
+                                </td>
+                                <td style="padding:5px;"><span
+                                        t-field="object.category_id.max_recommended_age" /> Years</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Max Recommended Odometer</b>
+                                </td>
+                                <td style="padding:5px;"><span
+                                        t-field="object.category_id.max_recommended_odometer" /> KM</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Lifetime Service Cost</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.lifetime_service_cost" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Current Year Cost</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.current_year_service_cost" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Previous Year Cost</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.previous_year_service_cost" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Cost Per KM</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.maintenance_cost_per_km" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Major Repairs</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.major_repair_count" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Lifecycle Status</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.lifecycle_status" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    <b>Replacement Reason</b>
+                                </td>
+                                <td style="padding:5px;">
+                                    <span t-field="object.replacement_reason" />
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Print Action -->
+    <record id="action_vehicle_lifecycle_report" model="ir.actions.report">
+        <field name="name">Fleet Lifecycle Analysis Report</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">fleet_vehicle_lifecycle.vehicle_lifecycle_report_template</field>
+        <field name="report_file">fleet_vehicle_lifecycle.vehicle_lifecycle_report_template</field>
+        <field name="binding_model_id" ref="fleet.model_fleet_vehicle" />
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Vehicle Lifecycle - %s' % (object.license_plate or
+            object.name)</field>
+    </record>
+
+</odoo>

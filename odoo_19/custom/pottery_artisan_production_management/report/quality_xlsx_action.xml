@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id="action_quality_xlsx_report" model="ir.actions.report">
+        <field name="name">Quality XLSX Report</field>
+        <field name="model">quality.information</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">quality_xlsx_report</field>
+        <field name="report_file">quality_xlsx_report</field>
+        <field name="binding_model_id" ref="model_quality_information"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Quality XLSX Report - %s' % (object.name)</field>
+    </record>
+</odoo>

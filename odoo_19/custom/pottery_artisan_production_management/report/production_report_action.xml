@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="action_report_production_information" model="ir.actions.report">
+        <field name="name">Production Report</field>
+        <field name="model">production.information</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pottery_artisan_production_management.report_production_information</field>
+        <field name="report_file">pottery_artisan_production_management.report_production_information</field>
+        <field name="binding_model_id" ref="model_production_information"/>
+        <field name="binding_type">report</field>
+
+    </record>
+
+</odoo>

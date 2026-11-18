@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_qualifacations_information_kanban" model="ir.ui.view">
+            <field name="name">qualifications.information.kanban</field>
+            <field name="model">qualifications.information</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="card">
+                            <strong> Qualification Name: <field name="qualifications_name" />
+                            </strong>
+
+                            <div class="rows"></div>
+
+                            <div> Qualifications Code: <field name="qualifications_code" />
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- form -->
+        <record id="view_qualifications_information_form" model="ir.ui.view">
+            <field name="name">qualifications.information.form</field>
+            <field name="model">qualifications.information</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="qualifications_name" />
+                            <field name="qualifications_code"
+                                placeholder="Qualifications Code" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- list -->
+        <record id="view_qualifications_information_list" model="ir.ui.view">
+            <field name="name">qualifications.information.list</field>
+            <field name="model">qualifications.information</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="qualifications_name" />
+                    <field name="qualifications_code" />
+                </list>
+            </field>
+        </record>
+
+        <!-- action -->
+        <record id="action_qualifications_information" model="ir.actions.act_window">
+            <field name="name">Qualifications Information</field>
+            <field name="res_model">qualifications.information</field>
+            <field name="view_mode">kanban,form,list</field>
+
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create Qualifications Information
+                </p>
+            </field>
+        </record>
+
+        <!-- menu -->
+        <menuitem
+            id="qualifications_information"
+            name="Qualifications Information"
+            parent="Configurations_information"
+            action="action_qualifications_information" />
+
+    </data>
+</odoo>

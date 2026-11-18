@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="sequence_bus_booking" model="ir.sequence">
+            <field name="name">Bus Reservation Sequence</field>
+            <field name="code">booking.info</field>
+            <field name="prefix">B/</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

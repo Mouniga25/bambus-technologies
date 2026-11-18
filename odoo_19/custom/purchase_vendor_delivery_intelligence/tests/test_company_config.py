@@ -1,0 +1,19 @@
+from odoo.exceptions import ValidationError
+from odoo.tests.common import TransactionCase, tagged
+
+
+@tagged("post_install", "-at_install")
+class TestCompanyConfig(TransactionCase):
+    def test_defaults(self):
+        company = self.env.company
+        self.assertEqual(company.vdi_history_days, 180)
+        self.assertEqual(company.vdi_min_sample_lines, 5)
+        self.assertEqual(company.vdi_grace_days, 2)
+
+    def test_invalid_thresholds(self):
+        with self.assertRaises(ValidationError):
+            self.env.company.vdi_watch_score = 95  # reliable (90) kku mela
+
+    def test_invalid_history_days(self):
+        with self.assertRaises(ValidationError):
+            self.env.company.vdi_history_days = 10

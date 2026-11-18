@@ -1,0 +1,974 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <template id="report_production_information">
+
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="doc">
+
+                <t t-call="web.external_layout">
+
+                    <div class="page"
+                        style="
+                            font-family:Arial, sans-serif;
+                            color:#4A3B42;
+                            font-size:12px;
+                        ">
+
+                        <!-- ================================================= -->
+                        <!-- REPORT TITLE -->
+                        <!-- ================================================= -->
+
+                        <div
+                            style="
+                            text-align:center;
+                            margin-top:8px;
+                            margin-bottom:15px;
+                        ">
+
+                            <div
+                                style="
+                                font-size:27px;
+                                font-weight:700;
+                                color:#6B1F3A;
+                                letter-spacing:1px;
+                                line-height:1.2;
+                                text-align:center;
+                            ">
+                                PRODUCTION REPORT
+                            </div>
+
+                            <div
+                                style="
+                                font-size:12px;
+                                color:#6F6267;
+                                margin-top:6px;
+                                text-align:center;
+                            ">
+                                Production Reference : <strong
+                                    t-esc="doc.name"
+                                    style="
+                                        color:#6B1F3A;
+                                        font-size:14px;
+                                    "
+                                />
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- ARTISAN INFORMATION -->
+                        <!-- ================================================= -->
+
+                        <div
+                            style="
+                            background-color:#6B1F3A;
+                            color:#FFFFFF;
+                            padding:11px 14px;
+                            font-size:15px;
+                            font-weight:700;
+                            letter-spacing:0.6px;
+                            border-radius:4px 4px 0 0;
+                            text-align:left;
+                        ">
+                            ARTISAN INFORMATION
+                        </div>
+
+
+                        <table
+                            style="
+                            width:100%;
+                            border-collapse:collapse;
+                            margin-bottom:7px;
+                            font-size:12px;
+                        ">
+
+                            <tr>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:12px;
+                                    background:#fdf2e9;
+                                    color:#6B1F3A;
+                                    font-size:12px;
+                                    font-weight:700;
+                                    border:1px solid #E8D9D3;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    Artisan
+                                </td>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:12px;
+                                    border:1px solid #E8D9D3;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    font-weight:600;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    <span t-esc="doc.artisan_id.display_name" />
+                                </td>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:12px;
+                                    background:#fdf2e9;
+                                    color:#6B1F3A;
+                                    font-size:12px;
+                                    font-weight:700;
+                                    border:1px solid #E8D9D3;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    Phone
+                                </td>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:12px;
+                                    border:1px solid #E8D9D3;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    font-weight:600;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    <span t-esc="doc.artisan_phone or '-'" />
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+
+                        <!-- ================================================= -->
+                        <!-- PRODUCTION INFORMATION -->
+                        <!-- ================================================= -->
+
+                        <div
+                            style="
+                            background-color:#6B1F3A;
+                            color:#FFFFFF;
+                            padding:11px 14px;
+                            font-size:15px;
+                            font-weight:700;
+                            letter-spacing:0.6px;
+                            border-radius:4px 4px 0 0;
+                            text-align:left;
+                        ">
+                            PRODUCTION INFORMATION
+                        </div>
+
+
+                        <table
+                            style="
+                            width:100%;
+                            border-collapse:collapse;
+                            margin-bottom:7px;
+                            font-size:12px;
+                        ">
+
+                            <tr>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:12px;
+                                    background:#fdf2e9;
+                                    color:#6B1F3A;
+                                    font-size:12px;
+                                    font-weight:700;
+                                    border:1px solid #E8D9D3;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    Product
+                                </td>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:12px;
+                                    border:1px solid #E8D9D3;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    font-weight:600;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    <span t-esc="doc.product_id.display_name" />
+                                </td>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:12px;
+                                    background:#fdf2e9;
+                                    color:#6B1F3A;
+                                    font-size:12px;
+                                    font-weight:700;
+                                    border:1px solid #E8D9D3;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    Production Date
+                                </td>
+
+                                <td
+                                    style="
+                                    width:25%;
+                                    padding:12px;
+                                    border:1px solid #E8D9D3;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    font-weight:600;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    <span t-field="doc.production_date" />
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td
+                                    style="
+                                    padding:12px;
+                                    background:#fdf2e9;
+                                    color:#6B1F3A;
+                                    font-size:12px;
+                                    font-weight:700;
+                                    border:1px solid #E8D9D3;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    Planned Quantity
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:12px;
+                                    border:1px solid #E8D9D3;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    font-weight:600;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    <span t-esc="'%.2f' % doc.quantity" />
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:12px;
+                                    background:#fdf2e9;
+                                    color:#6B1F3A;
+                                    font-size:12px;
+                                    font-weight:700;
+                                    border:1px solid #E8D9D3;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    Required Clay
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:12px;
+                                    border:1px solid #E8D9D3;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    font-weight:600;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    <span t-esc="'%.2f KG' % doc.required_clay" />
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td
+                                    style="
+                                    padding:12px;
+                                    background:#fdf2e9;
+                                    color:#6B1F3A;
+                                    font-size:12px;
+                                    font-weight:700;
+                                    border:1px solid #E8D9D3;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    Kiln
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:12px;
+                                    border:1px solid #E8D9D3;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    font-weight:600;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    <span t-esc="doc.kiln_id.display_name or '-'" />
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:12px;
+                                    background:#fdf2e9;
+                                    color:#6B1F3A;
+                                    font-size:12px;
+                                    font-weight:700;
+                                    border:1px solid #E8D9D3;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    Status
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:12px;
+                                    border:1px solid #E8D9D3;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    font-weight:600;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    <span
+                                        t-esc="
+                                            dict(
+                                                doc._fields['status'].selection
+                                            ).get(
+                                                doc.status
+                                            )
+                                        "
+                                    />
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+
+                        <!-- ================================================= -->
+                        <!-- RAW MATERIALS -->
+                        <!-- ================================================= -->
+
+                        <div
+                            style="
+                            background-color:#6B1F3A;
+                            color:#FFFFFF;
+                            padding:11px 14px;
+                            font-size:15px;
+                            font-weight:700;
+                            letter-spacing:0.6px;
+                            border-radius:4px 4px 0 0;
+                            text-align:left;
+                        ">
+                            RAW MATERIALS
+                        </div>
+
+
+                        <table
+                            style="
+                            width:100%;
+                            border-collapse:collapse;
+                            margin-bottom:7px;
+                            font-size:11px;
+                        ">
+
+                            <thead>
+
+                                <tr style="background:#fdf2e9;">
+
+                                    <th
+                                        style="
+                                        padding:10px;
+                                        text-align:center;
+                                        color:#6B1F3A;
+                                        border:1px solid #E8D9D3;
+                                        font-size:11px;
+                                        font-weight:700;
+                                    ">
+                                        Raw Material
+                                    </th>
+
+                                    <th
+                                        style="
+                                        padding:10px;
+                                        text-align:center;
+                                        color:#6B1F3A;
+                                        border:1px solid #E8D9D3;
+                                        font-size:11px;
+                                        font-weight:700;
+                                    ">
+                                        Required Qty
+                                    </th>
+
+                                    <th
+                                        style="
+                                        padding:10px;
+                                        text-align:center;
+                                        color:#6B1F3A;
+                                        border:1px solid #E8D9D3;
+                                        font-size:11px;
+                                        font-weight:700;
+                                    ">
+                                        Unit Cost
+                                    </th>
+
+                                    <th
+                                        style="
+                                        padding:10px;
+                                        text-align:center;
+                                        color:#6B1F3A;
+                                        border:1px solid #E8D9D3;
+                                        font-size:11px;
+                                        font-weight:700;
+                                    ">
+                                        Material Cost
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <t
+                                    t-foreach="doc.raw_material_line"
+                                    t-as="line"
+                                >
+
+                                    <tr>
+
+                                        <td
+                                            style="
+                                            padding:9px;
+                                            border:1px solid #E8D9D3;
+                                            color:#4A3B42;
+                                            font-size:13px;
+                                            text-align:center;
+                                            vertical-align:middle;
+                                        ">
+                                            <span
+                                                t-esc="
+                                                    line.raw_material_id.display_name
+                                                "
+                                            />
+                                        </td>
+
+                                        <td
+                                            style="
+                                            padding:9px;
+                                            border:1px solid #E8D9D3;
+                                            color:#4A3B42;
+                                            font-size:13px;
+                                            text-align:center;
+                                            vertical-align:middle;
+                                        ">
+                                            <span
+                                                t-esc="
+                                                    '%.2f'
+                                                    % line.required_quantity
+                                                "
+                                            />
+                                        </td>
+
+                                        <td
+                                            style="
+                                            padding:9px;
+                                            border:1px solid #E8D9D3;
+                                            color:#4A3B42;
+                                            font-size:13px;
+                                            text-align:center;
+                                            vertical-align:middle;
+                                        ">
+                                            <span
+                                                t-esc="
+                                                    '%.2f'
+                                                    % line.unit_cost
+                                                "
+                                            />
+                                        </td>
+
+                                        <td
+                                            style="
+                                            padding:9px;
+                                            border:1px solid #E8D9D3;
+                                            color:#4A3B42;
+                                            font-size:13px;
+                                            text-align:center;
+                                            vertical-align:middle;
+                                        ">
+                                            <span
+                                                t-esc="
+                                                    '%.2f'
+                                                    % line.material_cost
+                                                "
+                                            />
+                                        </td>
+
+                                    </tr>
+
+                                </t>
+
+                            </tbody>
+
+                        </table>
+
+
+                        <!-- ================================================= -->
+                        <!-- QUALITY -->
+                        <!-- ================================================= -->
+
+                        <div
+                            style="
+                            background-color:#6B1F3A;
+                            color:#FFFFFF;
+                            padding:11px 14px;
+                            font-size:15px;
+                            font-weight:700;
+                            letter-spacing:0.6px;
+                            border-radius:4px 4px 0 0;
+                            text-align:left;
+                        ">
+                            QUALITY
+                        </div>
+
+
+                        <table
+                            style="
+                            width:100%;
+                            border-collapse:collapse;
+                            margin-bottom:7px;
+                            font-size:11px;
+                            text-align:center;
+                        ">
+
+                            <tr style="background:#fdf2e9;">
+
+                                <td
+                                    style="
+                                    padding:10px;
+                                    border:1px solid #E8D9D3;
+                                    font-weight:700;
+                                    color:#6B1F3A;
+                                    font-size:11px;
+                                    text-align:center;
+                                ">
+                                    PRODUCED
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:10px;
+                                    border:1px solid #E8D9D3;
+                                    font-weight:700;
+                                    color:#6B1F3A;
+                                    font-size:11px;
+                                    text-align:center;
+                                ">
+                                    PASSED
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:10px;
+                                    border:1px solid #E8D9D3;
+                                    font-weight:700;
+                                    color:#6B1F3A;
+                                    font-size:11px;
+                                    text-align:center;
+                                ">
+                                    REJECTED
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:10px;
+                                    border:1px solid #E8D9D3;
+                                    font-weight:700;
+                                    color:#6B1F3A;
+                                    font-size:11px;
+                                    text-align:center;
+                                ">
+                                    WASTAGE
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td
+                                    style="
+                                    padding:11px;
+                                    border:1px solid #E8D9D3;
+                                    font-weight:600;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    text-align:center;
+                                ">
+                                    <span t-esc="'%.2f' % doc.produced_qty" />
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:11px;
+                                    border:1px solid #E8D9D3;
+                                    font-weight:600;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    text-align:center;
+                                ">
+                                    <span t-esc="'%.2f' % doc.passed_qty" />
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:11px;
+                                    border:1px solid #E8D9D3;
+                                    font-weight:600;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    text-align:center;
+                                ">
+                                    <span t-esc="'%.2f' % doc.rejected_qty" />
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:11px;
+                                    border:1px solid #E8D9D3;
+                                    font-weight:600;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    text-align:center;
+                                ">
+                                    <span
+                                        t-esc="
+                                            '%.2f'
+                                            % doc.wastage_percentage
+                                        "
+                                    />
+                                    % </td>
+
+                            </tr>
+
+                        </table>
+
+
+                        <!-- ================================================= -->
+                        <!-- COST SUMMARY -->
+                        <!-- ================================================= -->
+
+                        <div
+                            style="
+                            background-color:#6B1F3A;
+                            color:#FFFFFF;
+                            padding:11px 14px;
+                            font-size:15px;
+                            font-weight:700;
+                            letter-spacing:0.6px;
+                            border-radius:4px 4px 0 0;
+                            text-align:left;
+                        ">
+                            COST SUMMARY
+                        </div>
+
+
+                        <table
+                            style="
+                            width:100%;
+                            border-collapse:collapse;
+                            margin-bottom:7px;
+                            font-size:11px;
+                        ">
+
+                            <tr>
+
+                                <td
+                                    style="
+                                    width:70%;
+                                    padding:11px;
+                                    background:#fdf2e9;
+                                    border:1px solid #E8D9D3;
+                                    color:#6B1F3A;
+                                    font-size:12px;
+                                    font-weight:700;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    Material Cost
+                                </td>
+
+                                <td
+                                    style="
+                                    width:30%;
+                                    padding:11px;
+                                    border:1px solid #E8D9D3;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    font-weight:600;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    <span
+                                        t-esc="'%.2f' % doc.material_cost"
+                                    />
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td
+                                    style="
+                                    padding:11px;
+                                    background:#fdf2e9;
+                                    border:1px solid #E8D9D3;
+                                    color:#6B1F3A;
+                                    font-size:12px;
+                                    font-weight:700;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    Labour Cost
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:11px;
+                                    border:1px solid #E8D9D3;
+                                    color:#4A3B42;
+                                    font-size:14px;
+                                    font-weight:600;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    <span
+                                        t-esc="'%.2f' % doc.labour_cost"
+                                    />
+                                </td>
+
+                            </tr>
+
+
+                            <!-- ================================================= -->
+                            <!-- TOTAL PRODUCTION COST -->
+                            <!-- ================================================= -->
+
+                            <tr>
+
+                                <td
+                                    style="
+                                    padding:15px 12px;
+                                    background:#6B1F3A;
+                                    color:#FFFFFF;
+                                    border:1px solid #6B1F3A;
+                                    font-size:13px;
+                                    font-weight:700;
+                                    letter-spacing:0.5px;
+                                    text-align:center;
+                                    vertical-align:middle;
+                                ">
+                                    TOTAL PRODUCTION COST
+                                </td>
+
+                                <td
+                                    style="
+                                    padding:15px 12px;
+                                    text-align:center;
+                                    background:#fdf2e9;
+                                    color:#6B1F3A;
+                                    border:2px solid #6B1F3A;
+                                    font-size:20px;
+                                    font-weight:800;
+                                    vertical-align:middle;
+                                ">
+                                    <span
+                                        t-esc="'%.2f' % doc.total_cost"
+                                    />
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+
+                        <!-- ================================================= -->
+                        <!-- DECLARATION + QR -->
+                        <!-- ================================================= -->
+
+                        <table
+                            style="
+        width:100%;
+        border-collapse:collapse;
+        margin-top:3px;
+        margin-bottom:2px;
+    ">
+
+                            <tr>
+
+                                <!-- DECLARATION -->
+
+                                <td
+                                    style="
+                width:72%;
+                vertical-align:middle;
+                padding:4px 6px;
+                background:#fdf2e9;
+                border:1px solid #E8D9D3;
+                text-align:left;
+            ">
+
+                                    <div
+                                        style="
+                    color:#6B1F3A;
+                    font-size:11px;
+                    font-weight:700;
+                    margin:0 0 2px 0;
+                    padding:0;
+                    letter-spacing:0.3px;
+                    text-align:left;
+                ">
+                                        DECLARATION
+                                    </div>
+
+                                    <div
+                                        style="
+                    color:#6F6267;
+                    font-size:10px;
+                    line-height:1.25;
+                    margin:0;
+                    padding:0;
+                    text-align:left;
+                ">
+                                        This report is system-generated based on
+                                        the production information recorded in
+                                        the system. The production quantity,
+                                        quality, raw material and cost details
+                                        are provided for official production
+                                        reference.
+                                    </div>
+
+                                </td>
+
+
+                                <!-- QR -->
+
+                                <td
+                                    style="
+                width:28%;
+                vertical-align:middle;
+                text-align:center;
+                padding:4px;
+                background:#FFFFFF;
+                border:1px solid #E8D9D3;
+            ">
+
+                                    <div
+                                        style="
+                    color:#6B1F3A;
+                    font-size:9px;
+                    font-weight:700;
+                    margin:0 0 2px 0;
+                    padding:0;
+                    letter-spacing:0.2px;
+                    text-align:center;
+                ">
+                                        PRODUCTION VERIFICATION
+                                    </div>
+
+                                    <img
+                                        t-att-src="
+                    '/report/barcode/QR/%s' % (
+                        'Production: ' + doc.name +
+                        ' | Status: ' +
+                        dict(
+                            doc._fields['status'].selection
+                        ).get(
+                            doc.status,
+                            doc.status
+                        ) +
+                        ' | Total Cost: ' +
+                        ('%.2f' % doc.total_cost)
+                    )
+                "
+                                        style="
+                    width:90px;
+                    height:90px;
+                    background:#FFFFFF;
+                    display:block;
+                    margin:0 auto;
+                    padding:0;
+                "
+                                    />
+
+                                    <div
+                                        style="
+                    font-size:7px;
+                    color:#6F6267;
+                    margin:2px 0 0 0;
+                    padding:0;
+                    text-align:center;
+                ">
+                                        Scan to verify
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                        <!-- ================================================= -->
+                        <!-- FOOTER -->
+                        <!-- ================================================= -->
+
+                        <div
+                            style="
+                            text-align:center;
+                            margin-top:3px;
+                            padding-top:4px;
+                            border-top:1px solid #E8D9D3;
+                            font-size:8px;
+                            color:#8A7A80;
+                        ">
+                            System Generated Production Report
+                        </div>
+
+                    </div>
+
+                </t>
+
+            </t>
+
+        </t>
+
+    </template>
+
+</odoo>

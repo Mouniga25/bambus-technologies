@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- bank account sequence -->
+        <record id="sequence_account_number" model="ir.sequence">
+            <field name="name">account number sequence</field>
+            <field name="code">account.number</field>
+            <field name="prefix">an/0/</field>
+            <field name="padding">2</field>
+        </record>
+
+        <!-- qualifications sequence -->
+        <record id="sequence_qualifications_code" model="ir.sequence">
+            <field name="name">qualifications code sequence</field>
+            <field name="code">qualifications.code</field>
+            <field name="prefix">qua/</field>
+            <field name="padding">3</field>
+        </record>
+
+        <!-- loan application sequence -->
+        <record id="sequence_loan_application" model="ir.sequence">
+            <field name="name">loan application sequence</field>
+            <field name="code">loan.application</field>
+            <field name="prefix">loan/</field>
+            <field name="padding">4</field>
+        </record>
+
+    </data>
+</odoo>

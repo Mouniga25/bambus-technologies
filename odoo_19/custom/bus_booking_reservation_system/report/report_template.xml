@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="report_bus_booking_ticket">
+        <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="doc">
+                <main class="page"
+                    style="font-family:Arial,Helvetica,sans-serif;font-size:13px;padding:2px;">
+
+                    <!-- ================= HEADER ================= -->
+
+                    <table
+                        style="width:100%; border-collapse:collapse; background:#A076E5; color:white;">
+                        <tr>
+                            <!-- Left Side -->
+                            <td style="padding:15px; width:70%; vertical-align:bottom;">
+                                <h2 style="margin:0; color:white;">
+                                    <i class="fa fa-bus"></i> BUS BOOKING TICKET </h2>
+                            </td>
+
+                            <!-- Right Side -->
+                            <td
+                                style="padding:15px; width:30%; text-align:right; vertical-align:bottom;">
+                                <strong>Reference:</strong>
+                                <span t-esc="doc.id" />
+                                <br />
+                                <strong>Date:</strong>
+                                <span t-esc="doc.booked_date" />
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+
+                    <!-- ================= PASSENGER + JOURNEY SIDE BY SIDE ================= -->
+
+                    <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
+                        <tr>
+                            <!-- LEFT SIDE -->
+                            <td style="width:50%;vertical-align:top;border:1px solid #dcdcdc;">
+
+                                <table style="width:100%;border-collapse:collapse;">
+
+                                    <tr style="background:#A076E5;color:white;">
+                                        <th colspan="2" style="padding:10px;text-align:left;">
+                                            <strong>PASSENGER DETAILS</strong>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <i class="fa fa-user"></i>
+                                            <b> Name</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.passenger_name" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <i class="fa fa-envelope-open"></i>
+                                            <b> Email</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.email" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <i class="fa fa-phone"></i>
+                                            <b> Phone</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.phone_number" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <i class="fa fa-users"></i>
+                                            <b> Total Passengers :</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.total_passengers" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                            <!-- GAP -->
+                            <td style="width:5px;"></td>
+
+                            <!-- RIGHT SIDE -->
+                            <td style="width:50%;vertical-align:top;border:1px solid #dcdcdc;">
+
+                                <table style="width:100%;border-collapse:collapse;">
+
+                                    <tr style="background:#A076E5; color:white;">
+                                        <th colspan="2" style="padding:10px;text-align:left;">
+                                            <strong>JOURNEY DETAILS</strong>
+                                        </th>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <i class="fa fa-map-marker"></i>
+                                            <b> From</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.from_place_id.place_name" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <i class="fa fa-map-marker"></i>
+                                            <b> To</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.to_place_id.place_name" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <i class="fa fa-calendar"></i>
+                                            <b> Departure</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.departure_date_time" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <i class="fa fa-calendar"></i>
+                                            <b> Arrival</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.arrival_date_time" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <b>Boarding</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.boarding_points_id.place_name" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <b>Pickup</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.pickup_address" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <b>Destination</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.destination_address" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px;">
+                                            <b>Class</b>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="doc.classof_service_id.service_name" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <!-- ================= PASSENGER LIST ================= -->
+                    <t t-if="doc.passenger_information_lines">
+                        <table style="width:100%;border-collapse:collapse;">
+                            <tr style="background:#A076E5;color:white;">
+                                <th style="padding:8px;">
+                                    <strong>Passenger</strong>
+                                </th>
+                                <th>
+                                    <strong>Age</strong>
+                                </th>
+                                <th>
+                                    <strong>Gender</strong>
+                                </th>
+                                <th>
+                                    <strong>Type</strong>
+                                </th>
+                                <th>
+                                    <strong>Seat Preference</strong>
+                                </th>
+                            </tr>
+                            <tr t-foreach="doc.passenger_information_lines" t-as="line">
+
+                                <td style="padding:8px;">
+                                    <span t-esc="line.name" />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="line.age" />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="line.gender" />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="line.passenger" />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="line.seat_preference" />
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                    <br />
+                    <!-- TOTAL AMOUNT BOTTOM RIGHT BOX -->
+                    <tr>
+                        <td colspan="4" style="padding:10px;">
+                            <div style="text-align:right;">
+                                <span
+                                    style="
+                                        border:1px solid #7f52d9;
+                                        padding:6px 12px;
+                                        display:inline-block;
+                                        font-weight:bold;
+                                        color:#7f52d9;
+                                        border-radius:4px;
+                                        background:#f3efff;
+                                    ">
+                                    Total Amount : ₹ <span t-esc="doc.total_amount" />
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <br />
+                    <!-- ================= FOOTER ================= -->
+                    <div style="border:1px dashed #7f52d9; padding:10px; margin-top:15px;">
+
+                        <table style="width:100%; border-collapse:collapse;">
+                            <tr>
+
+                                <!-- LEFT SIDE -->
+                                <td style="width:70%; vertical-align:top;">
+
+                                    <h4 style="margin:0 0 10px 0; color:#7f52d9;">
+                                        Terms &amp; Conditions
+                                    </h4>
+
+                                    <ul style="margin:0; padding-left:18px; line-height:22px;">
+                                        <li>Please carry a valid Government ID.</li>
+                                        <li>Report at least 30 minutes before departure.</li>
+                                        <li>This ticket must be shown during boarding.</li>
+                                        <li>Cancellation policy applies.</li>
+                                    </ul>
+
+                                </td>
+                                <!-- RIGHT SIDE (QR CODE BOX) -->
+                                <td style="width:30%; text-align:center; vertical-align:middle;">
+
+                                    <div
+                                        style="border:1px solid #ddd; padding:10px; display:inline-block;">
+
+                                        <t t-if="doc.qr_image">
+                                            <img t-if="doc.qr_image"
+                                                t-att-src="image_data_uri(doc.qr_image)"
+                                                style="width:130px;height:130px;" />  
+                                        </t>
+                                        <t t-else="">
+                                            <span style="color:red;">QR Not Found</span>
+                                        </t>
+
+                                    </div>
+
+                                    <br />
+                                    <br />
+
+                                    <strong>QR Code</strong>
+
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </main>
+            </t>
+        </t>
+    </template>
+</odoo>

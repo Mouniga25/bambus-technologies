@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_passenger_ticket_id" model="ir.actions.report">
+        <field name="name">Print</field>
+        <field name="model">booking.forms</field> 
+        <field name="report_type">qweb-pdf</field>
+
+        <field name="report_name">bus_booking_reservation_system.report_bus_booking_ticket</field>
+        <field name="report_file">bus_booking_reservation_system.report_bus_booking_ticket</field>
+        <field name="binding_model_id" ref="model_booking_forms"/> 
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
+
+
+
+

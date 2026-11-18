@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="vehicle_lifecycle_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="vehicle">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <style>
+                            .page{
+                                font-family:Arial, Helvetica, sans-serif;
+                                font-size:11px;
+                                color:#000000;
+                            }
+
+                            .report-header{
+                                background:#000000;
+                                color:white;
+                                padding:18px;
+                                border-radius:8px;
+                                text-align:center;
+                                margin-bottom:14px;
+                            }
+
+                            .company-name{
+                                font-size:13px;
+                                margin-bottom:4px;
+                            }
+
+                            .report-title{
+                                font-size:24px;
+                                font-weight:bold;
+                                letter-spacing:1px;
+                            }
+
+                            .report-ref{
+                                margin-top:6px;
+                                font-size:11px;
+                            }
+
+                            .section-title{
+                                background:#34495E;
+                                color:white;
+                                padding:7px 10px;
+                                font-size:13px;
+                                font-weight:bold;
+                                border-radius:5px 5px 0 0;
+                                margin-top:12px;
+                            }
+
+                            .table-custom{
+                                width:100%;
+                                border-collapse:collapse;
+                                margin-bottom:10px;
+                            }
+
+                            .table-custom td{
+                                border:1px solid #D5DBDB;
+                                padding:8px;
+                                vertical-align:middle;
+                            }
+
+                            .label{
+                                background:#F4F6F7;
+                                font-weight:bold;
+                                width:25%;
+                            }
+
+                            .value{
+                                background:white;
+                                width:25%;
+                            }
+
+                            .status{
+                                font-weight:bold;
+                                padding:4px 8px;
+                                border-radius:4px;
+                                display:inline-block;
+                            }
+
+                            .healthy{
+                                background:#E8F8F5;
+                                color:#27AE60;
+                            }
+
+                            .monitor{
+                                background:#FEF5E7;
+                                color:#F39C12;
+                            }
+
+                            .review{
+                                background:#EBF5FB;
+                                color:#2980B9;
+                            }
+
+                            .replace{
+                                background:#FDEDEC;
+                                color:#C0392B;
+                            }
+
+                            .reason-box{
+                                background:#FCFCFC;
+                                border:1px solid #D5DBDB;
+                                border-radius:4px;
+                                padding:8px;
+                                min-height:34px;
+                            }
+
+                            .footer-note{
+                                margin-top:14px;
+                                text-align:center;
+                                font-size:9px;
+                                color:#7F8C8D;
+                            }
+                        </style>
+
+                        <!-- Header -->
+
+                        <div class="report-header">
+
+                            <div class="company-name">
+                                <strong t-field="vehicle.company_id" />
+                            </div>
+
+                            <div class="report-title">
+                                FLEET LIFECYCLE ANALYSIS REPORT
+                            </div>
+
+                            <div class="report-ref">
+                                <strong>License Plate:</strong>
+                                <span t-field="vehicle.license_plate" />
+                            </div>
+
+                        </div>
+                        <!-- Requirement 26 : Management Summary -->
+
+                        <t t-set="Fleet" t-value="docs.env['fleet.vehicle']" />
+                        <t t-set="vehicles" t-value="Fleet.search([])" />
+
+                        <t t-set="total_vehicles" t-value="len(vehicles)" />
+                        <t t-set="healthy_count"
+                            t-value="len(vehicles.filtered(lambda v: v.lifecycle_status == 'healthy'))" />
+                        <t t-set="monitor_count"
+                            t-value="len(vehicles.filtered(lambda v: v.lifecycle_status == 'monitor'))" />
+                        <t t-set="review_count"
+                            t-value="len(vehicles.filtered(lambda v: v.lifecycle_status == 'review'))" />
+                        <t t-set="replace_count"
+                            t-value="len(vehicles.filtered(lambda v: v.lifecycle_status == 'replace'))" />
+                        <t t-set="current_year_cost"
+                            t-value="sum(vehicles.mapped('current_year_service_cost'))" />
+
+                        <div class="section-title">
+                            Management Summary
+</div>
+
+                        <table class="table-custom">
+
+                            <tr>
+                                <td class="label">Total Vehicles</td>
+                                <td class="value">
+                                    <span t-esc="total_vehicles" />
+                                </td>
+
+                                <td class="label">Healthy</td>
+                                <td class="value">
+                                    <span t-esc="healthy_count" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">Monitor</td>
+                                <td class="value">
+                                    <span t-esc="monitor_count" />
+                                </td>
+
+                                <td class="label">Replacement Review</td>
+                                <td class="value">
+                                    <span t-esc="review_count" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">Replacement Recommended</td>
+                                <td class="value">
+                                    <span t-esc="replace_count" />
+                                </td>
+
+                                <td class="label">Current-Year Fleet Cost</td>
+                                <td class="value">
+                                    <span t-esc="current_year_cost" />
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <!-- Vehicle Information -->
+
+                        <div class="section-title">
+                            Vehicle Information
+                        </div>
+
+                        <table class="table-custom">
+
+                            <tr>
+                                <td class="label">Vehicle Name</td>
+                                <td class="value">
+                                    <span t-field="vehicle.name" />
+                                </td>
+
+                                <td class="label">Driver</td>
+                                <td class="value">
+                                    <span t-field="vehicle.driver_id" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">Model</td>
+                                <td class="value">
+                                    <span t-field="vehicle.model_id" />
+                                </td>
+
+                                <td class="label">Category</td>
+                                <td class="value">
+                                    <span t-field="vehicle.category_id" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">License Plate</td>
+                                <td class="value">
+                                    <span t-field="vehicle.license_plate" />
+                                </td>
+
+                                <td class="label">Acquisition Date</td>
+                                <td class="value">
+                                    <span t-field="vehicle.acquisition_date" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">Vehicle Age</td>
+                                <td class="value"><span t-field="vehicle.vehicle_age" /> Years</td>
+
+                                <td class="label">Current Odometer</td>
+                                <td class="value"><span t-field="vehicle.odometer" /> KM</td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">Max Recommended Age</td>
+                                <td class="value"><span
+                                        t-field="vehicle.category_id.max_recommended_age" /> Years</td>
+
+                                <td class="label">Max Recommended Odometer</td>
+                                <td class="value"><span
+                                        t-field="vehicle.category_id.max_recommended_odometer" /> KM</td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">Lifecycle Status</td>
+
+                                <td colspan="3">
+
+                                    <span t-if="vehicle.lifecycle_status=='healthy'"
+                                        class="status healthy">Healthy</span>
+
+                                    <span t-if="vehicle.lifecycle_status=='monitor'"
+                                        class="status monitor">Monitor</span>
+
+                                    <span t-if="vehicle.lifecycle_status=='review'"
+                                        class="status review">Replacement Review</span>
+
+                                    <span t-if="vehicle.lifecycle_status=='replace'"
+                                        class="status replace">Replacement Recommended</span>
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                        <!-- Lifecycle Analysis -->
+
+                        <div class="section-title">
+                            Lifecycle Analysis
+                        </div>
+
+                        <table class="table-custom">
+
+                            <tr>
+                                <td class="label">Age Usage %</td>
+                                <td class="value"><span t-field="vehicle.age_usage_percentage" />%</td>
+
+                                <td class="label">Odometer Usage %</td>
+                                <td class="value"><span t-field="vehicle.odometer_usage_percentage" />
+                                    %</td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">Budget Usage %</td>
+                                <td class="value"><span t-field="vehicle.budget_usage_percentage" />
+                                    %</td>
+
+                                <td class="label">Major Repair Count</td>
+                                <td class="value">
+                                    <span t-field="vehicle.major_repair_count" />
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <!-- Cost Analysis -->
+                        <t t-if="vehicle.previous_year_service_cost != 0">
+
+                            <div class="section-title">
+                                Cost Analysis
+                            </div>
+
+                            <table class="table-custom">
+
+                                <tr>
+                                    <td class="label">Lifetime Service Cost</td>
+                                    <td class="value">
+                                        <span t-field="vehicle.lifetime_service_cost" />
+                                    </td>
+
+                                    <td class="label">Current Year Cost</td>
+                                    <td class="value">
+                                        <span t-field="vehicle.current_year_service_cost" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label">Previous Year Cost</td>
+                                    <td class="value">
+                                        <span t-field="vehicle.previous_year_service_cost" />
+                                    </td>
+
+                                    <td class="label">Cost Per KM</td>
+                                    <td class="value">
+                                        <span t-field="vehicle.maintenance_cost_per_km" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label">Maintenance Change %</td>
+                                    <td class="value"><span
+                                            t-field="vehicle.maintenance_cost_change_percentage" />%</td>
+
+                                    <td class="label">Average Annual Cost</td>
+                                    <td class="value">
+                                        <span t-field="vehicle.average_annual_maintenance_cost" />
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </t>
+
+                        <!-- Replacement Reason -->
+
+                        <div class="section-title">
+                            Replacement Reason
+                        </div>
+
+                        <div class="reason-box">
+                            <span t-field="vehicle.replacement_reason" />
+                        </div>
+
+                        <!-- Footer -->
+
+                        <div class="footer-note">
+                            This report is system-generated by the Odoo Fleet Vehicle Lifecycle
+                            Management System.
+                        </div>
+
+                    </div>
+
+                </t>
+
+            </t>
+
+        </t>
+
+    </template>
+
+    <!-- Print Action -->
+
+    <record id="action_vehicle_lifecycle_report" model="ir.actions.report">
+
+        <field name="name">Fleet Lifecycle Analysis Report</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">fleet_vehicle_lifecycle.vehicle_lifecycle_report_template</field>
+        <field name="report_file">fleet_vehicle_lifecycle.vehicle_lifecycle_report_template</field>
+        <field name="binding_model_id" ref="fleet.model_fleet_vehicle" />
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Vehicle Lifecycle - %s' % (object.license_plate or
+            object.name)</field>
+
+    </record>
+
+</odoo>

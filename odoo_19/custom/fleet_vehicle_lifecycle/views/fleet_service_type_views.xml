@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="fleet_service_type_tree_inherit_lifecycle" model="ir.ui.view">
+        <field name="name">fleet.service.type.tree.lifecycle</field>
+        <field name="model">fleet.service.type</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_service_types_view_tree"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="cost_classification"/>
+                <field name="consider_for_replacement"/>
+            </xpath>
+        </field>
+
+    </record>
+
+</odoo>

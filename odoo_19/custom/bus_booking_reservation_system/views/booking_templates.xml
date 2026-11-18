@@ -1,0 +1,213 @@
+<odoo>
+
+    <!-- Bus Booking Page -->
+    <template id="bus_booking_page" name="Bus Booking Reservation">
+
+        <t t-call="website.layout">
+
+            <div class="container mt-5 mb-5">
+
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-8">
+
+                        <div class="card shadow">
+
+                            <div class="card-header bg-primary text-white">
+                                <h2 class="text-center mb-0">
+                                    Bus Booking Reservation
+                                </h2>
+                            </div>
+
+                            <div class="card-body">
+
+                                <form action="/bus/booking/submit" method="post">
+
+                                    <input type="hidden"
+                                           name="csrf_token"
+                                           t-att-value="request.csrf_token()"/>
+
+                                    <h4>Customer Details</h4>
+
+                                    <div class="mb-3">
+                                        <label>Passenger Name</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               name="passenger_name"
+                                               required="required"/>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>Phone Number</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               name="phone_number"
+                                               required="required"/>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>Email</label>
+                                        <input type="email"
+                                               class="form-control"
+                                               name="email"
+                                               required="required"/>
+                                    </div>
+
+                                    <hr/>
+
+                                    <h4>Route Details</h4>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <label>From Place</label>
+                                            <select name="from_place_id"
+                                                    class="form-control">
+
+                                                <t t-foreach="places" t-as="place">
+                                                    <option t-att-value="place.id">
+                                                        <t t-esc="place.place_name"/>
+                                                    </option>
+                                                </t>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label>To Place</label>
+                                            <select name="to_place_id"
+                                                    class="form-control">
+
+                                                <t t-foreach="places" t-as="place">
+                                                    <option t-att-value="place.id">
+                                                        <t t-esc="place.place_name"/>
+                                                    </option>
+                                                </t>
+
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <hr/>
+
+                                    <h4>Passenger Count</h4>
+
+                                    <div class="row">
+
+                                        <div class="col-md-3">
+                                            <label>Male Adults</label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   name="adults_male"
+                                                   value="0"/>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Female Adults</label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   name="adults_female"
+                                                   value="0"/>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Male Children</label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   name="children_male"
+                                                   value="0"/>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Female Children</label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   name="children_female"
+                                                   value="0"/>
+                                        </div>
+
+                                    </div>
+
+                                    <hr/>
+
+                                    <h4>Travel Details</h4>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <label>Departure Date &amp; Time</label>
+                                            <input type="datetime-local"
+                                                   class="form-control"
+                                                   name="departure_date_time"/>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label>Arrival Date &amp; Time</label>
+                                            <input type="datetime-local"
+                                                   class="form-control"
+                                                   name="arrival_date_time"/>
+                                        </div>
+
+                                    </div>
+
+                                    <br/>
+
+                                    <div class="mb-3">
+                                        <label>Pickup Address</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               name="pickup_address"/>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>Destination Address</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               name="destination_address"/>
+                                    </div>
+
+                                    <hr/>
+
+                                    <h4>Class Of Service</h4>
+
+                                    <select class="form-control"
+                                            name="classof_service_id">
+
+                                        <t t-foreach="services" t-as="service">
+
+                                            <option t-att-value="service.id">
+
+                                                <t t-esc="service.service_name"/>
+                                                -
+                                                ₹<t t-esc="service.price_of_service"/>
+
+                                            </option>
+
+                                        </t>
+
+                                    </select>
+
+                                    <br/>
+
+                                    <button class="btn btn-success btn-lg w-100">
+                                        Book Now
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </t>
+
+    </template>
+
+</odoo>

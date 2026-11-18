@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="action_production_information_xlsx" model="ir.actions.report">
+        <field name="name">Production Information XLSX</field>
+        <field name="model">production.information</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">pottery_prod.production_information_xlsx</field>
+        <field name="report_file">pottery_prod.production_information_xlsx</field>
+        <field name="binding_model_id" ref="model_production_information"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

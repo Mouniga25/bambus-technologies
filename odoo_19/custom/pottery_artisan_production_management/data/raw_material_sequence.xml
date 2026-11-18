@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="seq_raw_material" model="ir.sequence">
+        <field name="name">Raw Material</field>
+        <field name="code">raw.material</field>
+        <field name="prefix">RAW/</field>
+        <field name="padding">4</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- List View -->
+    <record id="view_village_artisan_list" model="ir.ui.view">
+        <field name="name">village.artisan.list</field>
+        <field name="model">village.artisan</field>
+        <field name="arch" type="xml">
+
+            <list>
+                <field name="artisan_code" />
+                <field name="partner_id" />
+                <field name="phone" />
+                <field name="skill" />
+                <field name="experience" />
+                <field name="artisan_type" />
+                <field name="labour_rate" />
+                <field name="active" />
+                
+                
+            </list>
+
+        </field>
+    </record>
+
+
+    <!-- Form View -->
+    <record id="view_village_artisan_form" model="ir.ui.view">
+        <field name="name">village.artisan.form</field>
+        <field name="model">village.artisan</field>
+        <field name="arch" type="xml">
+
+            <form>
+
+                <!-- Artisan Code -->
+                <div class="oe_title">
+                    <h1>
+                        <field name="artisan_code" readonly="1" />
+                    </h1>
+                </div>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                        <button
+                            name="action_view_productions"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-industry">
+
+                            <field
+                                name="production_count"
+                                widget="statinfo"
+                                string="Productions" />
+                        </button>
+                        <button
+                            name="action_view_settlements"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-money">
+                            <field
+                                name="settlement_count"
+                                widget="statinfo"
+                                string="Settlements" />
+
+                        </button>
+
+                    </div>
+
+                    <!-- Artisan Information -->
+                    <group>
+
+                        <!-- Contact Details -->
+                        <group>
+                            <field name="partner_id" />
+                            <field name="phone" readonly="1" />
+                            <field name="email" readonly="1" />
+                        </group>
+
+                        <!-- Artisan Details -->
+                        <group>
+                            <field name="skill" />
+                            <field name="experience" />
+                            <field name="artisan_type" />
+                            <field name="labour_rate" />
+                            <field name="active" />
+                        </group>
+
+                    </group>
+
+                    <!-- Address -->
+                    <group>
+                        <field name="address" readonly="1" />
+                    </group>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+    <record id="view_village_artisan_search" model="ir.ui.view">
+
+        <field name="name">village.artisan.search</field>
+
+        <field name="model">village.artisan</field>
+
+        <field name="arch" type="xml">
+
+            <search>
+
+                <field name="partner_id" />
+                <field name="artisan_code" />
+                <field name="skill" />
+                <field name="artisan_type" />
+                <field name="active" />
+
+
+                <filter
+                    name="filter_name"
+                    string="Name"
+                    domain="[]"
+                    context="{'group_by': 'partner_id'}" />
+
+                <filter
+                    name="filter_experience"
+                    string="Experience"
+                    domain="[]"
+                    context="{'group_by': 'experience'}" />
+
+                <filter
+                    name="filter_artisan_code"
+                    string="Artisan Code"
+                    domain="[]"
+                    context="{'group_by': 'artisan_code'}" />
+            </search>
+        </field>
+
+    </record>
+
+
+    <!-- Action -->
+    <record id="action_village_artisan" model="ir.actions.act_window">
+        <field name="name">Artisans</field>
+        <field name="res_model">village.artisan</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_village_artisan_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create an Artisan Information
+            </p>
+        </field>
+    </record>
+
+
+    <!-- Main Menu -->
+    <menuitem
+        id="menu_village_pottery_root"
+        name="Pottery" />
+
+
+    <!-- Artisan Menu -->
+    <menuitem
+        id="menu_village_artisan"
+        name="Artisans"
+        parent="menu_village_pottery_root"
+        action="action_village_artisan" />
+
+</odoo>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <!-- =========================================================
+         APPOINTMENT COMPLETED
+         Hospital → Patient
+    ========================================================== -->
+
+    <record id="mail_template_appointment_completed" model="mail.template">
+        <field name="name">Appointment Completed</field>
+        <field name="model_id" ref="model_hospital_patient_visit"/>
+        <field name="subject">Hospital Visit Completed - Patient ID: ${object.patient_id.patient_number}</field>
+        <field name="email_from">mouniga.k2512@gmail.com</field>
+        <field name="email_to">${object.patient_id.email}</field>
+        <field name="reply_to">mouniga.k2512@gmail.com</field>
+        <field name="body_html" type="html">
+
+            <div>
+
+                <h3>Visit Completed</h3>
+
+                <p>
+                    Dear <t t-out="object.patient_id.name"/>,
+                </p>
+
+                <p>
+                    Your consultation has been completed successfully.
+                </p>
+
+                <p>
+                    <strong>Visit Number:</strong>
+                    <t t-out="object.visit_number"/>
+                </p>
+
+                <p>
+                    <strong>Doctor:</strong>
+                    <t t-out="object.doctor_id.doctor_name"/>
+                </p>
+
+                <p>
+                    <strong>Visit Date:</strong>
+                    <t t-out="object.visit_date"/>
+                </p>
+
+                <p>
+                    Thank you for visiting our hospital.
+                </p>
+
+            </div>
+
+        </field>
+
+    </record>
+
+
+    <!-- =========================================================
+         APPOINTMENT CONFIRMED
+         Hospital → Patient
+    ========================================================== -->
+
+    <record id="mail_template_appointment_confirmed" model="mail.template">
+        <field name="name">Appointment Confirmed</field>
+        <field name="model_id" ref="model_hospital_patient_visit"/>
+        <field name="subject">Hospital Appointment Confirmed - Visit: ${object.visit_number}</field>
+        <field name="email_from">mouniga.k2512@gmail.com</field>
+        <field name="email_to">${object.patient_id.email}</field>
+        <field name="reply_to">mouniga.k2512@gmail.com</field>
+        <field name="body_html" type="html">
+
+            <div>
+
+                <h3>Appointment Confirmed</h3>
+
+                <p>
+                    Dear <t t-out="object.patient_id.name"/>,
+                </p>
+
+                <p>
+                    Your hospital appointment has been confirmed.
+                </p>
+
+                <p>
+                    <strong>Visit Number:</strong>
+                    <t t-out="object.visit_number"/>
+                </p>
+
+                <p>
+                    <strong>Doctor:</strong>
+                    <t t-out="object.doctor_id.doctor_name"/>
+                </p>
+
+                <p>
+                    <strong>Visit Date:</strong>
+                    <t t-out="object.visit_date"/>
+                </p>
+
+                <p>
+                    Thank you for choosing our hospital.
+                </p>
+
+            </div>
+
+        </field>
+
+    </record>
+
+
+    <!-- =========================================================
+         APPOINTMENT REJECTED
+         Hospital → Patient
+    ========================================================== -->
+
+    <record id="mail_template_appointment_rejected" model="mail.template">
+        <field name="name">Appointment Rejected</field>
+        <field name="model_id" ref="model_hospital_patient_visit"/>
+        <field name="subject">Hospital Appointment Rejected - Visit: ${object.visit_number}</field>
+        <field name="email_from">mouniga.k2512@gmail.com</field>
+        <field name="email_to">${object.patient_id.email}</field>
+        <field name="reply_to">mouniga.k2512@gmail.com</field>
+        <field name="body_html" type="html">
+
+            <div>
+
+                <h3>Appointment Rejected</h3>
+
+                <p>
+                    Dear <t t-out="object.patient_id.name"/>,
+                </p>
+
+                <p>
+                    We are sorry to inform you that your hospital
+                    appointment has been rejected.
+                </p>
+
+                <p>
+                    <strong>Visit Number:</strong>
+                    <t t-out="object.visit_number"/>
+                </p>
+
+                <p>
+                    <strong>Doctor:</strong>
+                    <t t-out="object.doctor_id.doctor_name"/>
+                </p>
+
+                <p>
+                    <strong>Visit Date:</strong>
+                    <t t-out="object.visit_date"/>
+                </p>
+
+                <p>
+                    Please contact the hospital for further assistance.
+                </p>
+
+            </div>
+
+        </field>
+
+    </record>
+
+
+    <!-- =========================================================
+         NEW APPOINTMENT REQUEST
+         Patient → Hospital
+    ========================================================== -->
+
+    <record id="mail_template_appointment_request" model="mail.template">
+
+        <field name="name">New Appointment Request</field>
+        <field name="model_id" ref="model_hospital_patient_visit"/>
+        <field name="subject">New Hospital Appointment Request - Visit: ${object.visit_number}</field>
+        <!-- Patient → Hospital -->
+        <field name="email_from">${object.patient_id.email}</field>
+        <field name="email_to">mouniga.k2512@gmail.com</field>
+        <field name="reply_to">${object.patient_id.email}</field>
+
+        <field name="body_html" type="html">
+
+            <div>
+
+                <h3>New Appointment Request</h3>
+
+                <p>
+                    A new appointment request has been received.
+                </p>
+
+                <hr/>
+
+                <p>
+                    <strong>Visit Number:</strong>
+                    <t t-out="object.visit_number"/>
+                </p>
+
+                <p>
+                    <strong>Patient:</strong>
+                    <t t-out="object.patient_id.name"/>
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    <t t-out="object.patient_id.email"/>
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    <t t-out="object.patient_id.phone"/>
+                </p>
+
+                <p>
+                    <strong>Doctor:</strong>
+                    <t t-out="object.doctor_id.doctor_name"/>
+                </p>
+
+                <p>
+                    <strong>Department:</strong>
+                    <t t-out="object.department_id.department_name"/>
+                </p>
+
+                <p>
+                    <strong>Appointment Date:</strong>
+                    <t t-out="object.visit_date"/>
+                </p>
+
+                <p>
+                    <strong>Symptoms:</strong>
+                    <t t-out="object.symptoms"/>
+                </p>
+
+                <hr/>
+
+                <p>
+                    Please review this appointment request.
+                </p>
+
+            </div>
+
+        </field>
+
+    </record>
+
+</odoo>

@@ -1,0 +1,525 @@
+from collections import defaultdict
+from datetime import timedelta
+import pytz
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+from odoo.tools import float_compare
+
+FROZEN_FIELDS = {"vdi_original_promise", "vdi_original_qty", "vdi_original_uom_id"}
+
+
+class PurchaseOrderLine(models.Model):
+    _inherit = "purchase.order.line"
+
+    vdi_original_promise = fields.Datetime(string="Original Promise", readonly=True, copy=False, index=True)
+    
+    
+    vdi_original_qty = fields.Float(string="Original Qty",readonly=True,copy=False,digits="Product Unit",)
+    vdi_original_uom_id = fields.Many2one("uom.uom", string="Original UoM", readonly=True, copy=False)
+    vdi_is_critical_supply = fields.Boolean(string="Critical Supply")
+    vdi_data_issue = fields.Text(string="Data Issue", copy=False)
+    vdi_eta_shift_days = fields.Integer(string="ETA Shift (days)", compute="_compute_vdi_eta_shift_days")
+    vdi_net_received_qty = fields.Float(string="Net Received", copy=False, digits="Product Unit")
+    vdi_on_time_net_qty = fields.Float(string="On-time Net Qty", copy=False, digits="Product Unit")
+    vdi_on_time_pct = fields.Float(string="On-time %", copy=False)
+    vdi_fill_pct = fields.Float(string="Fill %", copy=False)
+    vdi_mean_delay_days = fields.Float(string="Mean Delay (days)", copy=False)
+    vdi_sample_eligible = fields.Boolean(string="Eligible Sample", copy=False)
+    vdi_line_risk_level = fields.Selection(
+        [
+            ("not_applicable", "Not Applicable"),
+            ("data_gap", "Data Gap"),
+            ("complete", "Complete"),
+            ("critical", "Critical"),
+            ("at_risk", "At Risk"),
+            ("due_soon", "Due Soon"),
+            ("on_track", "On Track"),
+        ],string="Line Risk Level",copy=False,)
+    vdi_recommendation = fields.Text(string="Recommendation",compute="_compute_vdi_recommendation",)
+    vdi_eta_extended = fields.Boolean(string="ETA Extended",compute="_compute_vdi_eta_extended",store=True,)
+    
+    @api.depends("date_planned", "vdi_original_promise")
+    def _compute_vdi_eta_shift_days(self):
+        for line in self:
+            if line.date_planned and line.vdi_original_promise:
+                delta = line.date_planned.date() - line.vdi_original_promise.date()
+                line.vdi_eta_shift_days = delta.days
+            else:
+                line.vdi_eta_shift_days = 0
+    @api.depends("date_planned", "vdi_original_promise")
+    def _compute_vdi_eta_extended(self):
+        for line in self:
+            if line.date_planned and line.vdi_original_promise:
+                line.vdi_eta_extended = (
+                    line.date_planned.date() > line.vdi_original_promise.date()
+                )
+            else:
+                line.vdi_eta_extended = False
+    
+    def _vdi_capture_baseline(self):
+        """Capture the first valid supplier commitment and never overwrite it."""
+        for line in self:
+            if line.vdi_original_promise:
+                continue
+
+            if not line._vdi_is_eligible():
+                continue
+
+            if not line.date_planned:
+                continue
+
+            line.with_context(vdi_baseline_capture=True).write({
+                "vdi_original_promise": line.date_planned,
+                "vdi_original_qty": line.product_qty,
+                "vdi_original_uom_id": line.product_uom_id.id,
+            })
+
+    
+    def _vdi_is_eligible(self):
+        self.ensure_one()
+        return (
+            not self.display_type
+            and self.product_id
+            and self.product_id.is_storable
+            and self.product_qty > 0
+        )
+
+    def write(self, vals):
+            
+            
+            if FROZEN_FIELDS.intersection(vals) and not self.env.context.get(
+                "vdi_baseline_capture"
+            ):
+                raise UserError(
+                    _("Original supplier commitment fields cannot be modified directly.")
+                )
+    
+            result = super().write(vals)
+            return result
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        lines = super().create(vals_list)
+        lines.filtered(
+            lambda l: l.order_id.state in ("purchase", "done")
+        )._vdi_capture_baseline()
+        return lines
+
+    # ---------- Step 3: receipt evidence ----------
+
+    def _vdi_to_local_date(self, dt):
+        """Naive UTC datetime -> date in the PO company's time zone."""
+        self.ensure_one()
+        tz_name = self.order_id.company_id.partner_id.tz or "UTC"
+        local = pytz.utc.localize(dt).astimezone(pytz.timezone(tz_name))
+        return local.date()
+
+    def _vdi_receipt_evidence(self):
+        """Batch evidence for all lines in self (no per-line queries).
+
+        Returns {line_id: {"tranches": [...], "issues": [...]}}
+        """
+        Move = self.env["stock.move"]
+        evidence = {
+            line.id: {
+                "tranches": [],
+                "issues": [],
+            }
+            for line in self
+        }
+
+        lines_by_id = {
+            line.id: line
+            for line in self
+        }
+
+    # ---------------------------------------------------------
+    # 1. Find completed receipt moves
+    # ---------------------------------------------------------
+        receipts = Move.search([
+            ("purchase_line_id", "in", self.ids),
+            ("state", "=", "done"),
+            ("picking_type_id.code", "=", "incoming"),])
+
+    # ---------------------------------------------------------
+    # 2. Find returns linked to receipt moves
+    # ---------------------------------------------------------
+        returns = Move.search(
+            [
+                ("origin_returned_move_id", "in", receipts.ids),
+                ("state", "=", "done"),
+
+            ]
+        )
+
+    # ---------------------------------------------------------
+    # 3. Find unlinked returns
+    # ---------------------------------------------------------
+        unlinked_returns = Move.search(
+            [
+                ("purchase_line_id", "in", self.ids),
+                ("state", "=", "done"),
+                ("location_dest_id.usage", "=", "supplier"),
+                ("origin_returned_move_id", "=", False),
+            ]
+        )
+
+    # ---------------------------------------------------------
+    # 4. Calculate returned quantity per receipt
+    # ---------------------------------------------------------
+        returned_by_receipt = defaultdict(float)
+
+        for ret in returns:
+            receipt = ret.origin_returned_move_id
+
+            line = lines_by_id.get(receipt.purchase_line_id.id)
+
+            if not line:
+                continue
+
+            returned_qty = ret.product_uom._compute_quantity(
+                ret.quantity,
+                line.product_uom_id,
+                round=False,
+            )
+
+            returned_by_receipt[receipt.id] += returned_qty
+
+    # ---------------------------------------------------------
+    # 5. Build receipt tranches
+    # ---------------------------------------------------------
+        for move in receipts:
+            line = lines_by_id.get(move.purchase_line_id.id)
+
+            if not line:
+                continue
+
+            data = evidence[line.id]
+
+            done_date = move.picking_id.date_done
+
+            if not done_date:
+                data["issues"].append(
+                    f"Receipt move {move.id} has no completion date."
+                )
+                continue
+
+            received = move.product_uom._compute_quantity(
+                move.quantity,
+                line.product_uom_id,
+                round=False,
+            )
+
+            returned = returned_by_receipt.get(
+                move.id,
+                0.0,
+            )
+
+            net = max(
+                0.0,
+                received - returned,
+            )
+
+            data["tranches"].append(
+                {
+                    "move": move,
+                    "date": line._vdi_to_local_date(done_date),
+                    "received": received,
+                    "returned": returned,
+                    "net": net,
+                }
+            )
+
+    # ---------------------------------------------------------
+    # 6. Add issues for unlinked returns
+    # ---------------------------------------------------------
+        for move in unlinked_returns:
+            line = lines_by_id.get(
+                move.purchase_line_id.id
+            )
+
+            if line:
+                evidence[line.id]["issues"].append(
+                    f"Return move {move.id} is not linked to a receipt."
+                )
+
+        return evidence
+        # ---------- Step 4: per-line metrics ----------
+
+    def _vdi_refresh_metrics(self):
+        """Compute and store metrics. Idempotent; safe to rerun."""
+        evidence = self._vdi_receipt_evidence()
+
+        for line in self:
+            ev = evidence[line.id]
+            vals = line._vdi_compute_metrics(ev)
+            line.write(vals)
+            line.vdi_line_risk_level = line._vdi_compute_risk_level()
+
+        self._vdi_finalize_sample_eligibility()
+
+    def _vdi_compute_metrics(self, ev):
+        self.ensure_one()
+        zero = {
+            "vdi_net_received_qty": 0.0,
+            "vdi_on_time_net_qty": 0.0,
+            "vdi_on_time_pct": 0.0,
+            "vdi_fill_pct": 0.0,
+            "vdi_mean_delay_days": 0.0,
+            "vdi_sample_eligible": False,
+        }
+        rounding = (self.vdi_original_uom_id or self.product_uom_id).rounding
+
+        # Data gap checks (exclude, with reason)
+        issues = list(ev["issues"])
+        if not self.vdi_original_promise:
+            issues.append("No original promise captured (pre-install or ineligible).")
+        elif float_compare(self.vdi_original_qty, 0.0, precision_rounding=rounding) <= 0:
+            issues.append("Original quantity is zero or negative.")
+        if issues:
+            return dict(zero, vdi_data_issue="\n".join(issues))
+
+        qty = self.vdi_original_qty
+        grace = self.order_id.company_id.vdi_grace_days
+        deadline = self._vdi_to_local_date(self.vdi_original_promise) + timedelta(days=grace)
+
+        net_total = 0.0
+        on_time = 0.0
+        weighted_late = 0.0
+        for t in ev["tranches"]:
+            net_total += t["net"]
+            if t["date"] <= deadline:
+                on_time += t["net"]
+            late_days = max(0, (t["date"] - deadline).days)
+            weighted_late += late_days * t["net"]
+
+        mean_delay = weighted_late / net_total if net_total > 0 else 0.0
+        return {
+            "vdi_net_received_qty": net_total,
+            "vdi_on_time_net_qty": on_time,
+            "vdi_on_time_pct": (100.0 * min(1.0, on_time / qty) if qty > 0 else 0.0),
+            "vdi_fill_pct": 100.0 * min(1.0, net_total / qty),
+            "vdi_mean_delay_days": mean_delay,
+            "vdi_sample_eligible": False,  # decided in Step 5
+            "vdi_data_issue": False,
+        }
+    def _vdi_is_operationally_final(self):
+        """Return True only when the PO line is operationally final."""
+        self.ensure_one()
+
+        # Case 1:
+        # Original promised quantity has been fully fulfilled.
+        original_uom = self.vdi_original_uom_id or self.product_uom_id
+        if float_compare(
+            self.vdi_net_received_qty,
+            self.vdi_original_qty,
+            precision_rounding=original_uom.rounding,
+        ) >= 0:
+            return True
+
+        # Case 2:
+        # Original quantity is not fully fulfilled.
+        # Then every incoming move must be done or cancelled,
+        # and the Purchase Order must be explicitly closed.
+        incoming_moves = self.move_ids.filtered(
+            lambda move: (
+                move.picking_type_id.code == "incoming"
+                and move.purchase_line_id == self
+            )
+        )
+
+        if not incoming_moves:
+            return False
+
+        all_moves_final = all(
+            move.state in ("done", "cancel")
+            for move in incoming_moves
+        )
+
+        po_closed = self.order_id.state == "done"
+
+        return all_moves_final and po_closed
+
+    def _vdi_finalize_sample_eligibility(self):
+        """Mark lines that are eligible for historical supplier scoring."""
+        today = fields.Date.context_today(self)
+
+        for line in self:
+            line.vdi_sample_eligible = False
+
+            # Basic eligibility
+            if not line._vdi_is_eligible():
+                continue
+
+            # Must have a frozen baseline
+            if not line.vdi_original_promise or line.vdi_original_qty <= 0:
+                continue
+
+            # Historical window is company-specific
+            history_days = line.order_id.company_id.vdi_history_days
+            history_start = today - timedelta(days=history_days)
+
+            promise_date = line._vdi_to_local_date(
+                line.vdi_original_promise
+            )
+
+            # Promise must be inside the inclusive history window
+            if promise_date < history_start or promise_date > today:
+                continue
+
+            # Only operationally final orders belong to history.
+            if not line._vdi_is_operationally_final():
+                continue
+
+            # Data issues cannot be scored.
+            if line.vdi_data_issue:
+                continue
+
+            # Must have a supplier-linked incoming stock move.
+            incoming_moves = line.move_ids.filtered(
+                lambda move: (
+                    move.state == "done"
+                    and move.picking_id
+                    and move.picking_id.picking_type_id.code == "incoming"
+                    and move.purchase_line_id == line
+                )
+            )
+
+            if not incoming_moves:
+                continue
+
+            # A final line must have accepted quantity.
+            if line.vdi_net_received_qty <= 0:
+                continue
+
+            line.vdi_sample_eligible = True
+    def _vdi_compute_risk_level(self):
+        self.ensure_one()
+
+        # 1. Not Applicable
+        if not self._vdi_is_eligible():
+            return "not_applicable"
+
+        # 2. Data Gap
+        if self.vdi_data_issue:
+            return "data_gap"
+
+        # Required baseline must exist
+        if not self.vdi_original_promise or self.vdi_original_qty <= 0:
+            return "data_gap"
+
+        # Open quantity
+        rounding = (self.vdi_original_uom_id or self.product_uom_id).rounding
+        open_qty = max(
+            0.0,
+            self.vdi_original_qty - self.vdi_net_received_qty,
+        )
+
+        # 3. Complete
+        if float_compare(
+            open_qty,
+            0.0,
+            precision_rounding=rounding,
+        ) <= 0:
+            return "complete"
+
+        # Effective deadline = original promise + grace days
+        grace_days = self.order_id.company_id.vdi_grace_days
+        deadline = (
+            self._vdi_to_local_date(self.vdi_original_promise)
+            + timedelta(days=grace_days)
+        )
+
+        # Current date in company's timezone
+        now_utc = fields.Datetime.now()
+        tz_name = self.order_id.company_id.partner_id.tz or "UTC"
+        company_tz = pytz.timezone(tz_name)
+        today = pytz.utc.localize(now_utc).astimezone(company_tz).date()
+
+        # 4. Critical
+        # Open qty > 0 and today is after original promise + grace
+        if today > deadline:
+            return "critical"
+
+        # Supplier High Risk
+        vendor = self.order_id.partner_id
+        vendor_grade = getattr(vendor, "vdi_vendor_grade", False)
+        supplier_high_risk = vendor_grade == "high_risk"
+
+        # Revised ETA moved beyond grace-adjusted baseline
+        revised_eta_exceeds_deadline = (self.date_planned and self._vdi_to_local_date(self.date_planned) > deadline)
+
+        # Days remaining until effective deadline
+        days_until_deadline = (deadline - today).days
+
+        due_soon = (
+            0 <= days_until_deadline
+            <= self.order_id.company_id.vdi_due_soon_days
+        )
+
+        # 5. At Risk
+        # High-risk supplier OR revised ETA exceeds baseline+grace
+        # OR critical-supply line is within Due Soon window
+        if (
+            supplier_high_risk
+            or revised_eta_exceeds_deadline
+            or (self.vdi_is_critical_supply and due_soon)
+        ):
+            return "at_risk"
+
+        # 6. Due Soon
+        if due_soon:
+            return "due_soon"
+        # 7. On Track
+        return "on_track"
+
+    @api.depends(
+    "vdi_line_risk_level",
+    "vdi_is_critical_supply",
+    "vdi_eta_shift_days",
+    "vdi_data_issue",
+)
+    def _compute_vdi_recommendation(self):
+        for line in self:
+            risk = line.vdi_line_risk_level
+
+            if risk == "critical":
+                line.vdi_recommendation = (
+                    "Contact supplier, agree a recovery date, "
+                    "and request a partial shipment if possible.")
+
+            elif risk == "at_risk":
+                recommendations = []
+
+                if line.vdi_eta_shift_days > 0:
+                    recommendations.append(
+                        "Investigate the ETA shift and negotiate recovery or partial delivery."
+                    )
+
+                if line.vdi_is_critical_supply:
+                    recommendations.append(
+                        "Escalate internally because this is a critical supply."
+                    )
+
+                if not recommendations:
+                    recommendations.append(
+                        "Confirm the delivery date with the supplier and review backup options."
+                    )
+
+                line.vdi_recommendation = " ".join(recommendations)
+
+            elif risk == "due_soon":
+                line.vdi_recommendation = (
+                    "Confirm the delivery status with the supplier."
+                )
+
+            elif risk in ("on_track", "complete"):
+                line.vdi_recommendation = False
+
+            elif risk == "data_gap":
+                line.vdi_recommendation = (
+                    "Review the delivery intelligence data and resolve the data issue."
+                )
+
+            else:
+                line.vdi_recommendation = False

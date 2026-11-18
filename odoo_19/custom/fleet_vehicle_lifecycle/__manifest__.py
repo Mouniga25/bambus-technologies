@@ -1,0 +1,25 @@
+{
+    'name': 'Fleet Vehicle Lifecycle',
+    'version': '1.0',
+    'summary': """Fleet Lifecycle, Cost and Replacement Intelligence""",
+    'description': """Fleet Lifecycle, Cost and Replacement Intelligence of the module""",
+    'category': 'Fleet',
+    'author': 'Mouniga',
+    'depends':["fleet", "mail"],
+    'data':[
+        'views/menu.xml',
+        "views/fleet_vehicle_category_views.xml",
+        "views/fleet_service_type_views.xml",
+        "views/fleet_vehicle_views.xml",
+        "views/fleet_vehicle_dashboard_views.xml",
+        "views/fleet_vehicle_log_services_views.xml",
+    
+        'data/fleet_vehicle_cron.xml',
+        'report/fleet_vehicle_report.xml',
+        'report/fleet_vehicle_report_template.xml',
+    ],
+    'license': 'AGPL-3',
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+}

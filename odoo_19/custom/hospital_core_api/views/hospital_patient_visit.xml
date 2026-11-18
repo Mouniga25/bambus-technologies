@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- form -->
+    <record id="view_hospital_patient_visit_form" model="ir.ui.view">
+      <field name="name">hospital.patient.visit.form</field>
+      <field name="model">hospital.patient.visit</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <button name="action_draft" invisible="state =='draft'" string="Draft" type="object" />
+            <button name="action_waiting" invisible="state in ['draft','waiting']"
+              string="Waiting" type="object" />
+            <button name="action_consultation"
+              invisible="state in ['consultation','waiting','lab_requested','completed']"
+              string="Consultation"
+              type="object" />
+            <button name="action_lab_requested"
+              invisible="state in ['waiting','consultation','lab_requested','completed']"
+              string="Lab Requested"
+              type="object" />
+            <button name="action_completed"
+              invisible="state in ['consultation','lab_requested','cancelled']" string="Completed"
+              type="object" />
+            <button name="action_cancelled" invisible="state == 'completed'" string="Cancelled"
+              type="object" />
+
+            <field name="state" widget="statusbar" />
+
+          </header>
+          <div class="oe_title">
+            <h1>
+              <field name="visit_number" readonly='1' />
+            </h1>
+
+          </div>
+          <sheet>
+            <div class="title" />
+            <group>
+              <group>
+                <field name="patient_id" />
+                <field name="doctor_id" />
+              </group>
+              <group>
+                <field name="departments_id" />
+                <field name="visit_date" />
+                <field name="reminder_sent" />
+
+                <field name="next_followup_date" />
+                <button
+                  name="action_open_followup_wizard"
+                  type="object"
+                  string="Schedule Follow-up"
+                  class="btn-primary" />
+              </group>
+              <notebook>
+                <page string="Symptoms">
+                  <field name="symptoms" />
+                </page>
+                <page string="Diagnosis">
+                  <field name="diagnosis_id"
+                     />
+
+                </page>
+                <page string="Notes">
+                  <field name="notes" />
+                </page>
+              </notebook>
+            </group>
+          </sheet>
+          <chatter/>
+        </form>
+      </field>
+    </record>
+
+    <!-- list -->
+    <record id="view_hospital_patient_visit_list" model="ir.ui.view">
+      <field name="name">hospital.patient.visit.list</field>
+      <field name="model">hospital.patient.visit</field>
+      <field name="arch" type="xml">
+        <list decoration-success="state == 'completed'"
+          decoration-danger="state == 'cancelled'">
+
+          <field name="patient_id" />
+          <field name="doctor_id" />
+          <field name="departments_id" />
+          <field name="visit_date" />
+          <field name="symptoms" />
+          <field name="diagnosis_id" />
+          <field name="notes" />
+        </list>
+      </field>
+    </record>
+    <!-- search -->
+    <record id="view_hospital_patient_visit_search" model="ir.ui.view">
+      <field name="name">hospital.patient.visit.search</field>
+      <field name="model">hospital.patient.visit</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="visit_number" />
+          <field name="patient_id" />
+          <field name="doctor_id" />
+          <field name="department_id" />
+          <field name="diagnosis_id" />
+          <filter
+            name="today_visit"
+            string="Today Visits"
+            domain="[('visit_date', '&gt;=', context_today()), ('visit_date', '&lt;', context_today() + relativedelta(days=1))]"
+          />
+
+
+          <filter name="filter_by_completed" string="Completed"
+            domain="[('state', '=', 'completed')]" />
+
+
+          <filter name="doctor" string="Doctor"
+            context="{'group_by':'doctor_id'}" />
+          <filter name="department" string="Department"
+            context="{'group_by':'department_id'}" />
+          <filter name="state" string="State"
+            context="{'group_by':'state'}" />
+          <filter name="visit" string="Visit Date"
+            context="{'group_by':'visit_date'}" />
+        </search>
+
+      </field>
+    </record>
+
+
+    <record id="view_hospital_patient_visit_calendar" model="ir.ui.view">
+      <field name="name">hospital.patient.visit.calendar</field>
+      <field name="model">hospital.patient.visit</field>
+      <field name="arch" type="xml">
+        <calendar
+          string="Patient Visits"
+          date_start="visit_date"
+          color="doctor_id">
+
+          <field name="patient_id" />
+          <field name="doctor_id" />
+          <field name="departments_id" />
+          <field name="notes" />
+          <field name="visit_number" />
+
+        </calendar>
+      </field>
+    </record>
+
+
+    <record id="action_hospital_patient_visit" model="ir.actions.act_window">
+      <field name="name">Hospital Patient Visit</field>
+      <field name="res_model">hospital.patient.visit</field>
+      <field name="view_mode">list,calendar,form</field>
+      <field name="context">
+        {'search_default_today_visit': 1}</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Create a Hospital Patient Visit
+        </p>
+
+      </field>
+    </record>
+    <menuitem id="hospital_information"
+          name="Hospital Information"
+            sequence="10"
+            web_icon="hospital_core_api,static/description/icon.png"/>
+          <!-- groups="hospital_core_api.group_manager,hospital_core_api.group_doctor,hospital_core_api.group_receptionist"/> -->
+
+    <menuitem id="hospital_patient_visit"
+          name="Patient Visit"
+          parent="hospital_information"
+          action="action_hospital_patient_visit"/>
+          <!-- groups="hospital_core_api.group_manager,hospital_core_api.group_doctor,hospital_core_api.group_receptionist"/> -->
+  </data>
+</odoo>
+
+<!-- groups="hospital_core_api.group_manager"
+
+
+groups="hospital_core_api.group_manager,
+              hospital_core_api.group_doctor,
+              hospital_core_api.group_receptionist"  -->

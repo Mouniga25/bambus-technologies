@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_booking_list" model="ir.ui.view">
+            <field name="name">booking.info.list</field>
+            <field name="model">booking.info</field>
+            <field name="arch" type="xml">
+
+                <list decoration-success="state =='booked'"
+                    decoration-danger="state == 'cancel'">
+
+
+                    <field name="name" />
+                    <field name="passenger_name" />
+                    <field name="phone_number" />
+                    <field name="email" />
+                    <field name="total_passenger" />
+                    <field name="from_place_id" />
+                    <field name="to_place_id" />
+                    <field name="departure" />
+                    <field name="total_passenger" />
+                    <field name="class_of_service_id" />
+                    <field name="state" />
+
+
+                </list>
+
+            </field>
+        </record>
+
+
+        <record id="view_booking_form" model="ir.ui.view">
+            <field name="name">booking.info.form</field>
+            <field name="model">booking.info</field>
+            <field name="arch" type="xml">
+                <form string="Booking Reservation"
+                    readonly="state=='booked'">
+                    <header>
+                        <field name="state" widget="statusbar" />
+                        <button name="action_draft"
+                            string="set to Draft"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state in ['draft','booked']" />
+                        <button name="action_confirm"
+                            string="Confirm"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state in ['booked','cancel']"
+                        />
+                        <button name="action_cancel"
+                            string="Cancel"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state =='cancel'"
+                        />
+
+                        <button name="action_download_pdf"
+                            string="Download PDF"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state !='booked'" />
+                        <button name="%(bus_booking_reservation_system_r.action_booking_xlsx)d"
+                            string="Download XLSX"
+                            type="action"
+                            class="btn-primary" />
+
+                    </header>
+
+
+                    <sheet>
+
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1" />
+
+                            </h1>
+
+                        </div>
+                        <div style="text-align:right;">
+                            <field name="today" readonly="1" />
+                        </div>
+
+                        <group col="2">
+
+
+                            <!-- Left Side -->
+                            <group>
+
+
+                                <separator string="Customer Details" />
+
+                                <field name="passenger_name" />
+                                <field name="phone_number" />
+                                <field name="email" />
+
+                                <separator string="Adult" />
+
+                                <field name="adult_male_count" />
+                                <field name="adult_female_count" />
+
+                                <separator string="Child" />
+
+                                <field name="child_male_count" />
+                                <field name="child_female_count" />
+                                <field name="total_passenger" />
+                            </group>
+
+
+                            <!-- Right Side -->
+                            <group string="Travel Details">
+                                <field name="from_place_id" />
+                                <field name="to_place_id" />
+                                <field name="departure" />
+                                <field name="arrival" />
+                                <field name="pickup_address" />
+                                <field name="destination_address" />
+                                <field name="class_of_service_id" />
+                                <field name="price_per_passenger" />
+                                <field name="total_amount" />
+                                <field name="total_seats" />
+                                <field name="available_seats" />
+                                <!-- <field name="from_boarding"/> -->
+
+                            </group>
+
+
+                        </group>
+
+
+                        <notebook>
+                            <page string="Passenger Information"
+                                readonly="state=='booked'">
+                                <field name="passenger_info_ids">
+                                    <list editable="bottom">
+                                        <field name="passenger_name" />
+                                        <field name="gender" />
+                                        <field name="age" />
+                                        <field name="passenger_type" />
+                                        <field name="seat_preference" />
+                                        <button name="action_click"
+                                            class="btn-primary"
+                                            string="View"
+                                            type="object"
+                                            context="{'name': 'out_invoice', 'age': 12}"
+                                        />
+                                        <button
+                                            name="%(bus_booking_reservation_system_r.action_popup_information)d"
+                                            string="check"
+                                            type="action"
+                                            context="{'default_name': 'out_invoice', 'default_age': 12}"
+                                            class="oe_highlight"
+                                            icon="" />
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+
+
+                    </sheet>
+
+                </form>
+
+
+            </field>
+        </record>
+        <record id="view_booking_search" model="ir.ui.view">
+            <field name="name">booking.info.search</field>
+            <field name="model">booking.info</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="passenger_name" />
+                    <field name="phone_number" />
+                    <field name="from_place_id" />
+                    <field name="to_place_id" />
+
+                    <filter name="draft"
+                        string="Draft"
+                        domain="[('state','=','draft')]" />
+                    <filter name="booked"
+                        string="Booked"
+                        domain="[('state','=','booked')]" />
+                    <filter name="cancel"
+                        string="Cancel"
+                        domain="[('state','=','cancel')]" />
+
+
+                    <group>
+                        <filter name="group_state"
+                            string="State"
+                            context="{'group_by':'state'}" />
+                        <filter name="group_class_of_service_id"
+                            string="Class of Service"
+                            context="{'group_by':'class_of_service_id'}" />
+                        <filter name="group_from_place_id"
+                            string="From Place"
+                            context="{'group_by':'from_place_id'}" />
+
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_booking" model="ir.actions.act_window">
+            <field name="name">Booking Reservation</field>
+            <field name="res_model">booking.info</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_booking_search" />
+            <field name="context">{'search_default_booked': 1}</field>
+
+        </record>
+        <menuitem id="menu_root" name="Bus Booking" />
+
+        <menuitem
+            id="menu_class"
+            name="Booking Reservation"
+            parent="menu_root"
+            action="action_booking"
+        />
+    </data>
+
+</odoo>

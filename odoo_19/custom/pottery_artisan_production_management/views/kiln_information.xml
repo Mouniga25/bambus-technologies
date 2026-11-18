@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id="view_kiln_information_list" model="ir.ui.view">
+        <field name="name">kiln.information.list</field>
+        <field name="model">kiln.information</field>
+        <field name="arch" type="xml">
+
+            <list string="Kilns">
+
+                <field name="kiln_code" />
+                <field name="name" />
+                <field name="capacity" />
+                <field name="kiln_type" />
+                <field name="status" />
+                <field name="last_maintenance" />
+                <field name="maintenance_interval" />
+                <field name="maintenance_due" readonly="1" />
+                <field name="maintenance_mail_sent" readonly="1"/>
+                <field name="production_count"/>
+
+            </list>
+
+        </field>
+    </record>
+
+
+    <record id="view_kiln_information_form" model="ir.ui.view">
+        <field name="name">kiln.information.form</field>
+        <field name="model">kiln.information</field>
+        <field name="arch" type="xml">
+
+            <form string="Kiln">
+
+                <header>
+
+                    <!-- Set Available -->
+                    <button
+                        name="action_set_available"
+                        string="Set Available"
+                        type="object"
+                        class="btn-primary"
+                        invisible="status == 'available'"
+                    />
+
+                    <!-- Set In Use -->
+                    <button
+                        name="action_set_in_use"
+                        string="Set In Use"
+                        type="object"
+                        class="btn-primary"
+                        invisible="status == 'in_use'"
+                    />
+
+                    <!-- Set Maintenance -->
+                    <button
+                        name="action_set_maintenance"
+                        string="Maintenance"
+                        type="object"
+                        invisible="status == 'maintenance'"
+                    />
+
+                    <!-- Status Bar -->
+                    <field
+                        name="status"
+                        widget="statusbar"
+                        statusbar_visible="available,in_use,maintenance,inactive"
+                    />
+
+                </header>
+
+
+                <sheet>
+
+                    <group>
+
+                        <!-- Left Side -->
+                        <group>
+
+                            <field name="kiln_code" readonly="1" />
+                            <field name="name" />
+                            <field name="kiln_type" />
+                        </group>
+
+                        <group>
+
+                            <field name="capacity" />
+                            <field name="last_maintenance" />
+                            <field name="maintenance_interval" />
+                            <field name="maintenance_due" readonly="1" />
+                            <field name="maintenance_mail_sent" readonly="1"/>
+                            <field name="production_count"/>
+
+                        </group>
+
+                    </group>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+
+    <record id="view_kiln_information_search" model="ir.ui.view">
+        <field name="name">kiln.information.search</field>
+        <field name="model">kiln.information</field>
+        <field name="arch" type="xml">
+
+            <search string="Search Kilns">
+
+                <!-- Search Fields -->
+
+                <field name="name" />
+                <field name="kiln_code" />
+                <field name="kiln_type" />
+                <field name="status" />
+
+
+                <separator />
+
+
+                <!-- Available Kilns -->
+
+                <filter
+                    name="filter_available"
+                    string="Available Kilns"
+                    domain="[('status', '=', 'available')]"
+                />
+
+
+                <!-- Busy Kilns -->
+
+                <filter
+                    name="filter_busy"
+                    string="Busy Kilns"
+                    domain="[('status', '=', 'in_use')]"
+                />
+
+                <!-- Maintenance Kilns -->
+
+                <filter
+                    name="filter_maintenance"
+                    string="Maintenance Kilns"
+                    domain="[('status', '=', 'maintenance')]"
+                />
+
+
+                <!-- Inactive Kilns -->
+
+                <filter
+                    name="filter_inactive"
+                    string="Inactive Kilns"
+                    domain="[('status', '=', 'inactive')]"
+                />
+
+                <filter
+                    name="filter_maintenance_due"
+                    string="Maintenance Due"
+                    domain="[('maintenance_due', '=', True)]"
+                />
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_kiln_information" model="ir.actions.act_window">
+        <field name="name">Kilns</field>
+        <field name="res_model">kiln.information</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_kiln_information_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Kiln Information
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_kiln_information"
+        name="Kilns"
+        parent="menu_production_information_root"
+        action="action_kiln_information"
+        sequence="50"
+    />
+</odoo>

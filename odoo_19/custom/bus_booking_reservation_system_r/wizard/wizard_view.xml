@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+
+
+    <record id="view_popup_information_form" model="ir.ui.view">
+        <field name="name">popup.information.form</field>
+        <field name="model">popup.information</field>
+        <field name="arch" type="xml">
+            <form string="Popup Information">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="age" />
+                            <field name="gender" />
+                            <field name="seat_preference" />
+                            <field name="passenger_type"/>
+                        </group>
+                    </group>
+                   
+
+                </sheet>
+                <footer>
+                    <button name="action_save"
+                    string="Save"
+                    type="object"
+                    class="btn-primary"/>
+
+                    <button string="cancel"
+                        class="btn-secindary"
+                        special="cancel"/>
+                </footer>
+
+            </form>
+
+        </field>
+    </record>
+
+
+    <record id="action_popup_information" model="ir.actions.act_window">
+        <field name="name">Popupinformation</field>
+        <field name="res_model">popup.information</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+
+
+    </record>
+  
+
+</odoo>

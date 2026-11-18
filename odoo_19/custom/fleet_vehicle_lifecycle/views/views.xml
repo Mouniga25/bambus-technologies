@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="fleet_vehicle_lifecycle.list">
+      <field name="name">fleet_vehicle_lifecycle list</field>
+      <field name="model">fleet_vehicle_lifecycle.fleet_vehicle_lifecycle</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </list>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="fleet_vehicle_lifecycle.action_window">
+      <field name="name">fleet_vehicle_lifecycle window</field>
+      <field name="res_model">fleet_vehicle_lifecycle.fleet_vehicle_lifecycle</field>
+      <field name="view_mode">list,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="fleet_vehicle_lifecycle.action_server">
+      <field name="name">fleet_vehicle_lifecycle server</field>
+      <field name="model_id" ref="model_fleet_vehicle_lifecycle_fleet_vehicle_lifecycle"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "list,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="fleet_vehicle_lifecycle" id="fleet_vehicle_lifecycle.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="fleet_vehicle_lifecycle.menu_1" parent="fleet_vehicle_lifecycle.menu_root"/>
+    <menuitem name="Menu 2" id="fleet_vehicle_lifecycle.menu_2" parent="fleet_vehicle_lifecycle.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="fleet_vehicle_lifecycle.menu_1_list" parent="fleet_vehicle_lifecycle.menu_1"
+              action="fleet_vehicle_lifecycle.action_window"/>
+    <menuitem name="Server to list" id="fleet_vehicle_lifecycle" parent="fleet_vehicle_lifecycle.menu_2"
+              action="fleet_vehicle_lifecycle.action_server"/>
+-->
+  </data>
+</odoo>

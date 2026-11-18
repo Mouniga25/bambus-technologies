@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Vehicles -->
+    <menuitem
+        id="fleet_vehicle_lifecycle_menu_vehicle"
+        name="Vehicles"
+        parent="fleet.menu_root"
+        action="fleet.fleet_vehicle_action"
+        sequence="10"/>
+
+    <!-- Services -->
+    <menuitem
+        id="fleet_vehicle_lifecycle_menu_services"
+        name="Services"
+        parent="fleet.menu_root"
+        action="fleet.fleet_vehicle_log_services_action"
+        sequence="20"/>
+
+</odoo>

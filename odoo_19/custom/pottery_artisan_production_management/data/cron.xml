@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="ir_cron_check_delayed_productions" model="ir.cron">
+
+        <field name="name">Check Delayed Productions</field>
+        <field name="model_id" ref="model_production_information" />
+        <field name="state">code</field>
+        <field name="code">model._cron_check_delayed_productions()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+
+    </record>
+
+    <record id="ir_cron_kiln_maintenance_due" model="ir.cron">
+        <field name="name">Check Kiln Maintenance Due</field>
+        <field name="model_id" ref="model_kiln_information" />
+        <field name="state">code</field>
+        <field name="code">model._cron_check_maintenance_due()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+
+</odoo>

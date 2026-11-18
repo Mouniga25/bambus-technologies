@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="view_place_list" model="ir.ui.view">
+        <field name="name">place.info.list</field>
+        <field name="model">place.info</field>
+        <field name="arch" type="xml">
+
+            <list string="Places">
+
+                <field name="place_name" />
+                
+
+
+            </list>
+
+        </field>
+    </record>
+
+
+    <record id="view_place_form" model="ir.ui.view">
+        <field name="name">place.info.form</field>
+        <field name="model">place.info</field>
+        <field name="arch" type="xml">
+            <form string="Places">
+                <sheet>
+                    <div class="oe_button_box" 
+                    name="button_box">
+                        <button name="action_view_bookings" 
+                        type="object" 
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o">
+                            <field name="booking_count" widget="statinfo" string="Bookings" />
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="place_name" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Boarding Info">
+                            <field name="boarding_point_ids">
+                                <list editable="bottom">
+                                    <field name="boarding_name" />                                    
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+
+    <record id="action_place" model="ir.actions.act_window">
+        <field name="name">Places</field>
+        <field name="res_model">place.info</field>
+        <field name="view_mode">list,form</field>
+
+    </record>
+  
+    <menuitem id="menu_conf_root" name="Configuration" parent="menu_root" />
+    <menuitem
+        id="menu_place"
+        name="Places"
+        parent="menu_conf_root"
+        action="action_place"
+    />
+
+</odoo>

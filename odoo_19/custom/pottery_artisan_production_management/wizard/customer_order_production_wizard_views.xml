@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="view_customer_order_production_wizard_form" model="ir.ui.view">
+        <field name="name">customer.order.production.wizard.form</field>
+        <field name="model">customer.order.production.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Production">
+
+                <sheet>
+
+                    <group>
+                        <field name="order_id" />
+                        <field name="order_line_id" />
+                        <field name="product_id" />
+                        <field name="quantity" />
+                        <field name="artisan_id" />
+                    </group>
+
+                </sheet>
+
+                <footer>
+
+                    <button
+                        name="action_create_production"
+                        string="Create Production"
+                        type="object"
+                        class="btn-primary"
+                    />
+
+                    <button
+                        string="Cancel"
+                        special="cancel"
+                        class="btn-secondary"
+                    />
+
+                </footer>
+
+            </form>
+        </field>
+
+    </record>
+
+</odoo>

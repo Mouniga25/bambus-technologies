@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_village_artisan,village.artisan,model_village_artisan,base.group_user,1,1,1,1
+access_pottery_product_information,pottery.product.information,model_pottery_product_information,base.group_user,1,1,1,1
+access_raw_material_information,raw.material.information,model_raw_material_information,base.group_user,1,1,1,1
+access_production_information,production.information,model_production_information,base.group_user,1,1,1,1
+access_production_raw_material_line_user,production.raw.material.line user,model_production_raw_material_line,base.group_user,1,1,1,1
+access_product_raw_material_line_user,product.raw.material.line.user,model_product_raw_material_line,base.group_user,1,1,1,1
+access_kiln_information,kiln.information,model_kiln_information,base.group_user,1,1,1,1
+access_production_kiln_wizard,production.kiln.wizard,model_production_kiln_wizard,base.group_user,1,1,1,1
+access_raw_material_stock_wizard_user,raw.material.stock.wizard.user,model_raw_material_stock_wizard,base.group_user,1,1,1,1
+access_customer_order_production_wizard_user,customer.order.production.wizard.user,model_customer_order_production_wizard,base.group_user,1,1,1,0
+access_delivery_creation_wizard,access.delivery.creation.wizard,model_delivery_creation_wizard,base.group_user,1,1,1,1
+access_quality_information,quality.information,model_quality_information,base.group_user,1,1,1,1
+access_customer_order_information,customer.order.information,model_customer_order_information,base.group_user,1,1,1,1
+access_customer_order_line,customer.order.line,model_customer_order_line,base.group_user,1,1,1,1
+access_delivery_information,delivery.information,model_delivery_information,base.group_user,1,1,1,1
+access_settlement_information,settlement.information,model_settlement_information,base.group_user,1,1,1,1

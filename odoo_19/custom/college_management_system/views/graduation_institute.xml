@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- kanban -->
+        <record id="view_graduation_institute_kanban" model="ir.ui.view">
+            <field name="name">graduation.institute.kanban</field>
+            <field name="model">graduation.institute</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="card">
+                            <div>
+                                <strong> Institute Name: </strong>
+                                <field name="name" />
+                            </div>
+
+                            <div>
+                                <strong>Institute Code: </strong>
+                                <field name="institute_code" />
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+            <!-- form -->
+        </record>
+        <record id="view_graduation_institute_form" model="ir.ui.view">
+            <field name="name">graduation.institute.form</field>
+            <field name="model">graduation.institute</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="title" />
+                        <group>
+                            <field name="name" placeholder="Institute Name" />
+                            <field name="institute_code" placeholder="Institute Code" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- list -->
+        <record id="view_graduation_institute_list" model="ir.ui.view">
+            <field name="name">graduation.institute.list</field>
+            <field name="model">graduation.institute</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name" />
+                    <field name="institute_code" />
+
+                </list>
+            </field>
+        </record>
+        <record id="action_graduation_institute" model="ir.actions.act_window">
+            <field name="name">Graduation Institute</field>
+            <field name="res_model">graduation.institute</field>
+            <field name="view_mode">kanban,form,list</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a Degree Information
+                </p>
+            </field>
+        </record>
+        <menuitem
+            id="graduation_institute"
+            name="Graduation Institute"
+            parent="Configurations_information"
+            action="action_graduation_institute" />
+    </data>
+</odoo>

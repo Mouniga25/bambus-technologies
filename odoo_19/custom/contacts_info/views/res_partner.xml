@@ -1,0 +1,50 @@
+<odoo>
+
+  <record id="hospital_doctor_for_inherit" model="ir.ui.view">
+    <field name="name">hospital.doctor.form.inherit</field>
+    <field name="model">hospital.doctor.form</field>
+    <field name="inherit_id" ref="base.view_partner_tree" />
+    <field name="arch" type="xml">
+      <div class="oe_button_box" name="button_box">
+
+
+        <button type="object"
+          name="action_view_visits"
+          class="oe_stat_button"
+          icon="fa-users">
+          <field name="visit_count" widget="Visit" />
+        </button>
+
+        <button type="object"
+          name="action_view_lab_result"
+          class="oe_stat_button">
+          <field name="lab_result_count" widget="Lab Result" />
+        </button>
+        <button type="object"
+          name="aaction_view_prescription"
+          class="oe_stat_button" >
+          <field name="prescription_count" widget="Prescription" />
+        </button>
+      </div>
+
+
+      <xpath expr="//field[@name='patient_lines']" position="after">
+        <field name="is_patient" />
+        <field name="patient_ID" />
+        <field name="blood_group" />
+              <field name="date_of_birth" />
+              <field name="gender" />
+              <field name="height" />
+              <field name="weight" />
+              <field name="emergency_contact" />
+              <field name="insurance_provider" />
+              <field name="insurance_number" />
+              <field name="allergies" />
+              <field name="chronic_diseases" />
+              <field name="primary_doctor" />
+              <field name="last_visit_date" />
+              <field name="total_visits" />
+      </xpath>
+    </field>
+  </record>
+</odoo>

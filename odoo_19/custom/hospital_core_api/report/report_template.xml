@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="report_patient_summary">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <main class="page" style="font-family:Arial;font-size:13px;">
+
+                        <table style="width:100%;background:#A076E5;color:white;">
+                            <tr>
+                                <td style="padding:15px;">
+                                    <h2 style="color:white;">
+                                        Patient Summary Report
+                                    </h2>
+                                </td>
+                                <td style="text-align:right;padding:15px;">
+                                    <strong>Patient Name:</strong>
+                                    <span t-esc="doc.name" />
+                                </td>
+                            </tr>
+                        </table>
+
+                        <br />
+                        <table style="width:100%;border-collapse:collapse;" border="1">
+                            <tr style="background:#A076E5;color:white;">
+                                <th colspan="2">
+                                    Patient Information
+                                </th>
+                            </tr>
+                            <tr>
+                                <td  style="padding:4px;">Patient Name</td>
+                                <td  style="padding:4px;">
+                                    <span t-esc="doc.name" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  style="padding:4px;">Patient ID</td>
+                                <td  style="padding:4px;">
+                                    <span t-esc="doc.patient_id" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  style="padding:4px;">Primary Doctor</td>
+                                <td  style="padding:4px;">
+                                    <span t-esc="doc.primary_doctor_id.doctor_name" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  style="padding:4px;">Age</td>
+                                <td  style="padding:4px;">
+                                    <span t-esc="doc.age" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  style="padding:4px;">Gender</td>
+                                <td  style="padding:4px;">
+                                    <span t-esc="doc.gender" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  style="padding:4px;">Blood Group</td>
+                                <td  style="padding:4px;">
+                                    <span t-esc="doc.blood_group" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  style="padding:4px;">Phone</td>
+                                <td  style="padding:4px;">
+                                    <span t-esc="doc.phone" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  style="padding:4px;">Email</td>
+                                <td  style="padding:4px;">
+                                    <span t-esc="doc.email" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  style="padding:4px;">Emergency Contact</td>
+                                <td  style="padding:4px;">
+                                    <span t-esc="doc.emergency_contact" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  style="padding:4px;">Medical Notes</td>
+                                <td  style="padding:4px;">
+                                    <span t-esc="doc.medical_notes" />
+                                </td>
+                            </tr>
+                        </table>
+
+                        <br />
+                        <table style="width:100%;border-collapse:collapse;" border="1">
+
+                            <tr style="background:#A076E5;color:white;">
+                                <th colspan="6">
+                                    Lab Result Information
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Test Name</th>
+                                <th>Result</th>
+                                <th>Unit</th>
+                                <th>Reference Range</th>
+                                <th>Status</th>
+                                <th>Doctor Remark</th>
+                            </tr>
+
+                            <t t-foreach="doc.lab_result_count_lines" t-as="lab">
+
+                                <tr>
+                                    <td  style="padding:4px;">
+                                        <span t-esc="lab.test_name" />
+                                    </td>
+                                    <td  style="padding:4px;">
+                                        <span t-esc="lab.result" />
+                                    </td>
+                                    <td  style="padding:4px;">
+                                        <span t-esc="lab.unit" />
+                                    </td>
+                                    <td  style="padding:4px;">
+                                        <span t-esc="lab.reference_range" />
+                                    </td>
+                                    <td  style="padding:4px;">
+                                        <span t-esc="lab.patient_status" />
+                                    </td>
+                                    <td  style="padding:4px;">
+                                        <span t-esc="lab.doctor_remark" />
+                                </td>
+                                </tr>
+                            </t>
+                        </table>
+                        <br />
+                        <table style="width:100%;border-collapse:collapse;" border="1">
+                            <tr style="background:#A076E5;color:white;">
+                                <th colspan="5">
+                                    Visit History
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <th>Doctor</th>
+                                <th>Department</th>
+                                <th>Symptoms</th>
+                                <th>Status</th>
+                            </tr>
+
+
+                            <t t-foreach="doc.visits_count_lines" t-as="visit">
+
+                                <tr>
+                                    <td  style="padding:4px;">
+                                        <span t-esc="visit.visit_date" />
+                                    </td>
+                                    <td  style="padding:4px;">
+                                        <span t-esc="visit.doctor_id.doctor_name" />
+                                    </td>
+                                    <td  style="padding:4px;">  <span
+                                            t-esc="visit.departments_id.department_name" />
+                                    </td>
+                                    <td  style="padding:4px;">
+                                        <span t-esc="visit.symptoms" />
+                                    </td>
+                                   <td  style="padding:4px;">
+                                        <span t-esc="visit.state" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                        <br />
+                        <div style="border-top:1px solid #A076E5;padding-top:10px;">
+                         <strong>Hospital Notes:</strong>
+                            <p>
+                                Please follow doctor advice and take the medicine.
+                            </p>
+                        </div>
+                    </main>
+                </t>
+            </t> 
+    </template>
+</odoo>

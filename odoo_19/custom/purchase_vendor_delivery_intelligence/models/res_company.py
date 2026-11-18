@@ -1,0 +1,34 @@
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
+
+
+class ResCompany(models.Model):
+    _inherit = "res.company"
+
+    vdi_history_days = fields.Integer(default=180)
+    vdi_min_sample_lines = fields.Integer(default=5)
+    vdi_grace_days = fields.Integer(default=2)
+    vdi_due_soon_days = fields.Integer(default=3)
+    vdi_reliable_score = fields.Float(default=90.0)
+    vdi_watch_score = fields.Float(default=75.0)
+    vdi_enable_activities = fields.Boolean(default=True)
+    vdi_fallback_buyer_id = fields.Many2one("res.users", string="Fallback Buyer")
+
+    @api.constrains(
+        "vdi_history_days", "vdi_min_sample_lines", "vdi_grace_days",
+        "vdi_due_soon_days", "vdi_reliable_score", "vdi_watch_score",
+    )
+    def _check_vdi_config(self):
+        for company in self:
+            if not 30 <= company.vdi_history_days <= 730:
+                raise ValidationError(_("History days must be between 30 and 730."))
+            if company.vdi_min_sample_lines < 1:
+                raise ValidationError(_("Minimum sample lines must be at least 1."))
+            if not 0 <= company.vdi_grace_days <= 30:
+                raise ValidationError(_("Grace days must be between 0 and 30."))
+            if not 0 <= company.vdi_due_soon_days <= 30:
+                raise ValidationError(_("Due-soon days must be between 0 and 30."))
+            if not (0 <= company.vdi_watch_score < company.vdi_reliable_score <= 100):
+                raise ValidationError(
+                    _("Scores must satisfy 0 <= watch < reliable <= 100."),
+                )

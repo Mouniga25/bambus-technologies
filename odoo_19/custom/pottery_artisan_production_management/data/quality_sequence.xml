@@ -1,0 +1,10 @@
+<odoo>
+    <record id="seq_quality_information" model="ir.sequence">
+        <field name="name">Quality Check</field>
+        <field name="code">quality.information</field>
+        <field name="prefix">QC/</field>
+        <field name="padding">4</field>
+        <field name="number_increment">1</field>
+        <field name="implementation">no_gap</field>
+    </record>
+</odoo>

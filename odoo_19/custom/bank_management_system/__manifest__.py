@@ -1,0 +1,27 @@
+{
+    'name': 'Bank Management System',
+    'version': '1.0',
+    'summary': """Summary of the Module""",
+    'description': """Description of the Module""",
+    'category': 'service',
+    'author': 'Mouniga',
+    'depends':['web','base'],
+    'data':[
+    	'security/ir.model.access.csv',
+        'views/employee_information.xml',
+        'views/customer_information.xml',
+        'views/bank_accounts.xml',
+        'views/branch_information.xml',
+        'views/qualifications_information.xml',
+        'views/account_type.xml',
+        'views/loan_application_views.xml',
+        'data/sequence_data.xml',
+        'report/employee_report.xml',
+        'report/employee_report_template.xml',   
+
+    ],
+    'license': 'AGPL-3',
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+}

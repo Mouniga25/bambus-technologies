@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <!-- loan application list view -->
+    <record id="view_loan_application_list" model="ir.ui.view">
+        <field name="name">loan.application.list</field>
+        <field name="model">loan.application</field>
+
+        <field name="arch" type="xml">
+            <list>
+
+                <field name="loan_sequence"/>
+                <field name="customer_id"/>
+                <field name="assigned_officer_id"/>
+                <field name="branch_id"/>
+                <field name="date_of_application"/>
+                <field name="principal_amount"/>
+                <field name="interest_rate"/>
+                <field name="processing_fee"/>
+                <field name="total_loan_cost"/>
+
+            </list>
+        </field>
+    </record>
+
+
+    <!-- loan application form view -->
+    <record id="view_loan_application_form" model="ir.ui.view">
+        <field name="name">loan.application.form</field>
+        <field name="model">loan.application</field>
+
+        <field name="arch" type="xml">
+            <form>
+
+                <sheet>
+
+                    <h1>
+                        <field name="loan_sequence"
+                               placeholder="loan sequence"/>
+                    </h1>
+
+                    <group>
+
+                        <group>
+                            <field name="customer_id"/>
+                            <field name="assigned_officer_id"/>
+                            <field name="branch_id"/>
+                            <field name="date_of_application"/>
+                        </group>
+
+                    </group>
+
+
+                    <notebook>
+
+                        <!-- loan details -->
+                        <page string="loan details">
+
+                            <group>
+
+                                <group>
+                                    <field name="principal_amount"/>
+                                    <field name="interest_rate"/>
+                                </group>
+
+                                <group>
+                                    <field name="processing_fee"/>
+                                    <field name="total_loan_cost"
+                                           readonly="1"/>
+                                </group>
+
+                            </group>
+
+                        </page>
+
+
+                        <!-- submitted documents -->
+                        <page string="submitted documents">
+
+                            <field name="submitted_document_ids">
+
+                                <list editable="bottom">
+
+                                    <field name="document_name"/>
+                                    <field name="document_type"/>
+                                    <field name="attachment"/>
+                                    <field name="verified"/>
+
+                                </list>
+
+                            </field>
+
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+
+    <!-- loan application kanban view -->
+    <record id="view_loan_application_kanban" model="ir.ui.view">
+        <field name="name">loan.application.kanban</field>
+        <field name="model">loan.application</field>
+
+        <field name="arch" type="xml">
+            <kanban>
+
+                <templates>
+
+                    <t t-name="card">
+
+                        <strong>
+                            Loan:
+                            <field name="loan_sequence"/>
+                        </strong>
+
+                        <div class="rows">
+
+                            <div>
+                                Customer:
+                                <field name="customer_id"/>
+                            </div>
+
+                            <div>
+                                Assigned Officer:
+                                <field name="assigned_officer_id"/>
+                            </div>
+
+                            <div>
+                                Branch:
+                                <field name="branch_id"/>
+                            </div>
+
+                            <div>
+                                Application Date:
+                                <field name="date_of_application"/>
+                            </div>
+
+                            <div>
+                                Principal Amount:
+                                <field name="principal_amount"/>
+                            </div>
+
+                            <div>
+                                Interest Rate:
+                                <field name="interest_rate"/>
+                            </div>
+
+                            <div>
+                                Total Loan Cost:
+                                <field name="total_loan_cost"/>
+                            </div>
+
+                        </div>
+
+                    </t>
+
+                </templates>
+
+            </kanban>
+        </field>
+    </record>
+
+
+    <!-- loan application search view -->
+    <record id="view_loan_application_search" model="ir.ui.view">
+        <field name="name">loan.application.search</field>
+        <field name="model">loan.application</field>
+
+        <field name="arch" type="xml">
+            <search>
+
+                <field name="loan_sequence"/>
+                <field name="customer_id"/>
+                <field name="assigned_officer_id"/>
+                <field name="branch_id"/>
+
+                <filter
+                    name="group_by_branch"
+                    string="branch"
+                    context="{'group_by': 'branch_id'}"/>
+
+                <filter
+                    name="group_by_officer"
+                    string="assigned officer"
+                    context="{'group_by': 'assigned_officer_id'}"/>
+
+            </search>
+        </field>
+    </record>
+
+
+    <!-- loan application action -->
+    <record id="action_loan_application"
+            model="ir.actions.act_window">
+
+        <field name="name">loan applications</field>
+        <field name="res_model">loan.application</field>
+        <field name="view_mode">kanban,form,list</field>
+
+        <field name="search_view_id"
+               ref="view_loan_application_search"/>
+
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create a loan application
+            </p>
+        </field>
+
+    </record>
+
+
+    <!-- loan application menu -->
+    <menuitem
+        id="loan_application"
+        name="loan applications"
+        parent="operations_information"
+        action="action_loan_application"/>
+
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vehicle_rental_management_vehicle_rental_management,vehicle_rental_management.vehicle_rental_management,model_vehicle_rental_management_vehicle_rental_management,base.group_user,1,1,1,1

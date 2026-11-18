@@ -1,0 +1,15 @@
+<odoo>
+
+    <record id="action_kiln_xlsx_report" model="ir.actions.report">
+
+        <field name="name">Kiln XLSX Report</field>
+        <field name="model">kiln.information</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">pottery_artisan_production_management.kiln_xlsx_report</field>
+        <field name="report_file">pottery_artisan_production_management.kiln_xlsx_report</field>
+        <field name="binding_model_id" ref="model_kiln_information"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Kiln Report - %s' % (object.kiln_code or object.name)</field>
+    </record>
+
+</odoo>

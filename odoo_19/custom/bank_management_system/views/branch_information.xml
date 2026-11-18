@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- kanban -->
+        <record id="view_branch_information_kanban" model="ir.ui.view">
+            <field name="name">branch.information.kanban</field>
+            <field name="model">branch.information</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="card">
+                            <strong> Branch Name: <field name="branch_name" />
+                            </strong>
+
+                            <div class="rows">
+                                <div>Branch code: <field name="branch_code" />
+                                </div>
+                                <div> Location: <field name="location" />
+                                </div>
+                                <div> manager: <field name="manager" />
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <!-- from -->
+        <record id="view_branch_information_form" model="ir.ui.view">
+            <field name="name">branch.information.form</field>
+            <field name="model">branch.information</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="title" />
+                        <h1>
+                            <field name="branch_name" placeholder="Branch Name" />
+
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="branch_code" placeholder="Branch Code" />
+                                <field name="manager" placeholder="Select Manager" />
+                                <field name="location" placeholder="location" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_branch_information_list" model="ir.ui.view">
+            <field name="name">branch.information.list</field>
+            <field name="model">branch.information</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="branch_name" />
+                    <field name="branch_code" />
+                    <field name="manager" />
+                    <field name="location" />
+                </list>
+            </field>
+        </record>
+        <record id="action_branch_information" model="ir.actions.act_window">
+            <field name="name">Branch Information</field>
+            <field name="res_model">branch.information</field>
+            <field name="view_mode">kanban,form,list</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a Branch Information
+                </p>
+            </field>
+        </record>
+        <menuitem
+            id="Configurations_information"
+            name="Configurations"
+            parent="bank_information" />
+        <menuitem
+            id="branch_information"
+            name="Branch Information"
+            parent="Configurations_information"
+            action="action_branch_information" />
+    </data>
+</odoo>

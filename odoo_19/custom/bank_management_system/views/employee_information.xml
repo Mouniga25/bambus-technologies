@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- kanban -->
+        <record id="view_employee_information_kanban" model="ir.ui.view">
+            <field name="name">employee.information.kanban</field>
+            <field name="model">employee.information</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="card">
+
+                            <div>
+                                <field name="photo"
+                                       widget="image"
+                                       class="oe_kanban_image"/>
+                            </div>
+
+                            <strong>
+                                <div>
+                                    <field name="name"/>
+                                    <field name="last_name"/>
+                                </div>
+                            </strong>
+
+                            <div class="rows">
+
+                                <div>
+                                    <span>job position: </span>
+                                    <field name="job_position"/>
+                                </div>
+
+                                <div>
+                                    <span>dob: </span>
+                                    <field name="date_of_birth"/>
+                                </div>
+
+                                <div>
+                                    <span>age: </span>
+                                    <field name="age"/>
+                                </div>
+
+                                <div>
+                                    <span>gender: </span>
+                                    <field name="gender"/>
+                                </div>
+
+                                <div>
+                                    <span>branch: </span>
+                                    <field name="branch_id"/>
+                                </div>
+
+                            </div>
+
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <!-- form -->
+        <record id="view_employee_information_form" model="ir.ui.view">
+            <field name="name">employee.information.form</field>
+            <field name="model">employee.information</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+
+                        <field name="photo"
+                               widget="image"
+                               class="oe_avatar"/>
+
+                        <h1>
+                            <field name="name"
+                                   placeholder="first name"/>
+                            <field name="last_name"
+                                   placeholder="last name"/>
+                        </h1>
+
+                        <group>
+
+                            <group>
+                                <field name="job_position"/>
+                                <field name="date_of_birth"/>
+                                <field name="age"/>
+                                <field name="gender"/>
+                                <field name="branch_id"/>
+                                <field name="qualifications_ids"
+                                       widget="many2many_tags"/>
+                            </group>
+
+                            <group>
+                                <field name="total_accounts_handled"
+                                       readonly="1"/>
+                            </group>
+
+                        </group>
+
+                        <notebook>
+
+                            <!-- dependent details -->
+                            <page string="dependent details">
+                                <field name="dependent_ids">
+                                    <list editable="bottom">
+                                        <field name="dependent_name"/>
+                                        <field name="relationship"/>
+                                        <field name="date_of_birth"/>
+                                        <field name="age"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <!-- contact information -->
+                            <page string="contact information">
+                                <group>
+                                    <field name="address"/>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                </group>
+                            </page>
+
+                            <!-- professional information -->
+                            <page string="professional information">
+                                <group>
+                                    <field name="hire_date"/>
+                                    <field name="salary"/>
+                                    <field name="access_level"/>
+                                </group>
+                            </page>
+
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- list -->
+        <record id="view_employee_information_list" model="ir.ui.view">
+            <field name="name">employee.information.list</field>
+            <field name="model">employee.information</field>
+            <field name="arch" type="xml">
+                <list>
+
+                    <field name="name"/>
+                    <field name="last_name"/>
+                    <field name="job_position"/>
+                    <field name="date_of_birth"/>
+                    <field name="age"/>
+                    <field name="gender"/>
+                    <field name="branch_id"/>
+                    <field name="total_accounts_handled"/>
+
+                </list>
+            </field>
+        </record>
+
+
+        <!-- search -->
+        <record id="view_employee_information_search" model="ir.ui.view">
+            <field name="name">employee.information.search</field>
+            <field name="model">employee.information</field>
+            <field name="arch" type="xml">
+                <search>
+
+                    <!-- search by name -->
+                    <field name="name"/>
+
+                    <!-- search by email -->
+                    <field name="email"/>
+
+                    <!-- filter by job position -->
+                    <filter
+                        name="filter_branch_manager"
+                        string="branch manager"
+                        domain="[('job_position', '=', 'branch_manager')]"/>
+
+                    <filter
+                        name="filter_teller"
+                        string="teller"
+                        domain="[('job_position', '=', 'teller')]"/>
+
+                    <filter
+                        name="filter_loan_officer"
+                        string="loan officer"
+                        domain="[('job_position', '=', 'loan_officer')]"/>
+
+                    <filter
+                        name="filter_clerk"
+                        string="clerk"
+                        domain="[('job_position', '=', 'clerk')]"/>
+
+                    <!-- group by branch -->
+                    <filter
+                        name="group_by_branch"
+                        string="branch"
+                        context="{'group_by': 'branch_id'}"/>
+
+                </search>
+            </field>
+        </record>
+
+
+        <!-- action -->
+        <record id="action_employee_information"
+                model="ir.actions.act_window">
+
+            <field name="name">employee information</field>
+            <field name="res_model">employee.information</field>
+            <field name="view_mode">kanban,form,list</field>
+
+            <field name="search_view_id"
+                   ref="view_employee_information_search"/>
+
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    create an employee information
+                </p>
+            </field>
+
+        </record>
+
+
+        <!-- bank menu -->
+        <menuitem
+            id="bank_information"
+            name="bank"/>
+
+
+        <!-- employee menu -->
+        <menuitem
+            id="employee_information"
+            name="employees"
+            parent="bank_information"
+            action="action_employee_information"/>
+
+    </data>
+</odoo>

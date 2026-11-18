@@ -1,0 +1,35 @@
+<odoo>
+    <record id="view_purchase_vendor_risk_warning_form" model="ir.ui.view">
+        <field name="name">purchase.vendor.risk.warning.form</field>
+        <field name="model">purchase.vendor.risk.warning</field>
+        <field name="arch" type="xml">
+            <form string="High-Risk Vendor Warning">
+                <sheet>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>High-Risk Vendor</strong>
+                        <br/>
+                        This vendor has been classified as High Risk.
+                    </div>
+
+                    <group>
+                        <field name="purchase_order_id" readonly="1"/>
+                    </group>
+
+                    <footer>
+                        <button
+                            name="action_continue"
+                            string="Continue"
+                            type="object"
+                            class="btn-primary"
+                        />
+                        <button
+                            string="Cancel"
+                            special="cancel"
+                            class="btn-secondary"
+                        />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

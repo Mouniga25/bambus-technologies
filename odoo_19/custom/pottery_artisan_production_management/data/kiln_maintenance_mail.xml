@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="mail_template_kiln_maintenance_due" model="mail.template">
+
+        <field name="name">Kiln Maintenance Due</field>
+
+        <field name="model_id" ref="model_kiln_information"/>
+
+        <field name="subject">Kiln Maintenance Due - {{ object.kiln_code }}</field>
+
+        <field name="email_from">{{ user.email }}</field>
+
+        <field name="email_to">{{ user.email }}</field>
+
+        <field name="body_html" type="html">
+
+            <div>
+                <p>Hello,</p>
+
+                <p>
+                    The following kiln is due for maintenance:
+                </p>
+
+                <table style="border-collapse: collapse; width: 100%;">
+
+                    <tr>
+                        <td style="padding: 6px;">
+                            <strong>Kiln Code</strong>
+                        </td>
+                        <td style="padding: 6px;">
+                            {{ object.kiln_code }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 6px;">
+                            <strong>Kiln Name</strong>
+                        </td>
+                        <td style="padding: 6px;">
+                            {{ object.name }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 6px;">
+                            <strong>Kiln Type</strong>
+                        </td>
+                        <td style="padding: 6px;">
+                            {{ object.kiln_type }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 6px;">
+                            <strong>Capacity</strong>
+                        </td>
+                        <td style="padding: 6px;">
+                            {{ object.capacity }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 6px;">
+                            <strong>Last Maintenance</strong>
+                        </td>
+                        <td style="padding: 6px;">
+                            {{ object.last_maintenance }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 6px;">
+                            <strong>Maintenance Interval</strong>
+                        </td>
+                        <td style="padding: 6px;">
+                            {{ object.maintenance_interval }} days
+                        </td>
+                    </tr>
+
+                </table>
+
+                <p>
+                    Please arrange maintenance for this kiln.
+                </p>
+
+                <p>
+                    Regards,<br/>
+                    Pottery Production Management System
+                </p>
+
+            </div>
+
+        </field>
+
+    </record>
+
+</odoo>

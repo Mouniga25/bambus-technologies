@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- =========================================================
+         NEW APPOINTMENT REQUEST
+         Patient -> Hospital
+    ========================================================== -->
+    <record id="mail_template_appointment_request" model="mail.template">
+        <field name="name">New Appointment Request</field>
+        <field
+            name="model_id"
+            ref="model_hospital_patient_visit"
+        />
+        <field name="subject">New Hospital Appointment Request - Visit: ${object.visit_number}</field>
+        <field name="email_from">${object.patient_id.email}</field>
+        <field name="email_to">mouniga.k2512@gmail.com</field>
+        <field name="reply_to">${object.patient_id.email}</field>
+        <field name="body_html" type="html">
+            <div>
+                <h2>New Appointment Request</h2>
+                <p>
+                    A new appointment request has been received.
+                </p>
+                <hr />
+                <p>
+                    <strong>Visit Number:</strong>
+                    <t t-out="object.visit_number" />
+                </p>
+                <p>
+                    <strong>Patient:</strong>
+                    <t t-out="object.patient_id.name" />
+                </p>
+                <p>
+                    <strong>Email:</strong>
+                    <t t-out="object.patient_id.email" />
+                </p>
+                <p>
+                    <strong>Phone:</strong>
+                    <t t-out="object.patient_id.phone" />
+                </p>
+                <p>
+                    <strong>Doctor:</strong>
+                    <t t-out="object.doctor_id.doctor_name" />
+                </p>
+                <p>
+                    <strong>Department:</strong>
+                    <t t-out="object.department_id.department_name" />
+                </p>
+                <p>
+                    <strong>Appointment Date:</strong>
+                    <t t-out="object.visit_date" />
+                </p>
+                <p>
+                    <strong>Symptoms:</strong>
+                    <t t-out="object.symptoms"/>
+                </p>
+                <hr />
+                <p>
+                    Please review this appointment request.
+                </p>
+                <!-- =================================================
+                     VIEW APPOINTMENT BUTTON
+                ================================================== -->
+                <p style="text-align:center; margin-top:30px; margin-bottom:30px;">
+
+                    <a t-att-href="'http://localhost:10511/hospital/appointment/approval/%s' % object.approval_token" style="display:inline-block; padding:12px 25px; background-color:#007bff; color:#ffffff; text-decoration:none; border-radius:5px; font-weight:bold;">
+                        View Appointment
+                    </a>
+                </p>
+                <p style="font-size:12px; color:#777777;">
+                    Please click the View Appointment button
+                    to confirm, reschedule, or reject this request.
+                </p>
+            </div>
+        </field>
+    </record>
+</odoo>

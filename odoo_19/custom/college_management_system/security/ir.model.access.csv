@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_faculty_information,access_faculty_information,model_faculty_information,,1,1,1,1
+access_department_information,department_information,model_department_information,,1,1,1,1
+access_degree_information,degree_information,model_degree_information,,1,1,1,1
+access_graduation_institute,graduation_institute,model_graduation_institute,,1,1,1,1
+access_student_information,access_student_information,model_student_information,,1,1,1,1
+access_student_fees,student_fees,model_student_fees,,1,1,1,1
+access_subject_details,subject_details,model_subject_details,,1,1,1,1
+access_degree_information_line,access_degree_information_line,model_degree_information_line,,1,1,1,1
+access_popup_information,access_popup_information,model_popup_information,,1,1,1,1

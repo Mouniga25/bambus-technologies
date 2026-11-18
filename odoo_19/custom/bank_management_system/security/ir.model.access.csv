@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_information,access_employee_information,model_employee_information,,1,1,1,1
+access_employee_dependent_line,access_employee_dependent_line,model_employee_dependent_line,,1,1,1,1
+access_customer_information,access_customer_information,model_customer_information,,1,1,1,1
+access_customer_nominee_line,access_customer_nominee_line,model_customer_nominee_line,,1,1,1,1
+access_branch_information,access_branch_information,model_branch_information,,1,1,1,1
+access_qualifications_information,access_qualifications_information,model_qualifications_information,,1,1,1,1
+access_account_type,access_account_type,model_account_type,,1,1,1,1
+access_bank_accounts,access_bank_accounts,model_bank_accounts,,1,1,1,1
+access_bank_transaction_line,access_bank_transaction_line,model_bank_transaction_line,,1,1,1,1
+access_loan_application,access_loan_application,model_loan_application,,1,1,1,1
+access_loan_document_line,access_loan_document_line,model_loan_document_line,,1,1,1,1

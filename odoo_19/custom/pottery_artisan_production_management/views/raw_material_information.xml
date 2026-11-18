@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- List View -->
+    <record id="view_raw_material_information_list" model="ir.ui.view">
+        <field name="name">raw.material.information.list</field>
+        <field name="model">raw.material.information</field>
+        <field name="arch" type="xml">
+
+            <list>
+                <field name="material_code" />
+                <field name="name" />
+                <field name="unit" />
+                <field name="available_quantity" />
+                <field name="minimum_quantity" />
+                <field name="unit_cost" />
+                <field name="stock_status" />
+                <field name="active" />
+            </list>
+
+        </field>
+    </record>
+
+
+    <!-- Form View -->
+    <record id="view_raw_material_information_form" model="ir.ui.view">
+        <field name="name">raw.material.information.form</field>
+        <field name="model">raw.material.information</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <header>
+                    <button
+                        name="action_open_stock_wizard"
+                        string="Stock Adjustment"
+                        type="object"
+                        class="btn-primary"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                        <button
+                            name="action_view_products"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-cubes">
+
+                            <field
+                                name="product_count"
+                                widget="statinfo"
+                                string="Products" />
+
+                        </button>
+
+                    </div>
+
+                    <group>
+
+                        <group>
+                            <field name="material_code" />
+                            <field name="name" />
+                            <field name="unit" />
+                        </group>
+
+                        <group>
+                            <field name="available_quantity" />
+                            <field name="minimum_quantity" />
+                            <field name="unit_cost" />
+                        </group>
+
+                    </group>
+
+                    <group>
+                        <field name="stock_status" />
+                        <field name="active" />
+                    </group>
+                    <notebook>
+
+                        <page string="Pottery Products">
+
+                            <field name="product_ids">
+
+                                <list>
+                                    <field name="product_code" />
+                                    <field name="name" />
+                                    <field name="product_type" />
+                                    <field name="active" />
+                                </list>
+
+                            </field>
+
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+    <record id="view_raw_material_information_search" model="ir.ui.view">
+        <field name="name">raw.material.information.search</field>
+        <field name="model">raw.material.information</field>
+        <field name="arch" type="xml">
+
+            <search>
+
+                <!-- Search -->
+                <field name="name" />
+                <field name="material_code" />
+                <field name="unit" />
+
+                <!-- Filters -->
+                <filter
+                    name="active_materials"
+                    string="Active Materials"
+                    domain="[('active', '=', True)]" />
+
+                <filter
+                    name="low_stock_materials"
+                    string="Low Stock Materials"
+                    domain="[('stock_status', '=', 'low')]" />
+
+                <filter
+                    name="material_unit"
+                    string="Unit"
+                    context="{'group_by': 'unit'}" />
+
+            </search>
+
+        </field>
+    </record>
+    <record id="view_raw_material_information_search" model="ir.ui.view">
+        <field name="name">raw.material.information.search</field>
+        <field name="model">raw.material.information</field>
+        <field name="arch" type="xml">
+
+            <search>
+
+                <field name="name" />
+                <field name="material_code" />
+                <field name="unit" />
+
+                <separator />
+
+                <filter
+                    name="active_materials"
+                    string="Active Materials"
+                    domain="[('active', '=', True)]" />
+
+                <filter
+                    name="low_stock_materials"
+                    string="Low Stock Materials"
+                    domain="[('stock_status', '=', 'low')]" />
+
+                <filter
+                    name="materials_by_unit"
+                    string="Materials by Unit"
+                    context="{'group_by': 'unit'}" />
+
+            </search>
+
+        </field>
+    </record>
+
+
+    <!-- Action -->
+    <record id="action_raw_material_information"
+        model="ir.actions.act_window">
+
+        <field name="name">Raw Materials</field>
+        <field name="res_model">raw.material.information</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Raw Material Information
+            </p>
+        </field>
+
+    </record>
+
+
+    <!-- Menu -->
+    <menuitem
+        id="menu_raw_material_information"
+        name="Raw Materials"
+        parent="menu_production_information_root"
+        action="action_raw_material_information"
+        sequence="30" />
+
+</odoo>

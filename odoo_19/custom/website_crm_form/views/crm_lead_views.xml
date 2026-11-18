@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- ================================= -->
+    <!-- CRM Lead Form - Enquiry Number -->
+    <!-- ================================= -->
+
+    <record id="crm_lead_form_inherit_enquiry_number"
+            model="ir.ui.view">
+
+        <field name="name">
+            crm.lead.form.inherit.enquiry.number
+        </field>
+
+        <field name="model">crm.lead</field>
+
+        <field name="inherit_id"
+               ref="crm.crm_lead_view_form"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']"
+                   position="before">
+
+                <field name="enquiry_number"
+                       readonly="1"/>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+
+    <!-- ================================= -->
+    <!-- CRM Lead Search - Enquiry Number -->
+    <!-- ================================= -->
+
+    <record id="crm_lead_search_inherit_enquiry_number"
+            model="ir.ui.view">
+
+        <field name="name">
+            crm.lead.search.inherit.enquiry.number
+        </field>
+
+        <field name="model">crm.lead</field>
+
+        <field name="inherit_id"
+               ref="crm.view_crm_case_leads_filter"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']"
+                   position="after">
+
+                <field name="enquiry_number"
+                       string="Enquiry Number"
+                       filter_domain="[('enquiry_number', 'ilike', self)]"/>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+</odoo>

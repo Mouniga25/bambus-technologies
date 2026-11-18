@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- ============================= -->
+    <!-- Website Menu -->
+    <!-- ============================= -->
+
+    <record id="our_menu" model="website.menu">
+
+        <field name="name">Customer Enquiry</field>
+
+        <field name="url">/our-menu</field>
+
+        <field name="parent_id" ref="website.main_menu"/>
+
+        <field name="sequence">30</field>
+
+    </record>
+
+
+    <!-- ============================= -->
+    <!-- Customer Enquiry Page -->
+    <!-- ============================= -->
+
+    <template id="our_menu_page" name="Customer Enquiry">
+
+        <t t-call="website.layout">
+
+            <div class="container mt-5 mb-5">
+
+                <h2 class="mb-4">
+                    Customer Enquiry
+                </h2>
+
+
+                <!-- ============================= -->
+                <!-- CRM Form -->
+                <!-- ============================= -->
+
+                <form action="/our-menu/submit"
+                      method="post">
+
+                    <!-- CSRF Token -->
+                    <input type="hidden"
+                           name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+
+
+                    <!-- ============================= -->
+                    <!-- Enquiry Number -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label for="enquiry_number"
+                               class="form-label">
+                            Enquiry Number
+                        </label>
+
+                        <input type="text"
+                               id="enquiry_number"
+                               name="enquiry_number"
+                               class="form-control"
+                               style="max-width: 400px;"
+                               t-att-value="enquiry_number"
+                               readonly="readonly"/>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- Name -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label for="name"
+                               class="form-label">
+                            Name
+                        </label>
+
+                        <input type="text"
+                               id="name"
+                               name="name"
+                               class="form-control"
+                               style="max-width: 400px;"
+                               required="required"/>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- Email -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label for="email"
+                               class="form-label">
+                            Email
+                        </label>
+
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               class="form-control"
+                               style="max-width: 400px;"
+                               required="required"/>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- Phone -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label for="phone"
+                               class="form-label">
+                            Phone
+                        </label>
+
+                        <input type="text"
+                               id="phone"
+                               name="phone"
+                               class="form-control"
+                               style="max-width: 400px;"/>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- Subject -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label for="subject"
+                               class="form-label">
+                            Subject
+                        </label>
+
+                        <input type="text"
+                               id="subject"
+                               name="subject"
+                               class="form-control"
+                               style="max-width: 400px;"
+                               required="required"/>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- Message -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label for="message"
+                               class="form-label">
+                            Message
+                        </label>
+
+                        <textarea id="message"
+                                  name="message"
+                                  class="form-control"
+                                  style="max-width: 400px;"
+                                  rows="5"></textarea>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- Submit Button -->
+                    <!-- ============================= -->
+
+                    <button type="submit"
+                            class="btn btn-primary mt-3">
+
+                        Submit
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </t>
+
+    </template>
+
+</odoo>

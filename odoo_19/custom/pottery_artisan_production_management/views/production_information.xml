@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- List View -->
+
+    <record id="view_production_information_list" model="ir.ui.view">
+        <field name="name">production.information.list</field>
+        <field name="model">production.information</field>
+        <field name="arch" type="xml">
+            <list>
+                <header>
+                    <button
+                        name="action_open_kiln_wizard"
+                        string="Assign Kiln"
+                        type="object"
+                        class="btn-primary" />
+                </header>
+                <field name="name" />
+                <field name="product_id" />
+                <field name="artisan_id" />
+                <field name="artisan_phone" />
+                <field name="kiln_id" />
+                <field name="kiln_type" readonly="1" />
+                <field name="kiln_capacity" readonly="1" />
+                <field name="kiln_status" readonly="1" />
+                <field name="quantity" />
+                <field name="required_clay" readonly="1" />
+                <field name="production_date" />
+                <field name="produced_qty" />
+                <field name="passed_qty" />
+                <field name="rejected_qty" />
+                <field
+                    name="status"
+                    widget="badge"
+                    decoration-info="status in ('draft', 'quality_check')"
+                    decoration-primary="status == 'in_progress'"
+                    decoration-warning="status in ('drying', 'in_kiln')"
+                    decoration-success="status == 'completed'"
+                />
+                <field
+                    name="progress_percentage"
+                    widget="progressbar"
+                    readonly="1"
+                />
+                <field name="is_delayed" />
+                <field name="total_cost" />
+                <field name="customer_order_id" />
+
+            </list>
+
+        </field>
+    </record>
+
+
+    <!-- Form View -->
+
+    <record id="view_production_information_form" model="ir.ui.view">
+        <field name="name">production.information.form</field>
+        <field name="model">production.information</field>
+        <field name="arch" type="xml">
+
+            <form>
+
+                <header>
+                    <button
+                        name="action_start_production"
+                        string="Start Production"
+                        type="object"
+                        class="btn-primary"
+                        invisible="status != 'draft'" />
+
+                    <button
+                        name="action_start_drying"
+                        string="Start Drying"
+                        type="object"
+                        class="btn-primary"
+                        invisible="status != 'in_progress'" />
+
+                    <button
+                        name="action_start_kiln"
+                        string="Start Kiln"
+                        type="object"
+                        class="btn-primary"
+                        invisible="status != 'drying'" />
+
+                    <button
+                        name="action_quality_check"
+                        string="Quality Check"
+                        type="object"
+                        class="btn-primary"
+                        invisible="status != 'in_kiln'" />
+
+                    <button
+                        name="action_complete_production"
+                        string="Complete"
+                        type="object"
+                        class="btn-primary"
+                        invisible="status != 'quality_check'" />
+
+                    <button
+                        name="action_reset_to_draft"
+                        string="Reset to Draft"
+                        type="object"
+                        invisible="status != 'completed'" />
+
+                    <field
+                        name="status"
+                        widget="statusbar"
+                        statusbar_visible="draft,in_progress,drying,in_kiln,quality_check,completed" />
+                    <button
+                        name="action_open_kiln_wizard"
+                        string="Assign Kiln"
+                        type="object"
+                        class="btn-primary"
+                        invisible="status != 'drying'"
+                    />
+                    <button
+                        name="action_start_recovery"
+                        string="Start Recovery"
+                        type="object"
+                        class="btn-primary"
+                        invisible="recovery_status != 'pending'"
+                    />
+                    <button
+                        name="action_complete_recovery"
+                        string="Complete Recovery"
+                        type="object"
+                        class="btn-success"
+                        invisible="recovery_status != 'in_progress'"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                        <button
+                            name="action_view_quality_checks"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-check-circle"
+                        >
+                            <field
+                                name="quality_check_count"
+                                widget="statinfo"
+                                string="Quality Checks"
+                            />
+                        </button>
+
+                    </div>
+                    <notebook>
+                        <page string="General Information">
+
+                            <group>
+
+                                <group>
+
+                                    <field name="name" readonly="1" />
+                                    <field name="product_id" />
+                                    <field name="artisan_id" />
+                                    <field name="customer_order_id" />
+                                    <field name="kiln_id" />
+                                    <field name="kiln_type" readonly="1" />
+                                    <field name="kiln_capacity" readonly="1" />
+                                    <field name="kiln_status" readonly="1" />
+
+
+                                </group>
+
+                                <group>
+                                    <field name="quantity" />
+                                    <field name="required_clay" readonly="1" />
+                                    <field name="production_date" />
+                                    <field name="artisan_phone" readonly="1" />
+                                    <field name="artisan_skill" readonly="1" />
+                                    <field name="artisan_experience" readonly="1" />
+                                    <field
+                                        name="status"
+                                        widget="badge"
+                                        decoration-info="status in ('draft', 'quality_check')"
+                                        decoration-primary="status == 'in_progress'"
+                                        decoration-warning="status in ('drying', 'in_kiln')"
+                                        decoration-success="status == 'completed'"
+                                    />
+                                    <field
+                                        name="progress_percentage"
+                                        widget="progressbar"
+                                        readonly="1"
+                                    />
+                                    <field name="is_delayed" />
+
+                                </group>
+
+                            </group>
+
+                        </page>
+
+
+                        <!-- 2. Raw Materials -->
+
+                        <page string="Raw Materials">
+
+                            <field name="raw_material_line" readonly="1">
+
+                                <list editable="bottom">
+
+                                    <field name="raw_material_id" />
+                                    <field name="required_quantity" />
+                                    <field name="unit_cost" readonly="1" />
+                                    <field name="material_cost" readonly="1" />
+
+                                </list>
+
+                            </field>
+
+                        </page>
+                        <page string="Drying Details">
+
+                            <group>
+                                <group>
+                                    <field name="drying_start_date" />
+                                    <field name="expected_drying_days" />
+                                </group>
+
+                                <group>
+                                    <field name="expected_drying_date" readonly="1" />
+                                </group>
+                            </group>
+
+                            <separator string="Drying Notes" />
+
+                            <field name="drying_notes"
+                                placeholder="Enter drying observations or notes..." />
+
+                        </page>
+
+                        <!-- 3. Costing -->
+
+                        <page string="Costing">
+
+                            <group>
+
+                                <field name="material_cost" readonly="1" />
+                                <field name="labour_cost" />
+                                <field name="total_cost" readonly="1" />
+
+                            </group>
+
+                        </page>
+
+
+                        <!-- 4. Quality -->
+
+                        <page string="Quality">
+
+                            <group>
+
+                                <field name="produced_qty" />
+                                <field name="passed_qty" readonly="1" />
+                                <field name="rejected_qty" readonly="1" />
+                                <field name="wastage_percentage" readonly="1" />
+
+                            </group>
+
+                        </page>
+                        <page string="Recovery">
+                            <group>
+                                <group>
+                                    <field name="recovery_required" />
+                                    <field name="pending_quantity" />
+                                    <field name="recovery_quantity" />
+                                </group>
+
+                                <group>
+                                    <field name="recovery_passed_qty" />
+                                    <field name="final_good_qty" />
+                                    <field name="recovery_status" />
+                                </group>
+                            </group>
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+    <!-- =========================================================
+     CALENDAR VIEW
+========================================================== -->
+
+    <record id="view_production_information_calendar" model="ir.ui.view">
+
+        <field name="name">production.information.calendar</field>
+        <field name="model">production.information</field>
+
+        <field name="arch" type="xml">
+
+            <calendar
+                string="Production Schedule"
+                date_start="production_date"
+                color="artisan_id"
+            >
+
+                <field name="name" />
+                <field name="product_id" />
+                <field name="artisan_id" />
+                <field name="quantity" />
+                <field name="status" />
+
+            </calendar>
+
+        </field>
+
+    </record>
+    <!-- Search View -->
+
+    <record id="view_production_information_search" model="ir.ui.view">
+        <field name="name">production.information.search</field>
+        <field name="model">production.information</field>
+        <field name="arch" type="xml">
+
+            <search>
+
+                <field name="name" />
+                <field name="product_id" />
+                <field name="artisan_id" />
+                <field name="status" />
+                <field name="production_date" />
+
+                <separator />
+
+                <filter
+                    name="filter_draft"
+                    string="Draft"
+                    domain="[('status', '=', 'draft')]" />
+
+                <filter
+                    name="filter_in_production"
+                    string="In Prodir.actions.act_windowuction"
+                    domain="[('status', '=', 'in_progress')]" />
+
+                <filter
+                    name="filter_drying"
+                    string="Drying"
+                    domain="[('status', '=', 'drying')]" />
+
+                <filter
+                    name="filter_in_kiln"
+                    string="In Kiln"
+                    domain="[('status', '=', 'in_kiln')]" />
+
+                <filter
+                    name="filter_quality_check"
+                    string="Quality Check"
+                    domain="[('status', '=', 'quality_check')]" />
+
+                <filter
+                    name="filter_completed"
+                    string="Completed"
+                    domain="[('status', '=', 'completed')]" />
+
+                <filter
+                    name="filter_delayed"
+                    string="Delayed Productions"
+                    domain="[('is_delayed', '=', True)]" />
+
+            </search>
+
+        </field>
+    </record>
+
+
+    <!-- Action -->
+
+    <record id="action_production_information"
+        model="ir.actions.act_window">
+
+        <field name="name">Productions</field>
+        <field name="res_model">production.information</field>
+        <field name="view_mode">list,form,calendar</field>
+        <field name="search_view_id" ref="view_production_information_search" />
+
+        <field name="help" type="html">
+
+            <p class="o_view_nocontent_smiling_face">
+                Create a Production Information
+            </p>
+
+        </field>
+
+    </record>
+
+
+    <!-- Menu -->
+
+    <menuitem
+        id="menu_production_information"
+        name="Production"
+        parent="menu_production_information_root"
+        action="action_production_information"
+        sequence="40" />
+
+</odoo>

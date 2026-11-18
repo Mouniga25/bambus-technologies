@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- =========================================================
+         QUALITY LIST VIEW
+    ========================================================== -->
+
+    <record id="view_quality_information_list" model="ir.ui.view">
+
+        <field name="name">quality.information.list</field>
+
+        <field name="model">quality.information</field>
+
+        <field name="arch" type="xml">
+
+            <list string="Quality Checks">
+
+                <field name="name" />
+                <field name="production_id" />
+                <field name="product_id" />
+                <field name="inspector" />
+                <field name="check_date" />
+                <field name="produced_qty" />
+                <field name="passed_qty" />
+                <field name="rejected_qty" />
+                <field name="status" />
+
+            </list>
+
+        </field>
+
+    </record>
+
+
+    <!-- =========================================================
+         QUALITY FORM VIEW
+    ========================================================== -->
+
+    <record id="view_quality_information_form" model="ir.ui.view">
+
+        <field name="name">quality.information.form</field>
+
+        <field name="model">quality.information</field>
+
+        <field name="arch" type="xml">
+
+            <form string="Quality Check">
+
+                <!-- ================= HEADER ================= -->
+
+                <header>
+
+                    <!-- APPROVE -->
+
+                    <button
+                        name="action_approve"
+                        string="Approve"
+                        type="object"
+                        class="btn-success"
+                        invisible="status != 'pending'"
+                    />
+
+                    <!-- REJECT -->
+
+                    <button
+                        name="action_reject"
+                        string="Reject"
+                        type="object"
+                        class="btn-danger"
+                        invisible="status != 'pending'"
+                    />
+
+                    <!-- RESET -->
+
+                    <button
+                        name="action_reset_pending"
+                        string="Reset to Pending"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="status == 'pending'"
+                    />
+
+                    <!-- STATUS -->
+
+                    <field
+                        name="status"
+                        widget="statusbar"
+                        statusbar_visible="pending,approved,rejected"
+                    />
+
+                </header>
+
+
+                <!-- ================= SHEET ================= -->
+
+                <sheet>
+
+                    <!-- ================= TITLE ================= -->
+
+                    <div class="oe_title">
+
+                        <label
+                            for="name"
+                            class="oe_edit_only"
+                        />
+
+                        <h1>
+
+                            <field
+                                name="name"
+                                readonly="1"
+                            />
+
+                        </h1>
+
+                    </div>
+
+
+                    <!-- ================= BASIC INFORMATION ================= -->
+
+                    <group>
+
+                        <group>
+
+                            <field
+                                name="production_id"
+                                readonly="status != 'pending'"
+                            />
+
+                            <field
+                                name="product_id"
+                                readonly="1"
+                            />
+
+                            <field
+                                name="inspector"
+                                readonly="status != 'pending'"
+                            />
+
+                        </group>
+
+
+                        <group>
+
+                            <field
+                                name="check_date"
+                                readonly="status != 'pending'"
+                            />
+
+                            <field
+                                name="status"
+                                invisible="1"
+                            />
+
+                        </group>
+
+                    </group>
+
+
+                    <!-- ================= QUALITY QUANTITIES ================= -->
+
+                    <separator string="Quality Quantities" />
+
+                    <group>
+
+                        <group>
+
+                            <field
+                                name="produced_qty"/>
+
+                            <field
+                                name="passed_qty"
+                                readonly="status != 'pending'"
+                            />
+
+                        </group>
+
+
+                        <group>
+
+                            <field
+                                name="rejected_qty"
+                                readonly="status != 'pending'"
+                            />
+
+                        </group>
+
+                    </group>
+
+
+                    <!-- ================= REMARKS ================= -->
+
+                    <separator string="Inspection Remarks" />
+
+                    <field
+                        name="remarks"
+                        placeholder="Enter inspection remarks..."
+                        readonly="status != 'pending'"
+                    />
+
+                </sheet>
+
+            </form>
+
+        </field>
+
+    </record>
+
+
+    <!-- =========================================================
+     SEARCH VIEW
+========================================================== -->
+
+    <record id="view_quality_information_search" model="ir.ui.view">
+
+        <field name="name">quality.information.search</field>
+        <field name="model">quality.information</field>
+
+        <field name="arch" type="xml">
+
+            <search string="Search Quality Checks">
+
+                <!-- Search by Quality Reference -->
+                <field name="name" />
+
+                <!-- Search by Production -->
+                <field name="production_id" />
+
+                <!-- Search by Inspector -->
+                <field name="inspector" />
+
+                <!-- Filters -->
+
+                <separator />
+
+                <filter
+                    name="filter_pending"
+                    string="Pending"
+                    domain="[('status', '=', 'pending')]"
+                />
+
+                <filter
+                    name="filter_approved"
+                    string="Approved"
+                    domain="[('status', '=', 'approved')]"
+                />
+
+                <filter
+                    name="filter_rejected"
+                    string="Rejected"
+                    domain="[('status', '=', 'rejected')]"
+                />
+
+            </search>
+
+        </field>
+
+    </record>
+
+
+    <!-- =========================================================
+         ACTION
+    ========================================================== -->
+
+    <record id="action_quality_information" model="ir.actions.act_window">
+
+        <field name="name">Quality Checks</field>
+        <field name="res_model">quality.information</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_quality_information_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Quality Check
+            </p>
+            <p>
+                Record production quality inspection,
+                passed quantity and rejected quantity.
+            </p>
+        </field>
+    </record>
+    <!-- =========================================================
+         MENU
+    ========================================================== -->
+    <menuitem
+        id="menu_quality_information"
+        name="Quality Checks"
+        parent="menu_production_information_root"
+        action="action_quality_information"
+        sequence="60"
+    />
+</odoo>

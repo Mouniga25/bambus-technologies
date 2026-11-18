@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="doctor_daily_report_template">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <main class="page">
+                        <table style="width:100%;background:#A076E5;color:white;">
+                            <tr>
+                                <td style="padding:15px;">
+                                    <h2 style="color:white;">
+                                        Doctor Daily Report
+                                    </h2>
+                                </td>
+                                <td style="text-align:right;padding:15px;">
+                                    <strong>Doctor:</strong>
+                                    <span t-esc="doc.doctor_name"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table width="100%" border="1"
+                               style="border-collapse:collapse;">
+                            <tr style="background:#A076E5;color:white;">
+                                <th colspan="2">
+                                    Doctor Information
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="padding:4px;">Doctor Name</td>
+                                <td style="padding:4px;">
+                                    <span t-esc="doc.doctor_name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:4px;">Department</td>
+                                <td style="padding:4px;">
+                                    <span t-esc="doc.department_id.department_name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:4px;">Email</td>
+                                <td style="padding:4px;">
+                                    <span t-esc="doc.email"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:4px;">Phone</td>
+                                <td style="padding:4px;">
+                                    <span t-esc="doc.phone"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:4px;">Assigned Patients</td>
+                                <td style="padding:4px;">
+                                    <span t-esc="doc.patient_count"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:4px;">Pending Lab Results</td>
+                                <td style="padding:4px;">
+                                    <span t-esc="doc.pending_lab_count"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table width="100%" border="1"
+                               style="border-collapse:collapse;">
+                            <tr style="background:#A076E5;color:white;">
+                                <th colspan="4">
+                                    Assigned Patients
+                                </th>
+                            </tr>
+                            <tr style="background:#F2F2F2;">
+                                <th>Patient ID</th>
+                                <th>Patient Name</th>
+                                <th>Phone</th>
+                                <th>Blood Group</th>
+                            </tr>
+                            <t t-foreach="doc.patient_lines" t-as="patient">
+                                <tr>
+                                    <td style="padding:4px;">
+                                        <span t-esc="patient.patient_id"/>
+                                    </td>
+                                    <td style="padding:4px;">
+                                        <span t-esc="patient.name"/>
+                                    </td>
+                                    <td style="padding:4px;">
+                                        <span t-esc="patient.phone"/>
+                                    </td>
+                                    <td style="padding:4px;">
+                                        <span t-esc="patient.blood_group"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                        <br/>
+                        <div style="border-top:2px solid #A076E5;padding-top:10px;">
+                            <strong>Doctor Notes:</strong>
+                            <p>
+                                <span t-esc="doc.description"/>
+                            </p>
+                        </div>
+                        <div
+                            style="
+                            margin-top:30px;
+                            border-top:1px solid #A076E5;
+                            padding-top:10px;
+                            text-align:center;">
+                            <strong>
+                                Thank you for your dedicated service.
+                            </strong>
+                            <br/>
+                            <span>
+                                ABC Hospital Management System
+                            </span>
+                        </div>
+                    </main>
+                </t>
+            </t>
+    </template>
+</odoo>

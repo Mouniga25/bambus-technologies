@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Vehicle Form -->
+    <record id="fleet_vehicle_form_inherit_lifecycle" model="ir.ui.view">
+        <field name="name">fleet.vehicle.form.lifecycle</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
+        <field name="arch" type="xml">
+
+            <!-- Existing Acquisition Date field visible -->
+            <xpath expr="//field[@name='acquisition_date']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+
+            <!-- Requirement 20 : Major Repairs Smart Button -->
+            <xpath expr="//sheet/div[@name='button_box']" position="inside">
+                <button name="action_view_major_repairs"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-wrench">
+                    <field name="major_repair_count"
+                        widget="statinfo"
+                        string="Major Repairs" />
+                </button>
+
+                <!-- Requirement 21 : Maintenance Cost Smart Button -->
+                <button name="action_view_maintenance_cost"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-money">
+
+                    <field name="lifetime_service_cost"
+                        widget="statinfo"
+                        string="Maintenance Cost" />
+
+                </button>
+
+            </xpath>
+            <!-- Vehicle Age near Registration Date -->
+            <xpath expr="//field[@name='acquisition_date']" position="after">
+                <field name="vehicle_age" readonly="1" />
+            </xpath>
+
+            <!-- Requirement 16 -->
+            <xpath expr="//notebook" position="inside">
+
+                <page string="Lifecycle Analysis" name="lifecycle_analysis">
+
+                    <!-- Vehicle Lifecycle -->
+                    <group>
+                        <group string="Vehicle Lifecycle" col="2">
+                            <field name="vehicle_age" readonly="1" />
+                            <field name="age_usage_percentage" readonly="1" />
+                            <field name="odometer_usage_percentage" readonly="1" />
+                            <field name="budget_usage_percentage" readonly="1" />
+                            <field name="lifecycle_status" readonly="1" />
+                            <field name="replacement_reason" readonly="1" />
+                        </group>
+
+                        <!-- Cost Analysis -->
+                        <group string="Cost Analysis" col="2">
+                            <field name="lifetime_service_cost" readonly="1" />
+                            <field name="current_year_service_cost" readonly="1" />
+                            <field name="previous_year_service_cost" readonly="1" />
+                            <field name="maintenance_cost_change_percentage" readonly="1" />
+                            <field name="average_annual_maintenance_cost" readonly="1" />
+                            <field name="maintenance_cost_per_km" readonly="1" />
+                            <field name="cost_per_km_usage_percentage" readonly="1" />
+                        </group>
+                    </group>
+
+                    <!-- Repair Analysis -->
+                    <group string="Repair Analysis">
+                        <field name="major_repair_count" readonly="1" />
+                    </group>
+
+                </page>
+
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Requirement 17 : Vehicle Tree View -->
+    <record id="fleet_vehicle_tree_inherit_lifecycle" model="ir.ui.view">
+        <field name="name">fleet.vehicle.tree.lifecycle</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_tree" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='license_plate']" position="after">
+                <field name="vehicle_age" optional="show" />
+                <field name="odometer" optional="show" />
+                <field name="current_year_service_cost" optional="show" />
+                <field name="maintenance_cost_per_km" optional="show" />
+
+                <field name="lifecycle_status"
+                    widget="badge"
+                    decoration-success="lifecycle_status == 'healthy'"
+                    decoration-warning="lifecycle_status == 'monitor'"
+                    decoration-info="lifecycle_status == 'review'"
+                    decoration-danger="lifecycle_status == 'replace'"
+                    optional="show" />
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Requirement 18 : Vehicle Kanban -->
+    <record id="fleet_vehicle_kanban_inherit_lifecycle" model="ir.ui.view">
+        <field name="name">fleet.vehicle.kanban.lifecycle</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_kanban" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='model_id']" position="after">
+                <div class="mt-1">
+                    <strong>Lifecycle:</strong>
+                    <field name="lifecycle_status"
+                        widget="badge"
+                        decoration-success="lifecycle_status == 'healthy'"
+                        decoration-warning="lifecycle_status == 'monitor'"
+                        decoration-info="lifecycle_status == 'review'"
+                        decoration-danger="lifecycle_status == 'replace'" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Requirement 19 : Search View -->
+    <record id="fleet_vehicle_search_inherit_lifecycle" model="ir.ui.view">
+        <field name="name">fleet.vehicle.search.lifecycle</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_search" />
+        <field name="arch" type="xml">
+
+            <!-- Filters -->
+            <xpath expr="//search" position="inside">
+                <separator />
+                <filter name="healthy_vehicle"
+                    string="Healthy Vehicles"
+                    domain="[('lifecycle_status','=','healthy')]" />
+
+                <filter name="monitor_vehicle"
+                    string="Monitor Vehicles"
+                    domain="[('lifecycle_status','=','monitor')]" />
+
+                <filter name="review_vehicle"
+                    string="Replacement Review"
+                    domain="[('lifecycle_status','=','review')]" />
+
+                <filter name="replace_vehicle"
+                    string="Replacement Recommended"
+                    domain="[('lifecycle_status','=','replace')]" />
+
+                <separator />
+
+                <filter name="above_budget"
+                    string="Above Maintenance Budget"
+                    domain="[('budget_usage_percentage','>=',100)]" />
+
+                <filter name="high_cost_km"
+                    string="High Cost Per KM"
+                    domain="[('cost_per_km_usage_percentage','>=',100)]" />
+
+                <filter name="major_repair"
+                    string="Major Repair Vehicles"
+                    domain="[('major_repair_count','>=',1)]" />
+
+                <filter name="age_limit"
+                    string="Age Limit Exceeded"
+                    domain="[('age_usage_percentage','>=',100)]" />
+
+                <filter name="odometer_limit"
+                    string="Odometer Limit Exceeded"
+                    domain="[('odometer_usage_percentage','>=',100)]" />
+
+            </xpath>
+
+            <!-- Group By -->
+            <xpath expr="//search/group" position="inside">
+
+                <filter name="group_lifecycle"
+                    string="Lifecycle Status"
+                    context="{'group_by':'lifecycle_status'}" />
+
+                <filter name="group_category"
+                    string="Vehicle Category"
+                    context="{'group_by':'category_id'}" />
+
+                <filter name="group_model"
+                    string="Vehicle Model"
+                    context="{'group_by':'model_id'}" />
+
+                <filter name="group_driver"
+                    string="Driver"
+                    context="{'group_by':'driver_id'}" />
+
+                <filter name="group_company"
+                    string="Company"
+                    context="{'group_by':'company_id'}" />
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

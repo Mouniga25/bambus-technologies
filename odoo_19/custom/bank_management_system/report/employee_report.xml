@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_employee_information_report"
+            model="ir.actions.report">
+
+        <field name="name">Employee Information</field>
+        <field name="model">employee.information</field>
+        <field name="report_type">qweb-pdf</field>
+
+        <field name="report_name">bank_management_system.report_employee_information</field>
+        <field name="report_file">bank_management_system.report_employee_information</field>
+
+         <field name="binding_model_id" ref="model_employee_information"/>
+        <field name="binding_type">report</field> 
+
+    </record>
+
+</odoo>

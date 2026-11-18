@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+     <template id="report_lab_result">
+        <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="doc">
+                <main class="page">
+                    <table style="width:100%;background:#A076E5;color:white;">
+                        <tr>
+                            <td style="padding:15px;">
+                                <h2 style="color:white;">
+                                    Lab Result Report
+                                </h2>
+                            </td>
+                            <td style="text-align:right;padding:15px;">
+                                <strong>Patient Name:</strong>
+                                <span t-esc="doc.patient_id.patient_name or doc.patient_id.name"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table style="width:100%;border-collapse:collapse;"
+                           border="1">
+                        <tr style="background:#A076E5;color:white;">
+                            <th colspan="2">
+                                Patient Information
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>Doctor Name</td>
+                            <td>
+                                <span t-esc="doc.doctor_id.doctor_name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lab Test</td>
+                            <td>
+                                <span t-esc="doc.test_id.test_category"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Test Date</td>
+                            <td>
+                                <span t-esc="doc.test_date"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Price </td>
+                            <td>
+                                <span t-esc="doc.price"/>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>Doctor Remark</td>
+                            <td><span t-esc="doc.doctor_remark"/></td>
+                        </tr>
+                        <tr>
+                            <td>Reference Range</td>
+                            <td><span t-esc="doc.reference_range"/></td>
+                        </tr>
+                        <tr>
+                            <td>Patient Status</td>
+                            <td>
+                                <span t-esc="doc.patient_status"/>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>Amount Status</td>
+                            <td>
+
+                                <span t-esc="doc.amount_status"/>
+
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <div style="border-top:1px solid #A076E5;padding-top:10px;">
+                        <strong>Hospital Notes:</strong>
+                        <p>
+                            thank you for visiting ABC hospital
+                        </p>
+                    </div>
+                </main>
+            </t>
+        </t>
+    </template>
+</odoo>

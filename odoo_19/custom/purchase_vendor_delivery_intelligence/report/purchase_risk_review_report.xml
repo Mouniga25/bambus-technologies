@@ -1,0 +1,1667 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- ========================================================= -->
+    <!-- REPORT ACTION                                             -->
+    <!-- ========================================================= -->
+
+    <record id="action_report_purchase_risk_review" model="ir.actions.report">
+        <field name="name">Purchase Risk Review</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">purchase_vendor_delivery_intelligence.report_purchase_risk_review</field>
+        <field name="report_file">purchase_vendor_delivery_intelligence.report_purchase_risk_review</field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order" />
+        <field name="binding_type">report</field>
+    </record>
+
+
+    <!-- ========================================================= -->
+    <!-- PURCHASE RISK REVIEW REPORT                               -->
+    <!-- ========================================================= -->
+
+    <template id="report_purchase_risk_review">
+
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="o">
+
+                <t t-call="web.external_layout">
+
+                    <div class="page"
+                        style="
+                            font-family: Arial, Helvetica, sans-serif;
+                            color: #111827;
+                            font-size: 11px;
+                        ">
+
+                        <!-- ================================================= -->
+                        <!-- MANAGEMENT SUMMARY                               -->
+                        <!-- ================================================= -->
+
+                        <t t-set="management_summary"
+                            t-value="o._vdi_get_management_summary()" />
+
+                        <div
+                            style="
+                            margin-bottom: 18px;
+                            padding: 0;
+                        ">
+
+                            <!-- Summary Header -->
+                            <div
+                                style="
+                                    background-color: #4A254F;
+                                    color: white;
+                                    padding: 12px 16px;
+                                    margin-bottom: 10px;
+                                    border-radius: 4px;
+                                ">
+
+                                <div
+                                    style="
+                                        font-size: 18px;
+                                        font-weight: 800;
+                                        letter-spacing: 0.3px;
+                                    ">
+                                    Management Summary
+                                </div>
+
+                                <div
+                                    style="
+                                        margin-top: 3px;
+                                        font-size: 9px;
+                                        opacity: 0.9;
+                                    ">
+                                    Current supplier delivery exposure and unresolved purchase
+                                    commitments
+                                </div>
+
+                            </div>
+
+
+                            <!-- First KPI Row -->
+                            <div
+                                style="
+                                    display: table;
+                                    width: 100%;
+                                    table-layout: fixed;
+                                    margin-bottom: 8px;
+                                ">
+
+                                <!-- Open POs -->
+                                <div
+                                    style="
+                                        display: table-cell;
+                                        width: 25%;
+                                        padding-right: 5px;
+                                    ">
+
+                                    <div
+                                        style="
+                                            border: 1px solid #D1D5DB;
+                                            border-top: 4px solid #4A254F;
+                                            padding: 9px 10px;
+                                            min-height: 55px;
+                                            background-color: #FFFFFF;
+                                        ">
+
+                                        <div
+                                            style="
+                                                font-size: 8px;
+                                                color: #6B7280;
+                                                text-transform: uppercase;
+                                                font-weight: 700;
+                                            ">
+                                            Open POs Reviewed
+                                        </div>
+
+                                        <div
+                                            style="
+                                                margin-top: 4px;
+                                                font-size: 20px;
+                                                font-weight: 800;
+                                                color: #111827;
+                                            ">
+                                            <t t-esc="management_summary['open_pos']" />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Critical -->
+                                <div
+                                    style="
+                                        display: table-cell;
+                                        width: 25%;
+                                        padding: 0 5px;
+                                    ">
+
+                                    <div
+                                        style="
+                                            border: 1px solid #FCA5A5;
+                                            border-top: 4px solid #B91C1C;
+                                            padding: 9px 10px;
+                                            min-height: 55px;
+                                            background-color: #FEF2F2;
+                                        ">
+
+                                        <div
+                                            style="
+                                                font-size: 8px;
+                                                color: #991B1B;
+                                                text-transform: uppercase;
+                                                font-weight: 700;
+                                            ">
+                                            Critical POs
+                                        </div>
+
+                                        <div
+                                            style="
+                                                margin-top: 4px;
+                                                font-size: 20px;
+                                                font-weight: 800;
+                                                color: #991B1B;
+                                            ">
+                                            <t t-esc="management_summary['critical_pos']" />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- At Risk -->
+                                <div
+                                    style="
+                                        display: table-cell;
+                                        width: 25%;
+                                        padding: 0 5px;
+                                    ">
+
+                                    <div
+                                        style="
+                                            border: 1px solid #FCD34D;
+                                            border-top: 4px solid #D97706;
+                                            padding: 9px 10px;
+                                            min-height: 55px;
+                                            background-color: #FFFBEB;
+                                        ">
+
+                                        <div
+                                            style="
+                                                font-size: 8px;
+                                                color: #92400E;
+                                                text-transform: uppercase;
+                                                font-weight: 700;
+                                            ">
+                                            At Risk POs
+                                        </div>
+
+                                        <div
+                                            style="
+                                                margin-top: 4px;
+                                                font-size: 20px;
+                                                font-weight: 800;
+                                                color: #92400E;
+                                            ">
+                                            <t t-esc="management_summary['at_risk_pos']" />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Due Soon -->
+                                <div
+                                    style="
+                                        display: table-cell;
+                                        width: 25%;
+                                        padding-left: 5px;
+                                    ">
+
+                                    <div
+                                        style="
+                                            border: 1px solid #D1D5DB;
+                                            border-top: 4px solid #6B7280;
+                                            padding: 9px 10px;
+                                            min-height: 55px;
+                                            background-color: #F9FAFB;
+                                        ">
+
+                                        <div
+                                            style="
+                                                font-size: 8px;
+                                                color: #6B7280;
+                                                text-transform: uppercase;
+                                                font-weight: 700;
+                                            ">
+                                            Due Soon POs
+                                        </div>
+
+                                        <div
+                                            style="
+                                                margin-top: 4px;
+                                                font-size: 20px;
+                                                font-weight: 800;
+                                                color: #374151;
+                                            ">
+                                            <t t-esc="management_summary['due_soon_pos']" />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Second KPI Row -->
+                            <div
+                                style="
+                                    display: table;
+                                    width: 100%;
+                                    table-layout: fixed;
+                                    margin-bottom: 14px;
+                                ">
+
+                                <!-- Unresolved Exposure -->
+                                <div
+                                    style="
+                                        display: table-cell;
+                                        width: 33.33%;
+                                        padding-right: 5px;
+                                    ">
+
+                                    <div
+                                        style="
+                                            border: 1px solid #D1D5DB;
+                                            padding: 8px 10px;
+                                            background-color: #F9FAFB;
+                                        ">
+
+                                        <div
+                                            style="
+                                                font-size: 8px;
+                                                color: #6B7280;
+                                                text-transform: uppercase;
+                                                font-weight: 700;
+                                            ">
+                                            Unresolved Exposure
+                                        </div>
+
+                                        <div
+                                            style="
+                                                margin-top: 3px;
+                                                font-size: 16px;
+                                                font-weight: 800;
+                                                color: #111827;
+                                            ">
+                                            <t t-esc="management_summary['unresolved_exposure']" />
+                                        </div>
+
+                                        <div
+                                            style="
+                                                font-size: 8px;
+                                                color: #6B7280;
+                                            ">
+                                            Open Lines
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Watchlist Suppliers -->
+                                <div
+                                    style="
+                                        display: table-cell;
+                                        width: 33.33%;
+                                        padding: 0 5px;
+                                    ">
+
+                                    <div
+                                        style="
+                                            border: 1px solid #D1D5DB;
+                                            padding: 8px 10px;
+                                            background-color: #F9FAFB;
+                                        ">
+
+                                        <div
+                                            style="
+                                                font-size: 8px;
+                                                color: #6B7280;
+                                                text-transform: uppercase;
+                                                font-weight: 700;
+                                            ">
+                                            Watchlist Suppliers
+                                        </div>
+
+                                        <div
+                                            style="
+                                                margin-top: 3px;
+                                                font-size: 16px;
+                                                font-weight: 800;
+                                                color: #111827;
+                                            ">
+                                            <t t-esc="management_summary['watchlist_suppliers']" />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Data Quality -->
+                                <div
+                                    style="
+                                        display: table-cell;
+                                        width: 33.33%;
+                                        padding-left: 5px;
+                                    ">
+
+                                    <div
+                                        style="
+                                            border: 1px solid #FCD34D;
+                                            padding: 8px 10px;
+                                            background-color: #FFFBEB;
+                                        ">
+
+                                        <div
+                                            style="
+                                                font-size: 8px;
+                                                color: #92400E;
+                                                text-transform: uppercase;
+                                                font-weight: 700;
+                                            ">
+                                            Data Quality Exceptions
+                                        </div>
+
+                                        <div
+                                            style="
+                                                margin-top: 3px;
+                                                font-size: 16px;
+                                                font-weight: 800;
+                                                color: #92400E;
+                                            ">
+                                            <t t-esc="management_summary['data_quality_exceptions']" />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Outstanding Quantity -->
+                            <h3 style="margin:0 0 6px 0; font-size:13px; color:#374151;">
+                                Outstanding Quantity by Product / UoM
+</h3>
+
+                            <table
+                                style="
+    width:100%;
+    border-collapse:collapse;
+    font-size:10.5px;
+">
+                                <thead>
+                                    <tr
+                                        style="
+            background-color:#F3F4F6;
+            color:#374151;
+            font-weight:bold;
+        ">
+                                        <th
+                                            style="
+                padding:7px 8px;
+                text-align:left;
+                border-bottom:1px solid #D1D5DB;
+            ">
+                                            Product
+                                        </th>
+                                        <th
+                                            style="
+                padding:7px 8px;
+                text-align:left;
+                border-bottom:1px solid #D1D5DB;
+            ">
+                                            UoM
+                                        </th>
+                                        <th
+                                            style="
+                padding:7px 8px;
+                text-align:right;
+                border-bottom:1px solid #D1D5DB;
+            ">
+                                            Outstanding Qty
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <t t-foreach="management_summary['outstanding_by_product']"
+                                        t-as="item">
+                                        <tr>
+                                            <td
+                                                style="
+                    padding:7px 8px;
+                    font-size:10.5px;
+                    color:#1F2937;
+                    font-weight:500;
+                    border-bottom:1px solid #E5E7EB;
+                ">
+                                                <span t-esc="item['product'].display_name"/>
+                                            </td>
+
+                                            <td
+                                                style="
+                    padding:7px 8px;
+                    font-size:10.5px;
+                    color:#1F2937;
+                    font-weight:500;
+                    border-bottom:1px solid #E5E7EB;
+                ">
+                                                <span t-esc="item['uom'].display_name"/>
+                                            </td>
+
+                                            <td
+                                                style="
+                    padding:7px 8px;
+                    font-size:11px;
+                    color:#111827;
+                    font-weight:600;
+                    text-align:right;
+                    border-bottom:1px solid #E5E7EB;
+                ">
+                                                <span t-esc="'%.2f' % item['qty']" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+
+                        <!-- Page Break: Management Summary / PO Review -->
+
+                        <div style="page-break-after: always;"></div>
+
+
+                        <!-- ================================================= -->
+                        <!-- HEADER                                            -->
+                        <!-- ================================================= -->
+
+                        <div
+                            style="
+                                border-bottom: 4px solid #4A254F;
+                                padding-bottom: 14px;
+                                margin-bottom: 20px;
+                            ">
+
+                            <div style="display: table; width: 100%;">
+
+                                <div
+                                    style="
+                                        display: table-cell;
+                                        width: 65%;
+                                        vertical-align: middle;
+                                    ">
+
+                                    <h1
+                                        style="
+                                            margin: 0;
+                                            color: #4A254F;
+                                            font-size: 27px;
+                                            font-weight: 800;
+                                            line-height: 1.2;
+                                        ">
+                                        Purchase Delivery Risk Review
+                                    </h1>
+
+                                    <div
+                                        style="
+                                            margin-top: 7px;
+                                            color: #374151;
+                                            font-size: 12px;
+                                            font-weight: 600;
+                                        ">
+                                        Supplier delivery intelligence and current order exposure
+                                    </div>
+
+                                </div>
+
+
+                                <div
+                                    style="
+                                        display: table-cell;
+                                        width: 35%;
+                                        text-align: right;
+                                        vertical-align: middle;
+                                    ">
+
+                                    <!-- CRITICAL -->
+
+                                    <div
+                                        style="
+                                            display: inline-block;
+                                            padding: 8px 17px;
+                                            border-radius: 4px;
+                                            font-size: 13px;
+                                            font-weight: 800;
+                                            background-color: #FEE2E2;
+                                            color: #991B1B;
+                                            border: 1px solid #DC2626;
+                                        "
+                                        t-if="o.vdi_risk_level == 'critical'">
+                                        CRITICAL
+                                    </div>
+
+
+                                    <!-- AT RISK -->
+
+                                    <div
+                                        style="
+                                            display: inline-block;
+                                            padding: 8px 17px;
+                                            border-radius: 4px;
+                                            font-size: 13px;
+                                            font-weight: 800;
+                                            background-color: #FEF3C7;
+                                            color: #92400E;
+                                            border: 1px solid #F59E0B;
+                                        "
+                                        t-elif="o.vdi_risk_level == 'at_risk'">
+                                        AT RISK
+                                    </div>
+
+
+                                    <!-- DUE SOON -->
+
+                                    <div
+                                        style="
+                                            display: inline-block;
+                                            padding: 8px 17px;
+                                            border-radius: 4px;
+                                            font-size: 13px;
+                                            font-weight: 800;
+                                            background-color: #E5E7EB;
+                                            color: #374151;
+                                            border: 1px solid #9CA3AF;
+                                        "
+                                        t-elif="o.vdi_risk_level == 'due_soon'">
+                                        DUE SOON
+                                    </div>
+
+
+                                    <!-- ON TRACK -->
+
+                                    <div
+                                        style="
+                                            display: inline-block;
+                                            padding: 8px 17px;
+                                            border-radius: 4px;
+                                            font-size: 13px;
+                                            font-weight: 800;
+                                            background-color: #DCFCE7;
+                                            color: #166534;
+                                            border: 1px solid #22C55E;
+                                        "
+                                        t-elif="o.vdi_risk_level == 'on_track'">
+                                        ON TRACK
+                                    </div>
+
+
+                                    <!-- COMPLETE -->
+
+                                    <div
+                                        style="
+                                            display: inline-block;
+                                            padding: 8px 17px;
+                                            border-radius: 4px;
+                                            font-size: 13px;
+                                            font-weight: 800;
+                                            background-color: #E5E7EB;
+                                            color: #1F2937;
+                                            border: 1px solid #9CA3AF;
+                                        "
+                                        t-elif="o.vdi_risk_level == 'complete'">
+                                        COMPLETE
+                                    </div>
+
+
+                                    <!-- DATA GAP -->
+
+                                    <div
+                                        style="
+                                            display: inline-block;
+                                            padding: 8px 17px;
+                                            border-radius: 4px;
+                                            font-size: 13px;
+                                            font-weight: 800;
+                                            background-color: #E5E7EB;
+                                            color: #1F2937;
+                                            border: 1px solid #9CA3AF;
+                                        "
+                                        t-else="">
+                                        DATA GAP
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- PURCHASE ORDER INFORMATION                         -->
+                        <!-- ================================================= -->
+
+                        <div
+                            style="
+                                background-color: #F3F4F6;
+                                border: 1px solid #9CA3AF;
+                                border-radius: 6px;
+                                padding: 16px;
+                                margin-bottom: 20px;
+                            ">
+
+                            <table
+                                style="
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    font-size: 11px;
+                                ">
+
+                                <tr>
+
+                                    <td
+                                        style="
+                                            width: 16%;
+                                            color: #374151;
+                                            padding: 7px 0;
+                                            font-weight: 700;
+                                        ">
+                                        Purchase Order
+                                    </td>
+
+                                    <td
+                                        style="
+                                            width: 34%;
+                                            padding: 7px 0;
+                                            font-weight: 800;
+                                            color: #111827;
+                                        ">
+                                        <span t-field="o.name" />
+                                    </td>
+
+                                    <td
+                                        style="
+                                            width: 16%;
+                                            color: #374151;
+                                            padding: 7px 0;
+                                            font-weight: 700;
+                                        ">
+                                        Vendor
+                                    </td>
+
+                                    <td
+                                        style="
+                                            width: 34%;
+                                            padding: 7px 0;
+                                            font-weight: 800;
+                                            color: #111827;
+                                        ">
+                                        <span t-field="o.partner_id" />
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td
+                                        style="
+                                            color: #374151;
+                                            padding: 7px 0;
+                                            font-weight: 700;
+                                        ">
+                                        Company
+                                    </td>
+
+                                    <td
+                                        style="
+                                            padding: 7px 0;
+                                            color: #111827;
+                                            font-weight: 600;
+                                        ">
+                                        <span t-field="o.company_id" />
+                                    </td>
+
+                                    <td
+                                        style="
+                                            color: #374151;
+                                            padding: 7px 0;
+                                            font-weight: 700;
+                                        ">
+                                        Last Evaluated
+                                    </td>
+
+                                    <td
+                                        style="
+                                            padding: 7px 0;
+                                            color: #111827;
+                                            font-weight: 600;
+                                        ">
+                                        <span t-field="o.vdi_last_evaluated_at" />
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- RISK REASON                                        -->
+                        <!-- ================================================= -->
+
+                        <div
+                            t-if="o.vdi_risk_reason"
+                            style="
+                                border-left: 6px solid #4A254F;
+                                background-color: #F3EAF4;
+                                border-top: 1px solid #D8C5DB;
+                                border-right: 1px solid #D8C5DB;
+                                border-bottom: 1px solid #D8C5DB;
+                                padding: 13px 17px;
+                                margin-bottom: 20px;
+                            ">
+
+                            <div
+                                style="
+                                    font-size: 11px;
+                                    color: #4A254F;
+                                    font-weight: 800;
+                                    text-transform: uppercase;
+                                    margin-bottom: 5px;
+                                ">
+                                Risk Assessment
+                            </div>
+
+                            <div
+                                style="
+                                    font-size: 12px;
+                                    color: #111827;
+                                    font-weight: 600;
+                                    line-height: 1.5;
+                                ">
+                                <span t-field="o.vdi_risk_reason" />
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- CRITICAL SUPPLY NOTICE                            -->
+                        <!-- ================================================= -->
+
+                        <t
+                            t-set="critical_supply_lines"
+                            t-value="o.order_line.filtered(lambda l: l.vdi_is_critical_supply and not l.display_type)" />
+
+                        <div
+                            t-if="critical_supply_lines"
+                            style="
+                                background-color: #FFF1F2;
+                                border: 2px solid #DC2626;
+                                border-left: 7px solid #991B1B;
+                                padding: 15px 18px;
+                                margin-bottom: 22px;
+                            ">
+
+                            <div
+                                style="
+                                    color: #991B1B;
+                                    font-size: 17px;
+                                    font-weight: 800;
+                                    margin-bottom: 6px;
+                                ">
+                                ⚠ CRITICAL SUPPLY NOTICE
+                            </div>
+
+                            <div
+                                style="
+                                    color: #7F1D1D;
+                                    font-size: 12px;
+                                    font-weight: 700;
+                                    line-height: 1.5;
+                                ">
+                                One or more critical supply items have open quantities
+                                and require immediate delivery attention.
+                            </div>
+
+                            <div
+                                style="
+                                    margin-top: 8px;
+                                    color: #991B1B;
+                                    font-size: 11px;
+                                    font-weight: 800;
+                                ">
+                                Critical Supply Items: <span t-esc="len(critical_supply_lines)" />
+                            </div>
+
+
+                            <table
+                                style="
+                                    width: 100%;
+                                    margin-top: 11px;
+                                    border-collapse: collapse;
+                                    font-size: 10.5px;
+                                ">
+
+                                <thead>
+
+                                    <tr
+                                        style="
+                                            background-color: #991B1B;
+                                            color: #FFFFFF;
+                                        ">
+
+                                        <th
+                                            style="
+                                                padding: 8px;
+                                                text-align: left;
+                                            ">
+                                            Product
+                                        </th>
+
+                                        <th
+                                            style="
+                                                padding: 8px;
+                                                text-align: right;
+                                            ">
+                                            Original Qty
+                                        </th>
+
+                                        <th
+                                            style="
+                                                padding: 8px;
+                                                text-align: right;
+                                            ">
+                                            Accepted
+                                        </th>
+
+                                        <th
+                                            style="
+                                                padding: 8px;
+                                                text-align: right;
+                                            ">
+                                            Open Qty
+                                        </th>
+
+                                        <th
+                                            style="
+                                                padding: 8px;
+                                                text-align: center;
+                                            ">
+                                            Risk
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    <t
+                                        t-foreach="critical_supply_lines"
+                                        t-as="critical_line">
+
+                                        <tr
+                                            style="
+                                                border-bottom: 1px solid #FECACA;
+                                                background-color: #FFF7F7;
+                                            ">
+
+                                            <td
+                                                style="
+                                                    padding: 8px;
+                                                    color: #3B0A0A;
+                                                    font-weight: 700;
+                                                ">
+                                                <span t-field="critical_line.product_id" />
+                                            </td>
+
+
+                                            <td
+                                                style="
+                                                    padding: 8px;
+                                                    text-align: right;
+                                                    color: #3B0A0A;
+                                                    font-weight: 600;
+                                                ">
+                                                <span t-field="critical_line.vdi_original_qty" />
+                                                <span t-field="critical_line.vdi_original_uom_id" />
+                                            </td>
+
+
+                                            <td
+                                                style="
+                                                    padding: 8px;
+                                                    text-align: right;
+                                                    color: #3B0A0A;
+                                                    font-weight: 600;
+                                                ">
+                                                <span t-field="critical_line.vdi_net_received_qty" />
+                                            </td>
+
+
+                                            <td
+                                                style="
+                                                    padding: 8px;
+                                                    text-align: right;
+                                                    color: #991B1B;
+                                                    font-weight: 800;
+                                                ">
+                                                <span
+                                                    t-esc="
+                                                    max(
+                                                        critical_line.vdi_original_qty
+                                                        - critical_line.vdi_net_received_qty,
+                                                        0
+                                                    )
+                                                " />
+                                            </td>
+
+
+                                            <td
+                                                style="
+                                                    padding: 8px;
+                                                    text-align: center;
+                                                ">
+
+                                                <span
+                                                    style="
+                                                        display: inline-block;
+                                                        background-color: #991B1B;
+                                                        color: #FFFFFF;
+                                                        padding: 5px 8px;
+                                                        font-size: 9px;
+                                                        font-weight: 800;
+                                                    ">
+                                                    CRITICAL SUPPLY
+                                                </span>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </t>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- DELIVERY RISK SUMMARY                             -->
+                        <!-- ================================================= -->
+
+                        <h3
+                            style="
+                                color: #111827;
+                                font-size: 16px;
+                                font-weight: 800;
+                                margin: 0 0 11px 0;
+                            ">
+                            Delivery Risk Summary
+                        </h3>
+
+
+                        <table
+                            style="
+                                width: 100%;
+                                border-collapse: separate;
+                                border-spacing: 8px;
+                                margin-left: -8px;
+                                margin-bottom: 20px;
+                            ">
+
+                            <tr>
+
+                                <!-- CRITICAL -->
+
+                                <td
+                                    style="
+                                        width: 25%;
+                                        background-color: #FEE2E2;
+                                        border: 2px solid #FCA5A5;
+                                        padding: 14px;
+                                        text-align: center;
+                                    ">
+
+                                    <div
+                                        style="
+                                            color: #991B1B;
+                                            font-size: 25px;
+                                            font-weight: 800;
+                                        ">
+                                        <span t-field="o.vdi_critical_line_count" />
+                                    </div>
+
+                                    <div
+                                        style="
+                                            color: #3B0A0A;
+                                            font-size: 11px;
+                                            font-weight: 700;
+                                            margin-top: 4px;
+                                        ">
+                                        Critical Lines
+                                    </div>
+
+                                </td>
+
+
+                                <!-- AT RISK -->
+
+                                <td
+                                    style="
+                                        width: 25%;
+                                        background-color: #FEF3C7;
+                                        border: 2px solid #FCD34D;
+                                        padding: 14px;
+                                        text-align: center;
+                                    ">
+
+                                    <div
+                                        style="
+                                            color: #92400E;
+                                            font-size: 25px;
+                                            font-weight: 800;
+                                        ">
+                                        <span t-field="o.vdi_at_risk_line_count" />
+                                    </div>
+
+                                    <div
+                                        style="
+                                            color: #451A03;
+                                            font-size: 11px;
+                                            font-weight: 700;
+                                            margin-top: 4px;
+                                        ">
+                                        At Risk Lines
+                                    </div>
+
+                                </td>
+
+
+                                <!-- DUE SOON -->
+
+                                <td
+                                    style="
+                                        width: 25%;
+                                        background-color: #E5E7EB;
+                                        border: 2px solid #9CA3AF;
+                                        padding: 14px;
+                                        text-align: center;
+                                    ">
+
+                                    <div
+                                        style="
+                                            color: #374151;
+                                            font-size: 25px;
+                                            font-weight: 800;
+                                        ">
+                                        <span t-field="o.vdi_due_soon_count" />
+                                    </div>
+
+                                    <div
+                                        style="
+                                            color: #1F2937;
+                                            font-size: 11px;
+                                            font-weight: 700;
+                                            margin-top: 4px;
+                                        ">
+                                        Due Soon
+                                    </div>
+
+                                </td>
+
+
+                                <!-- OPEN -->
+
+                                <td
+                                    style="
+                                        width: 25%;
+                                        background-color: #E5E7EB;
+                                        border: 2px solid #9CA3AF;
+                                        padding: 14px;
+                                        text-align: center;
+                                    ">
+
+                                    <div
+                                        style="
+                                            color: #111827;
+                                            font-size: 25px;
+                                            font-weight: 800;
+                                        ">
+                                        <span t-field="o.vdi_open_line_count" />
+                                    </div>
+
+                                    <div
+                                        style="
+                                            color: #1F2937;
+                                            font-size: 11px;
+                                            font-weight: 700;
+                                            margin-top: 4px;
+                                        ">
+                                        Open Lines
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+
+                        <!-- ================================================= -->
+                        <!-- CURRENT EXPOSURE                                  -->
+                        <!-- ================================================= -->
+
+                        <h3
+                            style="
+                                color: #111827;
+                                font-size: 16px;
+                                font-weight: 800;
+                                margin: 0 0 8px 0;
+                            ">
+                            Current Exposure &amp; Original Commitments
+                        </h3>
+
+
+                        <table
+                            style="
+                                width: 100%;
+                                border-collapse: collapse;
+                                font-size: 10px;
+                                margin-bottom: 12px;
+                                page-break-inside: avoid;
+                            ">
+
+                            <thead>
+
+                                <tr
+                                    style="
+                                        background-color: #4A254F;
+                                        color: #FFFFFF;
+                                    ">
+
+                                    <th
+                                        style="
+                                            padding: 6px;
+                                            text-align: left;
+                                        ">
+                                        Product
+                                    </th>
+
+                                    <th
+                                        style="
+                                            padding: 6px;
+                                            text-align: center;
+                                        ">
+                                        Original Promise
+                                    </th>
+
+                                    <th
+                                        style="
+                                            padding: 6px;
+                                            text-align: right;
+                                        ">
+                                        Original Qty
+                                    </th>
+
+                                    <th
+                                        style="
+                                            padding: 6px;
+                                            text-align: right;
+                                        ">
+                                        Accepted
+                                    </th>
+
+                                    <th
+                                        style="
+                                            padding: 6px;
+                                            text-align: right;
+                                        ">
+                                        Open Qty
+                                    </th>
+
+                                    <th
+                                        style="
+                                            padding: 6px;
+                                            text-align: center;
+                                        ">
+                                        ETA Shift
+                                    </th>
+
+                                    <th
+                                        style="
+                                            padding: 6px;
+                                            text-align: center;
+                                        ">
+                                        Risk
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <t t-foreach="o.order_line" t-as="line">
+
+                                    <t t-if="not line.display_type">
+
+                                        <tr
+                                            style="
+                                                border-bottom: 1px solid #D1D5DB;
+                                            ">
+
+                                            <td
+                                                style="
+                                                    padding: 6px;
+                                                    color: #111827;
+                                                    font-weight: 600;
+                                                    font-size: 10.5px;
+                                                ">
+                                                <span t-field="line.product_id" />
+                                            </td>
+
+
+                                            <td
+                                                style="
+                                                    padding: 6px;
+                                                    text-align: center;
+                                                    color: #1F2937;
+                                                    font-size: 10.5px;
+                                                ">
+                                                <span t-field="line.vdi_original_promise" />
+                                            </td>
+
+
+                                            <td
+                                                style="
+                                                    padding: 6px;
+                                                    text-align: right;
+                                                    color: #1F2937;
+                                                    font-size: 10.5px;
+                                                ">
+                                                <span t-field="line.vdi_original_qty" />
+                                                <span t-field="line.vdi_original_uom_id" />
+                                            </td>
+
+
+                                            <td
+                                                style="
+                                                    padding: 6px;
+                                                    text-align: right;
+                                                    color: #1F2937;
+                                                    font-size: 10.5px;
+                                                ">
+                                                <span t-field="line.vdi_net_received_qty" />
+                                            </td>
+
+
+                                            <td
+                                                style="
+                                                    padding: 6px;
+                                                    text-align: right;
+                                                    color: #111827;
+                                                    font-weight: 700;
+                                                    font-size: 10.5px;
+                                                ">
+                                                <span
+                                                    t-esc="
+                                                    max(
+                                                        line.vdi_original_qty
+                                                        - line.vdi_net_received_qty,
+                                                        0
+                                                    )
+                                                " />
+                                            </td>
+
+
+                                            <td
+                                                style="
+                                                    padding: 6px;
+                                                    text-align: center;
+                                                    color: #1F2937;
+                                                    font-size: 10.5px;
+                                                ">
+                                                <span t-field="line.vdi_eta_shift_days" />
+                                            </td>
+
+
+                                            <td
+                                                style="
+                                                    padding: 6px;
+                                                    text-align: center;
+                                                ">
+
+                                                <span
+                                                    t-if="line.vdi_line_risk_level == 'critical'"
+                                                    style="
+                                                        background-color: #DC2626;
+                                                        color: #FFFFFF;
+                                                        padding: 4px 7px;
+                                                        font-weight: 800;
+                                                        font-size: 9px;
+                                                    ">
+                                                    Critical
+                                                </span>
+
+
+                                                <span
+                                                    t-elif="line.vdi_line_risk_level == 'at_risk'"
+                                                    style="
+                                                        background-color: #F59E0B;
+                                                        color: #FFFFFF;
+                                                        padding: 4px 7px;
+                                                        font-weight: 800;
+                                                        font-size: 9px;
+                                                    ">
+                                                    At Risk
+                                                </span>
+
+
+                                                <span
+                                                    t-elif="line.vdi_line_risk_level == 'due_soon'"
+                                                    style="
+                                                        background-color: #6B7280;
+                                                        color: #FFFFFF;
+                                                        padding: 4px 7px;
+                                                        font-weight: 800;
+                                                        font-size: 9px;
+                                                    ">
+                                                    Due Soon
+                                                </span>
+
+
+                                                <span
+                                                    t-elif="line.vdi_line_risk_level == 'on_track'"
+                                                    style="
+                                                        background-color: #16A34A;
+                                                        color: #FFFFFF;
+                                                        padding: 4px 7px;
+                                                        font-weight: 800;
+                                                        font-size: 9px;
+                                                    ">
+                                                    On Track
+                                                </span>
+
+
+                                                <span
+                                                    t-elif="line.vdi_line_risk_level == 'complete'"
+                                                    style="
+                                                        background-color: #374151;
+                                                        color: #FFFFFF;
+                                                        padding: 4px 7px;
+                                                        font-weight: 800;
+                                                        font-size: 9px;
+                                                    ">
+                                                    Complete
+                                                </span>
+
+
+                                                <span
+                                                    t-else=""
+                                                    style="
+                                                        background-color: #6B7280;
+                                                        color: #FFFFFF;
+                                                        padding: 4px 7px;
+                                                        font-weight: 800;
+                                                        font-size: 9px;
+                                                    ">
+                                                    <span t-field="line.vdi_line_risk_level" />
+                                                </span>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </t>
+
+                                </t>
+
+                            </tbody>
+
+                        </table>
+
+
+                        <!-- ================================================= -->
+                        <!-- RECOMMENDATIONS                                   -->
+                        <!-- ================================================= -->
+
+                        <div
+                            style="
+                            page-break-inside: avoid;
+                        ">
+
+                            <h3
+                                style="
+                                    color: #111827;
+                                    font-size: 14px;
+                                    font-weight: 800;
+                                    margin: 0 0 6px 0;
+                                ">
+                                Recommended Actions
+                            </h3>
+
+
+                            <table
+                                style="
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    font-size: 10.5px;
+                                    margin-bottom: 7px;
+                                    page-break-inside: avoid;
+                                ">
+
+                                <thead>
+
+                                    <tr
+                                        style="
+                                            background-color: #E5E7EB;
+                                            color: #111827;
+                                        ">
+
+                                        <th
+                                            style="
+                                                padding: 5px 6px;
+                                                text-align: left;
+                                                font-size: 9px;
+                                                font-weight: 800;
+                                            ">
+                                            Product
+                                        </th>
+
+                                        <th
+                                            style="
+                                                padding: 5px 6px;
+                                                text-align: left;
+                                                font-size: 9px;
+                                                font-weight: 800;
+                                            ">
+                                            Recommendation
+                                        </th>
+
+                                        <th
+                                            style="
+                                                padding: 5px 6px;
+                                                text-align: center;
+                                                font-size: 9px;
+                                                font-weight: 800;
+                                            ">
+                                            Critical Supply
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    <t t-foreach="o.order_line" t-as="line">
+
+                                        <t t-if="not line.display_type">
+
+                                            <tr
+                                                style="
+                                                    border-bottom: 1px solid #D1D5DB;
+                                                ">
+
+                                                <td
+                                                    style="
+                                                        padding: 5px 6px;
+                                                        color: #111827;
+                                                        font-weight: 600;
+                                                        font-size: 10.5px;
+                                                    ">
+                                                    <span t-field="line.product_id" />
+                                                </td>
+
+
+                                                <td
+                                                    style="
+                                                        padding: 5px 6px;
+                                                        color: #1F2937;
+                                                        font-weight: 500;
+                                                        font-size: 10.5px;
+                                                        line-height: 1.25;
+                                                    ">
+                                                    <span t-field="line.vdi_recommendation" />
+                                                </td>
+
+
+                                                <td
+                                                    style="
+                                                        padding: 5px 6px;
+                                                        text-align: center;
+                                                        font-weight: 800;
+                                                        font-size: 10.5px;
+                                                    ">
+
+                                                    <span
+                                                        t-if="line.vdi_is_critical_supply"
+                                                        style="
+                                                            color: #991B1B;
+                                                            background-color: #FEE2E2;
+                                                            border: 1px solid #FCA5A5;
+                                                            padding: 3px 6px;
+                                                            font-size: 9px;
+                                                        ">
+                                                        YES
+                                                    </span>
+
+
+                                                    <span
+                                                        t-else=""
+                                                        style="
+                                                            color: #374151;
+                                                            background-color: #E5E7EB;
+                                                            border: 1px solid #9CA3AF;
+                                                            padding: 3px 6px;
+                                                            font-size: 9px;
+                                                        ">
+                                                        NO
+                                                    </span>
+
+                                                </td>
+
+                                            </tr>
+
+                                        </t>
+
+                                    </t>
+
+                                </tbody>
+
+                            </table>
+
+
+                            <!-- ================================================= -->
+                            <!-- DEADLINE INFORMATION                             -->
+                            <!-- ================================================= -->
+
+                            <div
+                                style="
+                                    margin-top: 6px;
+                                    padding-top: 5px;
+                                    border-top: 1px solid #D1D5DB;
+                                    margin-bottom: 0;
+                                ">
+
+                                <table
+                                    style="
+                                        width: 100%;
+                                        border-collapse: collapse;
+                                        font-size: 10.5px;
+                                    ">
+
+                                    <tr>
+
+                                        <td
+                                            style="
+                                                width: 50%;
+                                                color: #374151;
+                                                font-weight: 700;
+                                                padding: 2px 0;
+                                            ">
+                                            Earliest Risk Deadline
+                                        </td>
+
+                                        <td
+                                            style="
+                                                width: 50%;
+                                                color: #111827;
+                                                font-weight: 800;
+                                                text-align: right;
+                                                padding: 2px 0;
+                                            ">
+                                            <span t-field="o.vdi_earliest_risk_deadline" />
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </t>
+
+            </t>
+
+        </t>
+
+    </template>
+
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_visit_summary" model="ir.actions.report">
+        <field name="name">Visit Summary</field>
+        <field name="model">hospital.patient.visit</field>
+        <field name="report_type">qweb-pdf</field>
+
+        <field name="report_name">hospital_core_api.report_visit_summary</field>
+        <field name="report_file">hospital_core_api.report_visit_summary</field>
+
+        <field name="binding_model_id" ref="hospital_core_api.model_hospital_patient_visit"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="view_partner_form_artisan" model="ir.ui.view">
+        <field name="name">res.partner.form.artisan</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='category_id']" position="after">
+
+                <group string="Artisan Information" col="2">
+
+                    <field name="is_artisan"/>
+
+                    <field name="artisan_type"
+                           invisible="not is_artisan"/>
+
+                    <field name="artisan_skill"
+                           invisible="not is_artisan"/>
+
+                    <field name="artisan_experience"
+                           invisible="not is_artisan"/>
+
+                </group>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

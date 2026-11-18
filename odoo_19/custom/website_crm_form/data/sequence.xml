@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="seq_customer_enquiry" model="ir.sequence">
+        <field name="name">Customer Enquiry</field>
+        <field name="code">customer.enquiry</field>
+        <field name="prefix">ENQ</field>
+        <field name="padding">5</field>
+    </record>
+</odoo>
